@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Navigation | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/material_design/navigation.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/navigation.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/navigation.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="導覽在應用中引導使用者瀏覽不同畫面，所以應用的結構必須根據內容和目標任務進行組織。 將重點的路徑和功能放置於書籤或是側邊欄。或是將不重要的功能放置於較不顯眼的位置。 設計導覽會根據應用中的內容而不同，所以為了決定適合的導覽方式，必須要定義好以下幾點：  目標使用者 基本操作    基本操作應盡量詳盡  接著依照以下幾個步驟進行導覽流程設計：  篩選權重決定各個操作的權重，讓導覽路徑和介面著重在較重">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Navigation">
+<meta property="og:url" content="https://ansgarlin.github.io/material_design/navigation.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="導覽在應用中引導使用者瀏覽不同畫面，所以應用的結構必須根據內容和目標任務進行組織。 將重點的路徑和功能放置於書籤或是側邊欄。或是將不重要的功能放置於較不顯眼的位置。 設計導覽會根據應用中的內容而不同，所以為了決定適合的導覽方式，必須要定義好以下幾點：  目標使用者 基本操作    基本操作應盡量詳盡  接著依照以下幾個步驟進行導覽流程設計：  篩選權重決定各個操作的權重，讓導覽路徑和介面著重在較重">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cE9LOFJEemtORVU/inventory.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ejYzcGo1QVJWcms/prioritize.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UGRCRU1aUTJCNG8/sequence.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NGhzcTdPZHVyNzQ/deconstruct.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3SzVoODlnQXZ6MmM/patterns_navigation_hierarchy_home.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3X2w3Rm1JM1lGblE/patterns_navigation_hierarchy_parent-child.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3SmxZMEgzeWZVdDQ/patterns_navigation_hierarchy_siblings.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Z2NNQTNTb25LYjA/patterns_navigation_hierarchy_collections.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dTE0LVd4SVdZekE/patterns_navigation_hierarchy_links.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VTk0QjZOVUxFY1k/patterns_navigation_patterns_embedded1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TEMxQ3BmVmFEQXc/patterns_navigation_patterns_tabs1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Ty1Ob2FuTUMtQW8/patterns_navigation_patterns_navdrawer4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TTNvTzg5aE51M00/patterns_navigation_patterns_expanding2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3X3JyV1JZQ1J6dms/patterns_navigation_patterns_nested1.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.481Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.481Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cE9LOFJEemtORVU/inventory.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Navigation</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>導覽在應用中引導使用者瀏覽不同畫面，所以應用的結構必須根據內容和目標任務進行組織。</p>
+<p>將重點的路徑和功能放置於書籤或是側邊欄。或是將不重要的功能放置於較不顯眼的位置。</p>
+<h2 id="設計" class="article-heading"><a href="#設計" class="headerlink" title="設計"></a>設計<a class="article-anchor" href="#設計" aria-hidden="true"></a></h2><p>導覽會根據應用中的內容而不同，所以為了決定適合的導覽方式，必須要定義好以下幾點：</p>
+<ul>
+<li>目標使用者</li>
+<li>基本操作</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cE9LOFJEemtORVU/inventory.png"></p>
+<blockquote>
+<p style="font-size: 12px">基本操作應盡量詳盡</p>
+</blockquote>
+<p>接著依照以下幾個步驟進行導覽流程設計：</p>
+<ul>
+<li>篩選權重<br>決定各個操作的權重，讓導覽路徑和介面著重在較重要的功能。</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ejYzcGo1QVJWcms/prioritize.png"></p>
+<blockquote>
+<p style="font-size: 12px">順序可以可以再依照需求做更動</p>
+</blockquote>
+<ul>
+<li>使用路徑<br>決定使用者在應用中的操作路徑，並將最常被使用的路徑視為最重要的導覽路徑。</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UGRCRU1aUTJCNG8/sequence.png"></p>
+<ul>
+<li>細項切分<br>將使用路徑上的操作，切分成更細微的操作</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NGhzcTdPZHVyNzQ/deconstruct.png"></p>
+<h2 id="層級" class="article-heading"><a href="#層級" class="headerlink" title="層級"></a>層級<a class="article-anchor" href="#層級" aria-hidden="true"></a></h2><p>導覽的層級關係分為以下幾種：</p>
+<ul>
+<li>首頁  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3SzVoODlnQXZ6MmM/patterns_navigation_hierarchy_home.png" style="max-width:50%">
+
+<ul>
+<li>母子  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3X2w3Rm1JM1lGblE/patterns_navigation_hierarchy_parent-child.png" style="max-width:50%">
+> <p style="font-size: 12px">單向向下</p>
+
+<ul>
+<li>平行切換  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3SmxZMEgzeWZVdDQ/patterns_navigation_hierarchy_siblings.png" style="max-width:50%">
+> <p style="font-size: 12px">畫面可在同層級中切換</p>
+
+<ul>
+<li>集合</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Z2NNQTNTb25LYjA/patterns_navigation_hierarchy_collections.png" style="max-width:50%">
+
+<ul>
+<li>連結</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dTE0LVd4SVdZekE/patterns_navigation_hierarchy_links.png" style="max-width:50%">
+
+<h2 id="型態" class="article-heading"><a href="#型態" class="headerlink" title="型態"></a>型態<a class="article-anchor" href="#型態" aria-hidden="true"></a></h2><ul>
+<li>嵌入式<br>應用沒有過多的子畫面，且大多功能可以在主頁面完成。</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VTk0QjZOVUxFY1k/patterns_navigation_patterns_embedded1.png" style="max-width:50%">
+
+<ul>
+<li><a href="../component/tab.html">書籤</a><br>用於需要長滑動切換的畫面。</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TEMxQ3BmVmFEQXc/patterns_navigation_patterns_tabs1.png" style="max-width:50%">
+
+<ul>
+<li><a href="../component/drawer.html">側邊欄</a></li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Ty1Ob2FuTUMtQW8/patterns_navigation_patterns_navdrawer4.png" style="max-width:50%">
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TTNvTzg5aE51M00/patterns_navigation_patterns_expanding2.png"></p>
+<ul>
+<li>巢狀  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3X3JyV1JZQ1J6dms/patterns_navigation_patterns_nested1.png"></p>
+<ul>
+<li>互動式<br>允許使用者用 些操作來切換畫面，達到導覽的功能</li>
+</ul>
+<video height="auto" width="100%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3QjdEZk5TRUt6NXc/Expanding%20-%20Overscroll%20Top.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3QjdEZk5TRUt6NXc/Expanding%20-%20Overscroll%20Top.mp4" type="video/mp4">
+</video>
+
+<h2 id="轉場動畫" class="article-heading"><a href="#轉場動畫" class="headerlink" title="轉場動畫"></a>轉場動畫<a class="article-anchor" href="#轉場動畫" aria-hidden="true"></a></h2><p>導覽畫面切換可分成以下兩種動作：</p>
+<ul>
+<li>抬升和延展  </li>
+</ul>
+<video height="auto" width="100%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWjgyVU9kMWN0V2s/patterns_navigational-transitions_parent-to-child_list-02_xhdpi_019.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWjgyVU9kMWN0V2s/patterns_navigational-transitions_parent-to-child_list-02_xhdpi_019.mp4" type="video/mp4">
+</video>
+
+<video height="auto" width="100%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMUd1ZVRWX3p1Y3c/patterns_navigational-transitions_parent-to-child_calendar_tablet_xhdpi_004.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMUd1ZVRWX3p1Y3c/patterns_navigational-transitions_parent-to-child_calendar_tablet_xhdpi_004.mp4" type="video/mp4">
+</video>
+
+<ul>
+<li>書籤  </li>
+</ul>
+<video height="auto" width="100%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsRWUyLVJ6b2ZHSFk/patterns_navigational-transitions_sibling-to-sibling_tabs-01_xhdpi_013.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsRWUyLVJ6b2ZHSFk/patterns_navigational-transitions_sibling-to-sibling_tabs-01_xhdpi_013.mp4" type="video/mp4">
+</video>
+
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.481Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/material_design/navigation.html';
+  var disqus_title = "Navigation";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E8%A8%88"><span class="toc-text">設計</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%A4%E7%B4%9A"><span class="toc-text">層級</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%8B%E6%85%8B"><span class="toc-text">型態</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%89%E5%A0%B4%E5%8B%95%E7%95%AB"><span class="toc-text">轉場動畫</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

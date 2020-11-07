@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Custom View:Attribute, LayoutParams, Size | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/05/16/custom_view_attribute_layoutparams_size/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在公司的專案中，有時設計師提供的畫面設計，是原生的元件無法直接實現的，所以要透過重寫原生的元件來實現預期的效果。 一般來說，要自訂一個View元件的畫面，需要知道以下三個要點：  如何自訂Attributes。 如何自訂LayoutParams。 如何取得View的大小、畫面位置與範圍。  以下將依照順序介紹這三個要點的用途及做法。 如何自訂Attributes在&#x2F;res&#x2F;values&#x2F;attr.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Custom View:Attribute, LayoutParams, Size">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/05/16/custom_view_attribute_layoutparams_size/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在公司的專案中，有時設計師提供的畫面設計，是原生的元件無法直接實現的，所以要透過重寫原生的元件來實現預期的效果。 一般來說，要自訂一個View元件的畫面，需要知道以下三個要點：  如何自訂Attributes。 如何自訂LayoutParams。 如何取得View的大小、畫面位置與範圍。  以下將依照順序介紹這三個要點的用途及做法。 如何自訂Attributes在&#x2F;res&#x2F;values&#x2F;attr.">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-05-16T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.119Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Custom View:Attribute, LayoutParams, Size</h1>
+    
+    <a href="/zh-tw/news/2018/05/16/custom_view_attribute_layoutparams_size/" class="article-date"><time datetime="2018-05-16T00:00:00.000Z">2018-05-16</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在公司的專案中，有時設計師提供的畫面設計，是原生的元件無法直接實現的，所以要透過重寫原生的元件來實現預期的效果。</p>
+<p>一般來說，要自訂一個View元件的畫面，需要知道以下三個要點：</p>
+<ul>
+<li>如何自訂Attributes。</li>
+<li>如何自訂LayoutParams。</li>
+<li>如何取得View的大小、畫面位置與範圍。</li>
+</ul>
+<p>以下將依照順序介紹這三個要點的用途及做法。</p>
+<h3 id="如何自訂Attributes" class="article-heading"><a href="#如何自訂Attributes" class="headerlink" title="如何自訂Attributes"></a>如何自訂Attributes<a class="article-anchor" href="#如何自訂Attributes" aria-hidden="true"></a></h3><p>在<code>/res/values/attr.xml</code>中，加入如下設定：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>format</code>可以有很多種型態，舉例如下：</p>
+<ul>
+<li>boolean</li>
+<li>color</li>
+<li>dimension</li>
+<li>enum</li>
+<li>flag</li>
+<li>float</li>
+<li>fraction</li>
+<li>integer</li>
+<li>reference</li>
+<li>string</li>
+</ul>
+<p>設定好後就可以在xml內使用自訂的參數設定：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.example.customview</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">app:styleAttr</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最後只要在自訂物件的類別中，覆寫外部參數有<code>AttributeSet</code>的函示，一般為建構函示，就可以順利取得xml內的設定值並套用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Customview</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>(context, attrs);</span><br><span class="line">   TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.styleName, defStyle, <span class="number">0</span>);</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">       <span class="keyword">boolean</span> styleAttr = a.getBoolean(R.styleable.StyleName_styleAttr, <span class="keyword">false</span>);</span><br><span class="line">   &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">       a.recycle();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊要注意的是TypedArray使用後一定要呼叫<code>recycle()</code>，否則會有OOM的疑慮。</p>
+<h3 id="如何自訂LayoutParams" class="article-heading"><a href="#如何自訂LayoutParams" class="headerlink" title="如何自訂LayoutParams"></a>如何自訂LayoutParams<a class="article-anchor" href="#如何自訂LayoutParams" aria-hidden="true"></a></h3><p>如果自訂的物件是一個ViewGroup，勢必也會想自訂的參數，可以使用在子View上。這時就需要自行寫一個專屬於自訂物件的LayoutParams。</p>
+<p>在這先點出所有應該要覆寫的函式：</p>
+<ul>
+<li>checkLayoutParams()</li>
+<li>generateLayoutParams()</li>
+<li>generateDefaultLayoutParams()</li>
+</ul>
+<h4 id="checkLayoutParams" class="article-heading"><a href="#checkLayoutParams" class="headerlink" title="checkLayoutParams()"></a>checkLayoutParams()<a class="article-anchor" href="#checkLayoutParams" aria-hidden="true"></a></h4><p>就如字面，判斷傳入的LayoutParams類型是否正確。</p>
+<h4 id="generateLayoutParams" class="article-heading"><a href="#generateLayoutParams" class="headerlink" title="generateLayoutParams()"></a>generateLayoutParams()<a class="article-anchor" href="#generateLayoutParams" aria-hidden="true"></a></h4><p>此函式會在以下兩種情境使用到：</p>
+<h5 id="Inflate" class="article-heading"><a href="#Inflate" class="headerlink" title="Inflate"></a>Inflate<a class="article-anchor" href="#Inflate" aria-hidden="true"></a></h5><p>只要是一個View透過LayoutInflater產生的，都會走到以下函示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In LayoutInflater</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rInflate</span><span class="params">(XmlPullParser parser, View parent, Context context,</span></span></span><br><span class="line"><span class="function"><span class="params">            AttributeSet attrs, <span class="keyword">boolean</span> finishInflate)</span> <span class="keyword">throws</span> XmlPullParserException, IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">final</span> View view = createViewFromTag(parent, name, context, attrs);</span><br><span class="line">    <span class="keyword">final</span> ViewGroup viewGroup = (ViewGroup) parent;</span><br><span class="line">    <span class="keyword">final</span> ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);</span><br><span class="line">    rInflateChildren(parser, view, attrs, <span class="keyword">true</span>);</span><br><span class="line">    viewGroup.addView(view, params);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就很明顯了，子View建立後會透過parent呼叫<code>generateLayoutParams()</code>來取得對應的LayoutParams。</p>
+<h5 id="Add-view" class="article-heading"><a href="#Add-view" class="headerlink" title="Add view"></a>Add view<a class="article-anchor" href="#Add-view" aria-hidden="true"></a></h5><p>上面的原始碼最後一行用了<code>addView()</code>來將建立好的子View，連同LayoutParams加入parent，最終會走到<code>addViewInner()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ViewGroup</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addViewInner</span><span class="params">(View child, <span class="keyword">int</span> index, LayoutParams params,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">boolean</span> preventRequestLayout)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (!checkLayoutParams(params)) &#123;</span><br><span class="line">        params = generateLayoutParams(params);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不論是Android自動生成的View，或是自己呼叫<code>addView()</code>，都會走到這裡並再透過<code>checkLayoutParams()</code>進行一次確認。</p>
+<h4 id="generateDefaultLayoutParams" class="article-heading"><a href="#generateDefaultLayoutParams" class="headerlink" title="generateDefaultLayoutParams()"></a>generateDefaultLayoutParams()<a class="article-anchor" href="#generateDefaultLayoutParams" aria-hidden="true"></a></h4><p>此函式用於沒有傳入LayoutParams的<code>addView()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ViewGroup</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> LayoutParams params = generateDefaultLayoutParams();</span><br><span class="line">    params.width = width;</span><br><span class="line">    params.height = height;</span><br><span class="line">    addView(child, -<span class="number">1</span>, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以結論如下：</p>
+<ul>
+<li><strong>覆寫<code>checkLayoutParams()</code></strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">checkLayoutParams</span><span class="params">(ViewGroup.LayoutParams p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> p <span class="keyword">instanceof</span> LayoutParams;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutParams</span> <span class="keyword">extends</span> <span class="title">ConstraintLayout</span>.<span class="title">LayoutParams</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>依照原始碼的風格，屬於物件本身的LayoutParams都屬於靜態內部類，且名稱都不會有前綴詞，使用時必須連同外部類的名稱一起寫出。</p>
+<ul>
+<li><strong>覆寫<code>generateLayoutParams()</code></strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LayoutParams <span class="title">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(getContext(), attrs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>覆寫<code>generateDefaultLayoutParams()</code></strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> LayoutParams <span class="title">generateDefaultLayoutParams</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就可以將自訂的參數設定給子View，並使用自訂的LayoutParams讓我們有機會將設定套用在子VIew上：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutParams</span> <span class="keyword">extends</span> <span class="title">ConstraintLayout</span>.<span class="title">LayoutParams</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> styleAttr;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LayoutParams</span><span class="params">(Context c, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.styleName, defStyle, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">boolean</span> styleAttr = a.getBoolean(R.styleable.StyleName_styleAttr, <span class="keyword">false</span>);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            a.recycle();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h4><p>在子View被設定好LayoutParams後，如果是要用其中設定於外層多做些處理，可以覆寫<code>addView()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child, <span class="keyword">int</span> index, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.addView(child, index, params);</span><br><span class="line">    <span class="keyword">boolean</span> styleAttr = params.getStyleAttr();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.addView(child, params);</span><br><span class="line">    <span class="keyword">boolean</span> styleAttr = params.getStyleAttr();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用沒有傳入LayoutParams的<code>addView()</code>，則取到的LayoutParams就會是預設值，是透過<code>generateDefaultLayoutParams()</code>產生的。</p>
+<h3 id="如何取得View的大小、畫面位置與範圍" class="article-heading"><a href="#如何取得View的大小、畫面位置與範圍" class="headerlink" title="如何取得View的大小、畫面位置與範圍"></a>如何取得View的大小、畫面位置與範圍<a class="article-anchor" href="#如何取得View的大小、畫面位置與範圍" aria-hidden="true"></a></h3><p>當要做的效果，需要知道View的最終大小、範圍，以及位置時，一般來說可以主動呼叫<code>measure()</code>強迫其計算，但這是一次性的。如果要得到確定的數值，其間可能會經歷多次運算。</p>
+<p>因此，既然都已經自訂物件，比較可靠的取得方式，就是覆寫繪製流程中會用到的callback：</p>
+<ul>
+<li><strong>onMeasure()</strong></li>
+<li><strong>onLayout()</strong></li>
+</ul>
+<p>這裡選擇不覆寫<code>onMeasure()</code>，因為<code>onLayout()</code>會取得繪製位置的座標，則可以反推出其大小數值：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onLayout(changed, left, top, right, bottom);</span><br><span class="line">    <span class="keyword">int</span> height = bottom - top;</span><br><span class="line">    <span class="keyword">int</span> weight = right - left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>跟Canvas繪圖相關的程式碼，如Path，也可以在此一併處理，就可以在每次重新計算時更新。</strong></li>
+</ul>
+<p>綜合以上所提的三個要點，相信已經足夠用來解決大部分需要自訂物件，來繪製特殊畫面的情境。</p>
+<h3 id="What’s-more-1" class="article-heading"><a href="#What’s-more-1" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more-1" aria-hidden="true"></a></h3><h4 id="Duplicate-attribute" class="article-heading"><a href="#Duplicate-attribute" class="headerlink" title="Duplicate attribute"></a>Duplicate attribute<a class="article-anchor" href="#Duplicate-attribute" aria-hidden="true"></a></h4><p>如果有很多不同的自訂元件，就有可能需要的自訂參數會重複：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName1&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName2&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>編譯時就會出現以下錯誤：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error: Found item Attr&#x2F;customAttr more than one time</span><br></pre></td></tr></table></figure>
+
+<p>直覺就是不定義而是直接引入重複的參數：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName1&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName2&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>不過這樣如果設定一多就會不好整理，所以可以改變定義參數方式：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;GeneralAttrs&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> <span class="attr">format</span>=<span class="string">&quot;boolean&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName1&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">declare-styleable</span> <span class="attr">name</span>=<span class="string">&quot;StyleName2&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;styleAttr&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/05/16/custom_view_attribute_layoutparams_size/index.html';
+  var disqus_title = "Custom View:Attribute, LayoutParams, Size";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

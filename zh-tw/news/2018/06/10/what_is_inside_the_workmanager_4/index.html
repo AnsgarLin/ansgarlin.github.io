@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>What is inside the WorkManager - Part 4 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/06/10/what_is_inside_the_workmanager_4/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="就如Google在IO大會上所說，WorkManager用於處理要被確保執行的任務，所以免不了的需要提供一些方式，讓Worker可以在狀況允許時重新啟動。例如在傳遞檔案時遭遇斷線或是低電量時，WorkManage可以在網路恢復或是充電狀況下，直接執行該執行的Worker。 透過設定Constraints，WorkManager可以達到預期的效果。 How dose the Constraints">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is inside the WorkManager - Part 4">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/06/10/what_is_inside_the_workmanager_4/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="就如Google在IO大會上所說，WorkManager用於處理要被確保執行的任務，所以免不了的需要提供一些方式，讓Worker可以在狀況允許時重新啟動。例如在傳遞檔案時遭遇斷線或是低電量時，WorkManage可以在網路恢復或是充電狀況下，直接執行該執行的Worker。 透過設定Constraints，WorkManager可以達到預期的效果。 How dose the Constraints">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-06-10T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.121Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">What is inside the WorkManager - Part 4</h1>
+    
+    <a href="/zh-tw/news/2018/06/10/what_is_inside_the_workmanager_4/" class="article-date"><time datetime="2018-06-10T00:00:00.000Z">2018-06-10</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>就如Google在IO大會上所說，WorkManager用於處理要被確保執行的任務，所以免不了的需要提供一些方式，讓Worker可以在狀況允許時重新啟動。例如在傳遞檔案時遭遇斷線或是低電量時，WorkManage可以在網路恢復或是充電狀況下，直接執行該執行的Worker。</p>
+<p>透過設定Constraints，WorkManager可以達到預期的效果。</p>
+<h3 id="How-dose-the-Constraints-work" class="article-heading"><a href="#How-dose-the-Constraints-work" class="headerlink" title="How dose the Constraints work?"></a>How dose the Constraints work?<a class="article-anchor" href="#How-dose-the-Constraints-work" aria-hidden="true"></a></h3><p>一樣的從簡單的使用範例出發，首先先以在充電下進行為條件建立Constraints：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Constraints myConstraints = <span class="keyword">new</span> Constraints.Builder().setRequiresCharging(<span class="keyword">true</span>).build();</span><br></pre></td></tr></table></figure>
+
+<p>Constraints的constructor很簡單，只是記錄條件設定的狀態：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Constraints</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Constraints</span><span class="params">(Builder builder)</span> </span>&#123;</span><br><span class="line">    mRequiresCharging = builder.mRequiresCharging;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著就是透過WorkRequest存放在WorkSpec裡面：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">OneTimeWorkRequest compressionWork = <span class="keyword">new</span> OneTimeWorkRequest.Builder(CompressWorker.class)</span><br><span class="line">    .setConstraints(myConstraints)</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// In WorkRequest</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> B <span class="title">setConstraints</span><span class="params">(<span class="meta">@NonNull</span> Constraints constraints)</span> </span>&#123;</span><br><span class="line">    mWorkSpec.constraints = constraints;</span><br><span class="line">    <span class="keyword">return</span> getThis();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著這個<code>constraints</code>會在哪裡被使用呢？在WorkSpec中只有一個函式<code>hasConstraints</code>會使用到。接著追朔使用這函式的位置，則會找到<code>GreedyScheduler.schedule()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In GreedyScheduler</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(WorkSpec... workSpecs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> originalSize = mConstrainedWorkSpecs.size();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (WorkSpec workSpec : workSpecs) &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">if</span> (workSpec.hasConstraints()) &#123;</span><br><span class="line">        	...</span><br><span class="line">            mConstrainedWorkSpecs.add(workSpec);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mWorkManagerImpl.startWork(workSpec.id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (originalSize != mConstrainedWorkSpecs.size()) &#123;</span><br><span class="line">        mWorkConstraintsTracker.replace(mConstrainedWorkSpecs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果WorkSpec設有Constraints，則此WorkSpec就不會被執行。而是傳給WorkConstraintsTracker，再傳給其所擁有的ConstraintController：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In WorkConstraintsTracker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">replace</span><span class="params">(<span class="meta">@NonNull</span> List&lt;WorkSpec&gt; workSpecs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (ConstraintController controller : mConstraintControllers) &#123;</span><br><span class="line">        controller.replace(workSpecs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下可透過WorkConstraintsTracker的constructor得知其擁有哪些ConstraintController：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In WorkConstraintsTracker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">WorkConstraintsTracker</span><span class="params">(Context context, <span class="meta">@Nullable</span> WorkConstraintsCallback callback)</span> </span>&#123;	</span><br><span class="line">    ...</span><br><span class="line">    mConstraintControllers = <span class="keyword">new</span> ConstraintController[] &#123;</span><br><span class="line">            <span class="keyword">new</span> BatteryChargingController(appContext, <span class="keyword">this</span>),</span><br><span class="line">            ...</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由於範例設定的條件是在手機充電時，所以前面的<code>controller.replace()</code>，就是<code>BatteryChargingController.replace()</code>。</p>
+<p>為了之後分析上流暢，在這先看一下BatteryChargingController的constructor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BatteryChargingController</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">BatteryChargingController</span><span class="params">(Context context, OnConstraintUpdatedCallback callback)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">super</span>(Trackers.getInstance(context).getBatteryChargingTracker(), callback);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以外面的WorkConstraintsTracker變成這邊的<code>callback</code>，並透過靜態類別Trackers拿到對應的Tracker。</p>
+<p>Trackers會在建立的階段初始化所有會被用到的Tracker：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Trackers</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Trackers</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    mBatteryChargingTracker = <span class="keyword">new</span> BatteryChargingTracker(appContext);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再回到<code>BatteryChargingController.replace()</code>，由於BatteryChargingController沒有複寫這函示，所以是<code>ConstraintController.replace()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConstraintController</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">replace</span><span class="params">(<span class="meta">@NonNull</span> List&lt;WorkSpec&gt; workSpecs)</span> </span>&#123;</span><br><span class="line">    mMatchingWorkSpecIds.clear();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (WorkSpec workSpec : workSpecs) &#123;</span><br><span class="line">        <span class="keyword">if</span> (hasConstraint(workSpec)) &#123;</span><br><span class="line">            mMatchingWorkSpecIds.add(workSpec.id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mMatchingWorkSpecIds.isEmpty()) &#123;</span><br><span class="line">        mTracker.removeListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mTracker.addListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    updateCallback();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊首先會用<code>hasConstraint()</code>，也就是<code>BatteryChargingController.hasConstraint()</code>，來判斷WorkSpec是否有設置對應的<code>constraints</code>。</p>
+<p>有則將符合條件的WorkSpec的Id存起來，並將BatteryChargingController透過<code>addListener()</code>傳入<code>mTracker</code>。</p>
+<p>到這，我們可以簡單總結一下WorkConstraintsTracker的結構：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">WorkConstraintsTracker &#123;</span><br><span class="line">    BatteryChargingController &#123;</span><br><span class="line">        mTracker = BatteryChargingTracker &#123;</span><br><span class="line">            listener = (BatteryChargingController)</span><br><span class="line">        &#125;</span><br><span class="line">        callback = (WorkConstraintsTracker)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著，BatteryChargingTracker本身和其父類BroadcastReceiverConstraintTracker並沒有複寫<code>addListener()</code>，所以直接看到最上層父類ConstraintTracker：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConstraintTracker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addListener</span><span class="params">(ConstraintListener&lt;T&gt; listener)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">	startTracking();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到<code>startTracking</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BroadcastReceiverConstraintTracker</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startTracking</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    mAppContext.registerReceiver(mBroadcastReceiver, getIntentFilter());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很明顯的，這代表當手機接受充電時，會發出一個Broadcast，而這邊則註冊了Receiver來接收：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BroadcastReceiverConstraintTracker</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> BroadcastReceiver mBroadcastReceiver = <span class="keyword">new</span> BroadcastReceiver() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (intent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            onBroadcastReceive(context, intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>到這邊，就可以確定開始監聽手機充電的狀態，也可以帶出一個觀念：</p>
+<ul>
+<li><strong>整個Constraints的機制的啟動，並不是在設定Constraints的時候；而是在執行<code>enqueue</code>，且WorkSpec即將透過Scheduler進入排程的時候。</strong></li>
+</ul>
+<p>所以當收到手機充電的Broadcast後，會直接呼叫<code>onBroadcastReceive()</code>，此函式則在BatteryChargingTracker中實作：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BatteryChargingTracker</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBroadcastReceive</span><span class="params">(Context context, <span class="meta">@NonNull</span> Intent intent)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">switch</span> (action) &#123;</span><br><span class="line">        <span class="keyword">case</span> BatteryManager.ACTION_CHARGING:</span><br><span class="line">            setState(<span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不論是何種狀況，都會走到<code>setState()</code>，記錄充電狀態後，透過listener，也就是BatteryChargingController回傳：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BatteryChargingTracker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(T newState)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    mCurrentState = newState;</span><br><span class="line">    <span class="keyword">for</span> (ConstraintListener&lt;T&gt; listener : mListeners) &#123;</span><br><span class="line">        listener.onConstraintChanged(mCurrentState);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不過<code>onConstraintChanged</code>的實作是在ConstraintController：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConstraintController</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConstraintChanged</span><span class="params">(<span class="meta">@Nullable</span> T newValue)</span> </span>&#123;</span><br><span class="line">    mCurrentValue = newValue;</span><br><span class="line">    updateCallback();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一樣紀錄當前狀態，在走到<code>updateCallback()</code>，透過<code>mCallback</code>，也就是WorkConstraintsTracker，往外回傳已經滿足條件的WorkSpec的Id：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConstraintController</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateCallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    mCallback.onConstraintMet(mMatchingWorkSpecIds);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In WorkConstraintsTracker</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConstraintMet</span><span class="params">(<span class="meta">@NonNull</span> List&lt;String&gt; workSpecIds)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">for</span> (String workSpecId : workSpecIds) &#123;</span><br><span class="line">        <span class="keyword">if</span> (areAllConstraintsMet(workSpecId)) &#123;</span><br><span class="line">            unconstrainedWorkSpecIds.add(workSpecId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mCallback.onAllConstraintsMet(unconstrainedWorkSpecIds);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡會再次確認並拿出已經滿足條件的WorkSpec的Id，再透過callback傳回去。一般來說，這裡的<code>mCallback</code>會是GreedyScheduler，所以這些Id會再經由<code>startWork()</code>重新進入執行的流程中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In GreedyScheduler</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">onAllConstraintsMet</span><span class="params">(<span class="meta">@NonNull</span> List&lt;String&gt; workSpecIds)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (String workSpecId : workSpecIds) &#123;</span><br><span class="line">        ...</span><br><span class="line">        mWorkManagerImpl.startWork(workSpecId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到這分析完從建立Constraints，到如何被執行的流程。主要流程可以簡化如下：</p>
+<ul>
+<li>建立Constraints</li>
+<li>建立Worker，與Constraints一起當成參數建立WorkerRequest，並透過Worker建立WorkSpec。</li>
+<li>將WorkSpec放入資料庫。</li>
+<li>使用BroadcastReceiver啟動監聽程序。</li>
+<li>收到Broadcast後取出WorkSpec。</li>
+<li>重新使用WorkSpec來執行Worker。</li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/06/10/what_is_inside_the_workmanager_4/index.html';
+  var disqus_title = "What is inside the WorkManager - Part 4";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

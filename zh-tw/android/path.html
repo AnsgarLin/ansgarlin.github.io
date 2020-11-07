@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Path | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/android/path.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/android/path.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/android/path.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在Android的實作中，有時需要自行設計物件，並在適當的時機做額外的描繪。而談到繪製過程，其中一個重要的物件就是Path。 Path，顧名思義就是路徑，也可以當成是任何圖形的外。所以Path可以說是繪製的基礎，就像在繪圖軟件上做畫時大多需要操作貝茲曲線來制定選取範圍、製作圖型等。 在概念上，Path確實是可以當成貝茲曲線，其有各式繪製線條、曲線或幾何圖形的函示。搭配參數可以描繪出各式各樣的圖形。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Path">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/android/path.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在Android的實作中，有時需要自行設計物件，並在適當的時機做額外的描繪。而談到繪製過程，其中一個重要的物件就是Path。 Path，顧名思義就是路徑，也可以當成是任何圖形的外。所以Path可以說是繪製的基礎，就像在繪圖軟件上做畫時大多需要操作貝茲曲線來制定選取範圍、製作圖型等。 在概念上，Path確實是可以當成貝茲曲線，其有各式繪製線條、曲線或幾何圖形的函示。搭配參數可以描繪出各式各樣的圖形。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/assets/android/path_line_to.png">
+<meta property="og:image" content="https://ansgarlin.github.io/assets/android/path_quad_to.png">
+<meta property="og:image" content="https://ansgarlin.github.io/assets/android/path_cubic_to.png">
+<meta property="og:image" content="https://ansgarlin.github.io/assets/android/path_arc_to.png">
+<meta property="article:published_time" content="2020-11-07T10:14:05.272Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.272Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/assets/android/path_line_to.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="android/path.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Path</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>在Android的實作中，有時需要自行設計物件，並在適當的時機做額外的描繪。而談到繪製過程，其中一個重要的物件就是Path。</p>
+<p>Path，顧名思義就是路徑，也可以當成是任何圖形的外。所以Path可以說是繪製的基礎，就像在繪圖軟件上做畫時大多需要操作貝茲曲線來制定選取範圍、製作圖型等。</p>
+<p>在概念上，Path確實是可以當成貝茲曲線，其有各式繪製線條、曲線或幾何圖形的函示。搭配參數可以描繪出各式各樣的圖形。</p>
+<p>以下將會用圖示搭配簡短的敘述介紹各個函式。</p>
+<h3 id="名詞解釋" class="article-heading"><a href="#名詞解釋" class="headerlink" title="名詞解釋"></a>名詞解釋<a class="article-anchor" href="#名詞解釋" aria-hidden="true"></a></h3><p>在介紹函式，需要先介紹一些名詞，方便後續閱讀：</p>
+<h4 id="起點" class="article-heading"><a href="#起點" class="headerlink" title="起點"></a>起點<a class="article-anchor" href="#起點" aria-hidden="true"></a></h4><p>Path預設路徑的起點皆為(0, 0)，所以直接呼叫<code>lineTo()</code>等函示，會當作是從(0, 0)開始描繪。如希望從特定的位置當作起點，則可以用<code>moveTo()</code>來更換起點。</p>
+<h4 id="控制點" class="article-heading"><a href="#控制點" class="headerlink" title="控制點"></a>控制點<a class="article-anchor" href="#控制點" aria-hidden="true"></a></h4><p>如同繪製貝茲曲線時，用來決定曲度的控制點。控制點都會對應到一個點，可能是起點或是一段Path的終點，控制點離其對應的點越遠，則曲度越大。</p>
+<h3 id="使用方式" class="article-heading"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式<a class="article-anchor" href="#使用方式" aria-hidden="true"></a></h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">path.reset();</span><br><span class="line">path.moveTo(rect.left, rect.top);</span><br><span class="line">paint.setStyle(Paint.Style.STROKE);</span><br><span class="line">path.lineTo(rect.right, rect.bottom);</span><br></pre></td></tr></table></figure>
+
+<p>Path決定好路徑後，還需透過Paint來畫在Canvas上。Paint預設為FILL(填滿)，必須設為STROKE才能正確繪出代表線條的Path。Paint的詳細用法可以參閱Paint章節。</p>
+<h3 id="函示" class="article-heading"><a href="#函示" class="headerlink" title="函示"></a>函示<a class="article-anchor" href="#函示" aria-hidden="true"></a></h3><h4 id="reset" class="article-heading"><a href="#reset" class="headerlink" title="reset()"></a>reset()<a class="article-anchor" href="#reset" aria-hidden="true"></a></h4><p>將已透過Path繪製的路徑全部清空，重置Path的狀態。</p>
+<h4 id="moveTo" class="article-heading"><a href="#moveTo" class="headerlink" title="moveTo()"></a>moveTo()<a class="article-anchor" href="#moveTo" aria-hidden="true"></a></h4><ul>
+<li><em>參數：(<strong>int</strong> x, <strong>int</strong> y)</em></li>
+</ul>
+<p>將描繪的起點移動到指定的位置(x, y)。</p>
+<h4 id="lineTo" class="article-heading"><a href="#lineTo" class="headerlink" title="lineTo()"></a>lineTo()<a class="article-anchor" href="#lineTo" aria-hidden="true"></a></h4><ul>
+<li><em>參數：(<strong>int</strong> x, <strong>int</strong> y)</em></li>
+</ul>
+<p>描繪當前位置到(x, y)的直線。</p>
+<p><img src="../../assets/android/path_line_to.png"></p>
+<h4 id="quadTo" class="article-heading"><a href="#quadTo" class="headerlink" title="quadTo()"></a>quadTo()<a class="article-anchor" href="#quadTo" aria-hidden="true"></a></h4><ul>
+<li><em>參數：(<strong>int</strong> x1, <strong>int</strong> y1), (<strong>int</strong> x2, <strong>int</strong> y2)</em></li>
+</ul>
+<p>繪製當前位置到(x2, y2)的曲線，(x1, y1)是(x, y)控制點的位置。</p>
+<p><img src="../../assets/android/path_quad_to.png"></p>
+<h4 id="cubicTo" class="article-heading"><a href="#cubicTo" class="headerlink" title="cubicTo()"></a>cubicTo()<a class="article-anchor" href="#cubicTo" aria-hidden="true"></a></h4><ul>
+<li><em>參數：(<strong>float</strong> x1, <strong>float</strong> y1), (<strong>float</strong> x2, <strong>float</strong> y2), (<strong>float</strong> x3, <strong>float</strong> y3)</em></li>
+</ul>
+<p>繪製當前位置到(x3, y3)的曲線，(x1, y1)是(x, y)控制點的位置，(x2, y2)是(x3, y3)控制點的位置。</p>
+<p><img src="../../assets/android/path_cubic_to.png"></p>
+<h4 id="arcTo" class="article-heading"><a href="#arcTo" class="headerlink" title="arcTo()"></a>arcTo()<a class="article-anchor" href="#arcTo" aria-hidden="true"></a></h4><ul>
+<li><em>參數：<strong>RectF</strong> oval, <strong>float</strong> startAngle, <strong>float</strong> sweepAngle, <strong>boolean</strong> forceMoveTo</em></li>
+</ul>
+<p>在給定的範圍(oval)內，順時針繪製從起始角度(startAngle)，至終點角度(sweepAngle)的曲線。並可移動下一個Path的起點到曲線終點。</p>
+<p><img src="../../assets/android/path_arc_to.png"></p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.272Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="viewpager.html" class="article-footer-prev" title="ViewPager"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="paint.html" class="article-footer-next" title="Paint"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/android/path.html';
+  var disqus_title = "Path";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8D%E8%A9%9E%E8%A7%A3%E9%87%8B"><span class="toc-text">名詞解釋</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%B7%E9%BB%9E"><span class="toc-text">起點</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E9%BB%9E"><span class="toc-text">控制點</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E7%A4%BA"><span class="toc-text">函示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#reset"><span class="toc-text">reset()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#moveTo"><span class="toc-text">moveTo()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lineTo"><span class="toc-text">lineTo()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#quadTo"><span class="toc-text">quadTo()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cubicTo"><span class="toc-text">cubicTo()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#arcTo"><span class="toc-text">arcTo()</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">架構元件</strong><a href="workmanager.html" class="sidebar-link">WorkManager</a><a href="room.html" class="sidebar-link">Room</a><strong class="sidebar-title">元件</strong><a href="context.html" class="sidebar-link">Context</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="activity.html" class="sidebar-link">Activity</a><a href="executor.html" class="sidebar-link">Executor</a><a href="fragment.html" class="sidebar-link">Fragment</a><a href="intentservice.html" class="sidebar-link">IntentService</a><a href="lrucache.html" class="sidebar-link">LruCache</a><a href="recyclerview.html" class="sidebar-link">RecyclerView</a><a href="service.html" class="sidebar-link">Service</a><a href="view.html" class="sidebar-link">View</a><a href="viewpager.html" class="sidebar-link">ViewPager</a><a href="path.html" class="sidebar-link current">Path</a><a href="paint.html" class="sidebar-link">Paint</a><strong class="sidebar-title">系統</strong><a href="asynctask.html" class="sidebar-link">AsyncTask</a><a href="handler.html" class="sidebar-link">Handler</a><strong class="sidebar-title">通信</strong><a href="aidl.html" class="sidebar-link">AIDL</a><strong class="sidebar-title">其他</strong><a href="intdef.html" class="sidebar-link">IntDef</a><a href="parcelable.html" class="sidebar-link">Parcelable</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="proguard.html" class="sidebar-link">ProGuard</a><a href="gradle.html" class="sidebar-link">Gradle</a><strong class="sidebar-title">心得</strong><a href="efficientandroidthreading.html" class="sidebar-link">Android高效能多執行緒</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">架構元件</strong><a href="workmanager.html" class="mobile-nav-link">WorkManager</a><a href="room.html" class="mobile-nav-link">Room</a><strong class="mobile-nav-title">元件</strong><a href="context.html" class="mobile-nav-link">Context</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="activity.html" class="mobile-nav-link">Activity</a><a href="executor.html" class="mobile-nav-link">Executor</a><a href="fragment.html" class="mobile-nav-link">Fragment</a><a href="intentservice.html" class="mobile-nav-link">IntentService</a><a href="lrucache.html" class="mobile-nav-link">LruCache</a><a href="recyclerview.html" class="mobile-nav-link">RecyclerView</a><a href="service.html" class="mobile-nav-link">Service</a><a href="view.html" class="mobile-nav-link">View</a><a href="viewpager.html" class="mobile-nav-link">ViewPager</a><a href="path.html" class="mobile-nav-link current">Path</a><a href="paint.html" class="mobile-nav-link">Paint</a><strong class="mobile-nav-title">系統</strong><a href="asynctask.html" class="mobile-nav-link">AsyncTask</a><a href="handler.html" class="mobile-nav-link">Handler</a><strong class="mobile-nav-title">通信</strong><a href="aidl.html" class="mobile-nav-link">AIDL</a><strong class="mobile-nav-title">其他</strong><a href="intdef.html" class="mobile-nav-link">IntDef</a><a href="parcelable.html" class="mobile-nav-link">Parcelable</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="proguard.html" class="mobile-nav-link">ProGuard</a><a href="gradle.html" class="mobile-nav-link">Gradle</a><strong class="mobile-nav-title">心得</strong><a href="efficientandroidthreading.html" class="mobile-nav-link">Android高效能多執行緒</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="android/path.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

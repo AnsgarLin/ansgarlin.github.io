@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Thread控制 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/rxjava/thread_control.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/rxjava/thread_control.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/rxjava/thread_control.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Thread控制是RxJava的特點之一，透過切換thread，可以將耗時的操作透過特定的thread執行。如此不只避免干擾到畫面的反應時間，擁有專屬的thread來執行操作，也可降低整體所需時間。 在RxJava中控制thread的僅有兩個函式：subscribeOn() 和 observeOn()。由”基本概念”的那篇文章中可以知道，subscribeOn()負責決定資料送出的thread；o">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Thread控制">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/rxjava/thread_control.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Thread控制是RxJava的特點之一，透過切換thread，可以將耗時的操作透過特定的thread執行。如此不只避免干擾到畫面的反應時間，擁有專屬的thread來執行操作，也可降低整體所需時間。 在RxJava中控制thread的僅有兩個函式：subscribeOn() 和 observeOn()。由”基本概念”的那篇文章中可以知道，subscribeOn()負責決定資料送出的thread；o">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:14:05.288Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.288Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="rxjava/thread_control.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Thread控制</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>Thread控制是RxJava的特點之一，透過切換thread，可以將耗時的操作透過特定的thread執行。如此不只避免干擾到畫面的反應時間，擁有專屬的thread來執行操作，也可降低整體所需時間。</p>
+<p>在RxJava中控制thread的僅有兩個函式：<code>subscribeOn()</code> 和 <code>observeOn()</code>。由”基本概念”的那篇文章中可以知道，<code>subscribeOn()</code>負責決定資料送出的thread；<code>observeOn()</code>控制執行operator的thread。</p>
+<p>建議可先看過”基本概念”再來接續閱讀，因為以下會用到”基本概念”內的觀念。</p>
+<blockquote>
+<p><a href="basic_concept.html">基本概念</a></p>
+</blockquote>
+<p>以下將繼續引用”基本概念”內的範例程式碼：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    e.onNext(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">  .subscribeOn(Schedulers.newThread())</span><br><span class="line">  .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">  .subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123; &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="subscribeOn" class="article-heading"><a href="#subscribeOn" class="headerlink" title="subscribeOn()"></a>subscribeOn()<a class="article-anchor" href="#subscribeOn" aria-hidden="true"></a></h3><p>在使用<code>subscribeOn()</code>時，需要傳入Scheduler，並得到ObservableSubscribeOn：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.subscribeOn(Schedulers.newThread())</span><br></pre></td></tr></table></figure>
+
+<p>而這Scheduler會在<code>subscribeActual()</code>被呼叫時使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableSubscribeOn</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(<span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; s)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> SubscribeOnObserver&lt;T&gt; parent = <span class="keyword">new</span> SubscribeOnObserver&lt;T&gt;(s);</span><br><span class="line">  s.onSubscribe(parent);</span><br><span class="line">  parent.setDisposable(scheduler.scheduleDirect(<span class="keyword">new</span> SubscribeTask(parent)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊的SubscribeTask可直接當成單純的Runnable。</p>
+<p>看進去<code>scheduleDirect()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Scheduler</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Disposable <span class="title">scheduleDirect</span><span class="params">(<span class="meta">@NonNull</span> Runnable run, <span class="keyword">long</span> delay, <span class="meta">@NonNull</span> TimeUnit unit)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> Worker w = createWorker();</span><br><span class="line">  <span class="keyword">final</span> Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line">  DisposeTask task = <span class="keyword">new</span> DisposeTask(decoratedRun, w);</span><br><span class="line">  w.schedule(task, delay, unit);</span><br><span class="line">  <span class="keyword">return</span> task;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在此先用<code>createWorker()</code>取得Worker，然後與外部傳進來的Runnable，也就是SubscribeTask，一起傳入DisposeTask：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DisposeTask</span></span><br><span class="line">DisposeTask(Runnable decoratedRun, Worker w) &#123;</span><br><span class="line">  <span class="keyword">this</span>.decoratedRun = decoratedRun;</span><br><span class="line">  <span class="keyword">this</span>.w = w;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在DisposeTask的constructor沒做其他事，所以DisposeTask用來將SubscribeTask再做一層包裝。</p>
+<p>接著再回到Worker的<code>subscribe()</code>，但由於Worker沒有實作<code>schedule()</code>，需要往前看到<code>createWorker()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Scheduler</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Worker <span class="title">createWorker</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>結果Scheduler的<code>createWorker()</code>也是一個抽象函式，因此再往前追朔到Scheduler的實際類別，也就是我們呼叫<code>subscribeOn()</code>時傳入的參數<code>Schedulers.newThread()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Schedulers</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Scheduler <span class="title">newThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> RxJavaPlugins.onNewThreadScheduler(NEW_THREAD);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡的NEW_THREAD最後會是NewThreadScheduler，詳細過程會在最後的章節介紹。</p>
+<p>接續之前的<code>createWorker()</code>，從NewThreadScheduler可以找到實作：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NewThreadScheduler</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Worker <span class="title">createWorker</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> NewThreadWorker(threadFactory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看進去NewThreadWorker：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NewThreadWorker</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ScheduledExecutorService executor;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">NewThreadWorker</span><span class="params">(ThreadFactory threadFactory)</span> </span>&#123;</span><br><span class="line">  executor = SchedulerPoolFactory.create(threadFactory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>NewThreadWorker會透過傳入的ThreadFactory建立一個ScheduledExecutorService，也是ScheduledThreadPoolExecutor，並且實作<code>subedule()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NewThreadWorker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(<span class="meta">@NonNull</span> <span class="keyword">final</span> Runnable action, <span class="keyword">long</span> delayTime, <span class="meta">@NonNull</span> TimeUnit unit)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> scheduleActual(action, delayTime, unit, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ScheduledRunnable <span class="title">scheduleActual</span><span class="params">(<span class="keyword">final</span> Runnable run, <span class="keyword">long</span> delayTime, <span class="meta">@NonNull</span> TimeUnit unit, <span class="meta">@Nullable</span> DisposableContainer parent)</span> </span>&#123;</span><br><span class="line">  Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line">  ScheduledRunnable sr = <span class="keyword">new</span> ScheduledRunnable(decoratedRun, parent);</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">if</span> (delayTime &lt;= <span class="number">0L</span>) &#123;</span><br><span class="line">    f = executor.submit((Callable&lt;Object&gt;)sr);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">    f = executor.schedule((Callable&lt;Object&gt;)sr, delayTime, unit);    </span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ScheduleRunnable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledRunnable</span><span class="params">(Runnable actual, DisposableContainer parent)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.actual = actual;</span><br><span class="line">  <span class="keyword">this</span>.lazySet(<span class="number">0</span>, parent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>外部傳入的Runnable，也就是DisposeTask，會再被包進ScheduledRunnable，然後交由executor，也就是ScheduledExecutorService來傳入<code>submit()</code>或是<code>schedule()</code>執行。</p>
+<p>到此，我們先來看一下ScheduledRunnable的結構：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ScheduledRunnable &#123;</span><br><span class="line">  actual = DisposeTask &#123;</span><br><span class="line">    decoratedRun = SubscribeTask &#123;</span><br><span class="line">      parent = SubscribeOnObserver</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著，我們來看當ScheduledRunnable被執行時的過程：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ScheduledRunnable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  actual.run();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接使用actual，也就是DisposeTask來呼叫<code>run()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DisposeTask</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  decoratedRun.run();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再用decoratedRun，也就是SubscribeTask來呼叫<code>run()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SubscribeTask</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  source.subscribe(parent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊讓我們來回想一下”基礎概念”內提到的兩個觀念：</p>
+<ul>
+<li><strong>任何Observable的constructor，都是將上游的Observable包起來</strong>。</li>
+</ul>
+<ul>
+<li><strong>任何Observer的constructor，都是將下游的Observer包起來。</strong></li>
+</ul>
+<p>所以，這邊的source就是上游的operator，而parent就是下游傳上來的Observer。</p>
+<p>因為這個<code>subscribe()</code>的操作是在Runnable裡面，並由NewThreadWorker自帶的ScheduledExecutorService執行。從這個點開始，任何上游的operator的<code>subscribe()</code>都是在NewThread內進行。</p>
+<p>這邊可以給出一個觀念：</p>
+<ul>
+<li><strong>原始碼中，Worker呼叫<code>schedule()</code>的位置，就是切換thread的起點。</strong></li>
+</ul>
+<p>可以推斷的是，最後我們宣告的ObservableOnSubscribe的<code>subscribe()</code>，裡面的<code>e.onNext()</code>也是在NewThread內執行。</p>
+<p>另外，如果多次使用<code>subscribeOn()</code>，則會使thread由下而上一路切換，因此這邊有另一觀念：</p>
+<ul>
+<li><strong><code>subscribeOn()</code>只有離源頭最近的有效。</strong></li>
+</ul>
+<h3 id="observeOn" class="article-heading"><a href="#observeOn" class="headerlink" title="observeOn()"></a>observeOn()<a class="article-anchor" href="#observeOn" aria-hidden="true"></a></h3><p>接著來談<code>observeOn()</code>如何進行thread的控制，跟<code>subscribeOn()</code>一樣，使用時需要傳入Scheduler：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.observeOn(AndroidSchedulers.mainThread())</span><br></pre></td></tr></table></figure>
+
+<p>而這Scheduler會在<code>subscribeActual()</code>被呼叫時使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableObserveOn</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  Scheduler.Worker w = scheduler.createWorker();</span><br><span class="line">  source.subscribe(<span class="keyword">new</span> ObserveOnObserver&lt;T&gt;(observer, w, delayError, bufferSize));</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>傳進去的Worker會在ObserveOnObserver的<code>schedule()</code>內使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObserveOnObserver</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  schedule();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">schedule</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  worker.schedule(<span class="keyword">this</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據前述關於Worker的新觀念，我們可推斷這邊的<code>schedule()</code>就是切換thread的起點。</p>
+<p>而<code>worker.schedule()</code>又是<code>onNext()</code>呼叫<code>schedule()</code>而來，因此<code>observeOn()</code>是在資料傳遞時切換thread。也因此如果多次使用，其只會影響下游的operator的thread，於是有以下觀念：</p>
+<ul>
+<li><strong><code>observeOn()</code>可多次使用並且有效。</strong></li>
+</ul>
+<h3 id="Going-to-deeper" class="article-heading"><a href="#Going-to-deeper" class="headerlink" title="Going to deeper"></a>Going to deeper<a class="article-anchor" href="#Going-to-deeper" aria-hidden="true"></a></h3><p>到這我們介紹了<code>subscribeOn</code>和<code>observeOn()</code>透過Scheduler控制thread的方法及內部流程，其中沒有直接針對thread的操作。</p>
+<p>於是這裡遇到的問題是：<strong>那thread是在哪裡和哪時被建立並且啟動的？</strong></p>
+<p>由於thread是透過Scheduler控制，所以可以確定在Scheduler尚未指定前，一定沒有啟動任何新的thread，因此我們可以猜測合理的時機要不在一開始就啟動，不然就是要使用前啟動，也就是以下兩種狀況：</p>
+<ul>
+<li><p>指定Scheduler時。</p>
+</li>
+<li><p>Scheduler的Worker呼叫<code>schedule()</code>時。</p>
+</li>
+</ul>
+<h4 id="指定Scheduler時" class="article-heading"><a href="#指定Scheduler時" class="headerlink" title="指定Scheduler時"></a>指定Scheduler時<a class="article-anchor" href="#指定Scheduler時" aria-hidden="true"></a></h4><p>在Android實作中，<code>observeOn()</code>一般來說都是main thread，一定是已經啟動的，所以我們用<code>subscribeOn()</code>來做範例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.subscribeOn(Schedulers.newThread())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Schedulers</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Scheduler <span class="title">newThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> RxJavaPlugins.onNewThreadScheduler(NEW_THREAD);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裏直接使用了一個靜態變數NEW_THREAD，再看到與NEW_THREAD相關的程式碼：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Schedulers</span></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Scheduler NEW_THREAD;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadHolder</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> NewThreadScheduler();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  NEW_THREAD = RxJavaPlugins.initNewThreadScheduler(<span class="keyword">new</span> NewThreadTask());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Scheduler <span class="title">initNewThreadScheduler</span><span class="params">(<span class="meta">@NonNull</span> Callable&lt;Scheduler&gt; defaultScheduler)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> callRequireNonNull(defaultScheduler);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> Scheduler <span class="title">callRequireNonNull</span><span class="params">(<span class="meta">@NonNull</span> Callable&lt;Scheduler&gt; s)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> ObjectHelper.requireNonNull(s.call(), <span class="string">&quot;Scheduler Callable result can&#x27;t be null&quot;</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> NewThreadHolder.DEFAULT;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我們可以看到有一個靜態的constructor，可知這邊就是整個流程起點：</p>
+<ul>
+<li>將NewThreadTask傳給<code>initNewThreadScheduler()。</code></li>
+<li>NewThreadTask的<code>call()</code>會被執行。</li>
+<li>將<code>NewThreadHolder.Default</code>，即是NewThreadScheduler取出並指定給NEW_THREAD。</li>
+</ul>
+<p>接著我們再看到NewThreadScheduler的constructor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NewThreadScheduler</span></span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  THREAD_FACTORY = <span class="keyword">new</span> RxThreadFactory(THREAD_NAME_PREFIX, priority);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">NewThreadScheduler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>(THREAD_FACTORY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到此完成建立並回傳Scheduler的流程，其中沒有任何啟動thread的機制。代表在指定Scheduler的同時啟動thread的假設並不成立，接著我們在看另一個假設。</p>
+<h4 id="Scheduler的Worker呼叫schedule-時" class="article-heading"><a href="#Scheduler的Worker呼叫schedule-時" class="headerlink" title="Scheduler的Worker呼叫schedule()時"></a>Scheduler的Worker呼叫<code>schedule()</code>時<a class="article-anchor" href="#Scheduler的Worker呼叫schedule-時" aria-hidden="true"></a></h4><p>前面的章節可以知道，<code>Worker.schedule()</code>最後會使用ScheduledThreadPoolExecutor的<code>submit()</code>或<code>schedule()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ScheduledThreadPoolExecutor</span></span><br><span class="line"><span class="keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;</span><br><span class="line">  <span class="keyword">return</span> schedule(task, <span class="number">0</span>, NANOSECONDS);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> ScheduledFuture&lt;?&gt; schedule(Runnable command, <span class="keyword">long</span> delay, TimeUnit unit) &#123;</span><br><span class="line">  ...</span><br><span class="line">  RunnableScheduledFuture&lt;Void&gt; t = decorateTask(command, <span class="keyword">new</span> ScheduledFutureTask&lt;Void&gt;(command, <span class="keyword">null</span>, triggerTime(delay, unit), sequencer.getAndIncrement()));</span><br><span class="line">  delayedExecute(t);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">delayedExecute</span><span class="params">(RunnableScheduledFuture&lt;?&gt; task)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">super</span>.getQueue().add(task);</span><br><span class="line">  ...</span><br><span class="line">  ensurePrestart()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不論是<code>submit()</code>或是<code>schedule()</code>都會走到<code>delayedExecute()</code>。接著，在正常的情況下會走到<code>ensurePrestart()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ThreadPoolExecutor</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ensurePrestart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  addWorker(<span class="keyword">null</span>, <span class="keyword">true</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> </span>&#123;</span><br><span class="line">  Worker(Runnable firstTask) &#123;</span><br><span class="line">    setState(-<span class="number">1</span>); <span class="comment">// inhibit interrupts until runWorker</span></span><br><span class="line">    <span class="keyword">this</span>.firstTask = firstTask;</span><br><span class="line">    <span class="keyword">this</span>.thread = getThreadFactory().newThread(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">addWorker</span><span class="params">(Runnable firstTask, <span class="keyword">boolean</span> core)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  w = <span class="keyword">new</span> Worker(firstTask);</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">final</span> Thread t = w.thread;</span><br><span class="line">  ...</span><br><span class="line">  t.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>從<code>ensurePrestart()</code>走到<code>addWorker()</code>，然後看到一個ThreadPoolExecutor內部類別Worker，其建構式用到ThreadFactory呼叫<code>newThread()</code>。</p>
+<p>根據前面的內容可以知道，NewThreadScheduler透過<code>createWorker()</code>建立NewThreadWorker時，會傳入靜態變數THREAD_FACTORY，同時也是RxThreadFactory。</p>
+<p>此ThreadFactory會再ScheduledThreadPoolExecutor。因此，呼叫<code>getThreadFactory().newTherad()</code>，就是<code>RxThreadFactory.newThread()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In RxThreadFactory</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  Thread t = nonBlocking ? <span class="keyword">new</span> RxCustomThread(r, name) : <span class="keyword">new</span> Thread(r, name);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">RxCustomThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> <span class="keyword">implements</span> <span class="title">NonBlockingThread</span> </span>&#123;</span><br><span class="line">  RxCustomThread(Runnable run, String name) &#123;</span><br><span class="line">    <span class="keyword">super</span>(run, name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>在這我們終於看到Thread被建立</strong>，用的是Thread的constructor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Thread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">(Runnable target, String name)</span> </span>&#123;</span><br><span class="line">  init(<span class="keyword">null</span>, target, name, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ThreadGroup g, Runnable target, String name, <span class="keyword">long</span> stackSize)</span> </span>&#123;</span><br><span class="line">  Thread parent = currentThread();</span><br><span class="line">  <span class="keyword">if</span> (g == <span class="keyword">null</span>) &#123;</span><br><span class="line">    g = parent.getThreadGroup();</span><br><span class="line">  &#125;</span><br><span class="line">  g.addUnstarted();</span><br><span class="line">  <span class="keyword">this</span>.group = g;</span><br><span class="line">  <span class="keyword">this</span>.target = target;</span><br><span class="line">  <span class="keyword">this</span>.priority = parent.getPriority();</span><br><span class="line">  <span class="keyword">this</span>.daemon = parent.isDaemon();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Thread的constructor內只有設定一些相關的值，並透過ThreadGroup呼叫<code>addUnstarted()</code>，根據<code>addUnstarted()</code>的comment，裡面只是用於通知ThreadGroup有新的Thread要加入，但還不會改變已執行中的Thread列表。</p>
+<p>回到<code>addWorker()</code>，最後用傳回的Thread呼叫<code>start()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Thread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  group.add(<span class="keyword">this</span>);</span><br><span class="line">  ...</span><br><span class="line">  nativeCreate(<span class="keyword">this</span>, stackSize, daemon);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這就透過ThreadGroup的<code>add()</code>先通知剛加入的Thread即將啟動，並將其加入已啟動的Thread列表。然後透過底層來執行Thread的<code>run()</code>，<strong>到這邊thread算是正式被啟用</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Thread</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (target != <span class="keyword">null</span>) &#123;</span><br><span class="line">    target.run();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此時的<code>run()</code>就是已經在新的Thread上執行。</p>
+<p>這邊的target，是在Thread建立時傳入的一個外部Runnable，往回可以到ThreadPoolExecutor.Worker的constructor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ThreadPoolExecutor.Worker</span></span><br><span class="line"><span class="keyword">this</span>.thread = getThreadFactory().newThread(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+
+<p>所以target就是Worker本身，於是再看到Worker的<code>run()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ThreadPoolExecutor.Worker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  runWorker(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runWorker</span><span class="params">(Worker w)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">while</span> (task != <span class="keyword">null</span> || (task = getTask()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">    task.run();</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>繞了一大圈，在這邊我們看到task被執行的部分，這task就是我們在透過Scheduler呼叫<code>scheduleDirect()</code>時傳入的DisposeTask。</p>
+<p>到此我們終於確定Scheduler所控制的Thread的建立和啟動的時機，最後來總結整個啟動的過程如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ObservableSubscribeOn.subscribeActual</span><br><span class="line">-&gt; Scheduler.scheduleDirect</span><br><span class="line">-&gt; Worker.schedule</span><br><span class="line">-&gt; ScheduledThreadPoolExecutor.schedule</span><br><span class="line">-&gt; ScheduledThreadPoolExecutor.delayExecute</span><br><span class="line">-&gt; ThreadPoolExecutor.ensurePrestart</span><br><span class="line">-&gt; ThreadPoolExecutor.addWorker &#123;</span><br><span class="line">	 w = <span class="keyword">new</span> Worker(firstTask) &#123;</span><br><span class="line">     	   Thread thread = getThreadFactory().newThread()            </span><br><span class="line">         &#125;;</span><br><span class="line">     <span class="keyword">final</span> Thread t = w.thread;</span><br><span class="line">     t.start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.288Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="basic_concept.html" class="article-footer-prev" title="基本概念"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="compose_and_lift.html" class="article-footer-next" title="compose() & lift()"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/rxjava/thread_control.html';
+  var disqus_title = "Thread控制";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#subscribeOn"><span class="toc-text">subscribeOn()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#observeOn"><span class="toc-text">observeOn()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Going-to-deeper"><span class="toc-text">Going to deeper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E5%AE%9AScheduler%E6%99%82"><span class="toc-text">指定Scheduler時</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Scheduler%E7%9A%84Worker%E5%91%BC%E5%8F%ABschedule-%E6%99%82"><span class="toc-text">Scheduler的Worker呼叫schedule()時</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">源碼分析</strong><a href="basic_concept.html" class="sidebar-link">基本概念</a><a href="thread_control.html" class="sidebar-link current">Thread控制</a><a href="compose_and_lift.html" class="sidebar-link">compose() & lift()</a><a href="groupby.html" class="sidebar-link">groupBy()</a><strong class="sidebar-title">決策表</strong><a href="creation_operator_decision_table.html" class="sidebar-link">建立操作</a><a href="instance_operator_decision_table.html" class="sidebar-link">一般操作</a><strong class="sidebar-title">其他</strong><a href="error_handle.html" class="sidebar-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="sidebar-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="sidebar-link">Not RxJava Guide For Lazy Folks</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">源碼分析</strong><a href="basic_concept.html" class="mobile-nav-link">基本概念</a><a href="thread_control.html" class="mobile-nav-link current">Thread控制</a><a href="compose_and_lift.html" class="mobile-nav-link">compose() & lift()</a><a href="groupby.html" class="mobile-nav-link">groupBy()</a><strong class="mobile-nav-title">決策表</strong><a href="creation_operator_decision_table.html" class="mobile-nav-link">建立操作</a><a href="instance_operator_decision_table.html" class="mobile-nav-link">一般操作</a><strong class="mobile-nav-title">其他</strong><a href="error_handle.html" class="mobile-nav-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="mobile-nav-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="mobile-nav-link">Not RxJava Guide For Lazy Folks</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="rxjava/thread_control.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

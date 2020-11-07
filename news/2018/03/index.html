@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>News | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/news/2018/03/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="News">
+<meta property="og:url" content="https://ansgarlin.github.io/news/2018/03/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    
+<div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      
+        
+          <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1>
+        <a href="/zh-tw/news/2018/03/27/how_to_draw_text_at_the_center/" class="article-title" itemprop="name">How To Draw Text At The Center?</a>
+      </h1>
+    
+    <a href="/zh-tw/news/2018/03/27/how_to_draw_text_at_the_center/" class="article-date"><time datetime="2018-03-27T00:00:00.000Z">2018-03-27</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在開發自訂的物件時，一定會遇到需要自行繪製內容的時候。如果需要繪製的內容包含字串，就會遇到以一行呈現時，需要絕對置中的問題。</p>
+<p>置中可以分成橫向和垂直。橫向置中可以直接透過Paint設定繪製的基準點。但垂直置中則因為字串繪製的基準線，並不是整個字串範圍的垂直中心，所以需要再經過位移，才可以在畫面上呈現垂直置中。</p>
+<p>以下將逐步從前置的概念到運算方式進行介紹。以下將分成三步驟：</p>
+<ul>
+<li>字串如何被繪製？</li>
+<li>對應到程式中</li>
+<li>置中繪製的方法</li>
+</ul>
+<h3 id="字串如何被繪製" class="article-heading"><a href="#字串如何被繪製" class="headerlink" title="字串如何被繪製"></a>字串如何被繪製<a class="article-anchor" href="#字串如何被繪製" aria-hidden="true"></a></h3><p>首先要決定範圍，範例如下圖：</p>
+<p><img src="paint_measure_width.png"></p>
+<p>紅色框圈出了包含字串的最小範圍，而藍色線則是其在橫向上實際上會佔用的寬度。</p>
+<p>至於高度要看以下的範例圖：</p>
+<p><img src="paint_font_metrics.png"></p>
+<p>圖中的橫線由上而下依序如下表示：</p>
+<ul>
+<li>Top：較高字型的頂端。</li>
+<li>Ascent：大部分字型的頂端。</li>
+<li>Baseline：所有字型的基準線。</li>
+<li>Decent：大部分字型的底端。</li>
+<li>Bottom：較高字型的底端。</li>
+</ul>
+<p>所以可以看出高度是<code>top</code>和<code>bottom</code>的距離。</p>
+<p>接著再決定繪製的基準點要在基準線上的哪個位置，基準點的意義直接看範例如下：</p>
+<p><img src="paint_text_align.png"></p>
+<p>紅線就是基準線，線長等於上述第一張圖的藍線。可以看出基準點是在基準線上移動，移動範圍是基準線的長度。所以依照圖例，基準點在左邊時，文字繪製方向就是左起。反之就是中間或是右起。</p>
+<p>最後，在繪製時指定基準點在畫面上的座標位置。如果是右起，字串就會從基準點開始，向右且在基準線上繪製整個字串。</p>
+<h3 id="對應到程式" class="article-heading"><a href="#對應到程式" class="headerlink" title="對應到程式"></a>對應到程式<a class="article-anchor" href="#對應到程式" aria-hidden="true"></a></h3><p>上述的繪製三步驟對應到程式碼依序如下：</p>
+<ul>
+<li><p><code>Paint.getTextBounds()</code>可以取得紅色框。</p>
+</li>
+<li><p><code>Paint.measureText()</code>可以取得藍線長度。</p>
+</li>
+<li><p><code>Paint.getFontMetrics()</code>可以得到一個FontMetrics：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FontMetrics</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span>   top;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span>   ascent;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span>   descent;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span>   bottom;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是這些數值是相對於基準線的位置，所以<code>top</code>和<code>ascent</code>是負數，反之<code>descent</code>和<code>bottom</code>是正數。</p>
+</li>
+<li><p><code>Paint.setTextAlign()</code>可以指定Align：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Align</span> </span>&#123;</span><br><span class="line">    LEFT    (<span class="number">0</span>),</span><br><span class="line">    CENTER  (<span class="number">1</span>),</span><br><span class="line">    RIGHT   (<span class="number">2</span>);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>而要繪製字串時，用<code>Canvas.drawText(text, x, y, Paint paint)</code>可以給定基準點的位置。</p>
+</li>
+</ul>
+<p>到這先做個總結，從以上的介紹和圖例可以觀察出，如果要繪製字串，其實並不需要全部有介紹到的函示。最後將來介紹如何將字串置中繪製。</p>
+<h3 id="置中繪製的方法" class="article-heading"><a href="#置中繪製的方法" class="headerlink" title="置中繪製的方法"></a>置中繪製的方法<a class="article-anchor" href="#置中繪製的方法" aria-hidden="true"></a></h3><p>如果想要將字串繪製在畫面中心，預期的結果是字串的中心點為對準畫面中心。我們會先透過<code>Canvas.drawText()</code>將中心點設為基準點的位置，結果如下：</p>
+<p><img src="draw_center_origin.png"></p>
+<p>這並不是我們想要的置中。為了達到我們需要的結果，橫向應再往左一些，直向要再向下一些。</p>
+<h4 id="橫向" class="article-heading"><a href="#橫向" class="headerlink" title="橫向"></a>橫向<a class="article-anchor" href="#橫向" aria-hidden="true"></a></h4><p>由於基準線已經是在置中位置，所以只要透過<code>Paint.setTextAlign()</code>將基準點設定成CENTER即可。結果如下：</p>
+<p><img src="draw_center_align_center.png"></p>
+<h4 id="直向" class="article-heading"><a href="#直向" class="headerlink" title="直向"></a>直向<a class="article-anchor" href="#直向" aria-hidden="true"></a></h4><p>在這需要自行計算字串的中心距離畫面中心多遠，才知道要向下移動多少。所以首先我們先透過<code>Paint.getFontMetrics()</code>來取得FontMetrics，並透過<code>top</code>和<code>bottom</code>來取得字串高度：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">高度 = bottom - top <span class="comment">// 因為top是負的</span></span><br></pre></td></tr></table></figure>
+
+<p>依照前面圖例，我們可推知要移動的距離就是字串中心和基準線的距離，於是我們可以得到最後的距離公式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">字串中心與基準線距離 = 高度 / <span class="number">2</span> - bottom = (bottom - top) / <span class="number">2</span> - bottom</span><br></pre></td></tr></table></figure>
+
+<p>進一步簡化則是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">移動距離 = -(bottom + top) / <span class="number">2</span> </span><br></pre></td></tr></table></figure>
+
+<p>最後呈現結果如下：</p>
+<p><img src="draw_center_final.png"></p>
+<p>於此我們找到了繪製置中字串的公式。</p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>以上我們對於置中提出了解法，但這公式在整個字串只有小寫字母時，產生的結果就不如預期了：</p>
+<p><img src="draw_center_more_none_center.png"></p>
+<p>原因是因為FontMetrics所畫出的字串範圍，是字串被繪製的合理範圍，並不是字串真正被繪製的範圍，求出來的中心點有時就不會符合需求。</p>
+<p>想法一樣，要將字串的中心移動至畫面的中心點。不過這次我們嘗試另外一個方法來取得字串高度，就是先透過<code>Paint.getTextBounds()</code>來取得字串的實際範圍：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Rect centerRect = <span class="keyword">new</span> Rect();</span><br><span class="line">Paint.getTextBounds(s, <span class="number">0</span>, s.length(), centerRect);</span><br></pre></td></tr></table></figure>
+
+<p>要特別注意的是，這邊取得的範圍是字串畫在預設起始點(0, 0)時的範圍，所以如果要將其<code>top</code>和<code>bottom</code>的範圍對齊字串，則還要做調整：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">centerRect.offset(<span class="number">0</span>, rect.centerY());</span><br></pre></td></tr></table></figure>
+
+<p>結果如下圖的小黑框：</p>
+<p><img src="draw_center_more_bounds.png"></p>
+<p>於是我們就可以取得字串的垂直中心，並求出要移動的距離：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">移動距離 = 中心點y - centerRect.centerY()</span><br></pre></td></tr></table></figure>
+
+<p>結果如下：</p>
+<p><img src="draw_center_more_center.png"></p>
+<p>運用這種算法的好處是，可以依照所要繪製的字串，動態調整要移動的距離。於是字串就算大小寫都包含，也可以如預期的置中：</p>
+<p><img src="draw_center_more_center_final.png"></p>
+<h4 id="非英文語系" class="article-heading"><a href="#非英文語系" class="headerlink" title="非英文語系"></a>非英文語系<a class="article-anchor" href="#非英文語系" aria-hidden="true"></a></h4><p>以上介紹的兩種方法都可以使用。如中文此類，每個字的大小和範圍位置都是固定的，則可以直接使用第一個方法較為直接好理解，例圖如下：</p>
+<p><img src="draw_center_more_chinese.png"></p>
+
+  </div>
+  
+</article>
+
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/">
+              <strong class="archive-post-title" itemprop="name">Why We Need mutate() while Modifying A Drawable?</strong>
+              <span class="archive-post-date"><time datetime="2018-03-18T00:00:00.000Z">2018-03-18</time></span>
+            </a>
+          </article>
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/03/09/why_the_shape_works_unexpectedly_in_the_layer_list_before_android_22/">
+              <strong class="archive-post-title" itemprop="name">Why The Shape Works Unexpectedly In The layer-list Before Android-22?</strong>
+              <span class="archive-post-date"><time datetime="2018-03-09T00:00:00.000Z">2018-03-09</time></span>
+            </a>
+          </article>
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/03/03/how_does_the_idlingResource_in_okHttp_works/">
+              <strong class="archive-post-title" itemprop="name">How Does The IdlingResource Works?</strong>
+              <span class="archive-post-date"><time datetime="2018-03-03T00:00:00.000Z">2018-03-03</time></span>
+            </a>
+          </article>
+        
+      
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

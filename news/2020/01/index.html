@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>News | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/news/2020/01/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="News">
+<meta property="og:url" content="https://ansgarlin.github.io/news/2020/01/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    
+<div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      
+        
+          <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1>
+        <a href="/en/news/2020/01/25/crack_coroutine_exception_propagation_2/" class="article-title" itemprop="name">Crack Coroutine Exception Propagation - Part 2</a>
+      </h1>
+    
+    <a href="/en/news/2020/01/25/crack_coroutine_exception_propagation_2/" class="article-date"><time datetime="2020-01-25T00:00:00.000Z">2020-01-25</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>In <a href="https://ansgarlin.github.io/en/news/2020/01/24/crack_coroutine_exception_propagation_1/">Part 1</a>, we’ve talked about the concept to know how a constructed Coroutine propagates and handles the exception and cancel the others. </p>
+<p>In Part 2, we are going to talk about how to use the knowledge and write an exception free constructed Coroutine.</p>
+<p>Before digging into cases, we need to know how to read a constructed Coroutine. In the beginning, we’ve said that <code>CoroutineContext</code> is like a Collection. So when you have a constructed Coroutine like below:</p>
+<pre><code>val handler = CoroutineExceptionHandler &#123; ... &#125;
+launch(SupervisorJob() + handler) &#123; async &#123; throw Exception &#125; &#125;</code></pre>
+<p>The connection between each one is:</p>
+<pre><code>NonDisposableHandle -&gt; SupervisorJob() -&gt; launch -&gt; async -&gt; coroutineScope</code></pre>
+<p>Then when there is an exception, the following things will happen:</p>
+<ul>
+<li><code>async</code> will use <code>cancelParent</code> to ask whether there is a parent can handle the exception.</li>
+<li><code>launch</code> will return true on <code>handleException</code> by default. So <code>async</code> won’t need to call to <code>handleJobException</code>.</li>
+<li><code>SupervisorJob</code> will return false on <code>cancelChild</code> directly, hence <code>launch</code> will need to use Handler to handle the exception.</li>
+<li>All the default parent for the top parent is <code>NonDisposableHandle</code>, which will return false on <code>cancelChild</code> by default.</li>
+</ul>
+<p>By summarizing the information, we can for sure if we don’t assign a Handler to <code>launch</code>, any exception inside will crash the app.</p>
+<h3 id="Case-study" class="article-heading"><a href="#Case-study" class="headerlink" title="Case study"></a>Case study<a class="article-anchor" href="#Case-study" aria-hidden="true"></a></h3><p>Now we can use samples in <a target="_blank" rel="noopener external nofollow noreferrer" href="https://proandroiddev.com/kotlin-coroutine-job-hierarchy-finish-cancel-and-fail-2d3d42a768a9">Kotlin Coroutine Job Hierarchy — Succeed, Fail, and Cancel</a> to justify  whether the table will misguide us.</p>
+<p>I only pick some of them as an example to demonstrate how to analyze different kinds of constructed Coroutine based on what we’ve learned:</p>
+<ul>
+<li><strong><code>launch &#123; throw &#125;</code>**：The parent of <code>launch</code> is <code>NonDIsposableHandle</code>, which will force it to handler exception. **Without a Handler, the result will fail.</strong></li>
+<li><strong><code>launch &#123; launch &#123; throw &#125; &#125;</code>**：The same reason, the top parent will be forced to handle exception. **Without a Handler, the result will fail.</strong></li>
+<li><strong><code>launch &#123; launch(Handler) &#123; throw &#125; &#125;</code>**：Only the top parent will need to handler the exception. **Since the Handler only exists inside the child launch, hence the result will fail.</strong></li>
+<li><strong><code>async &#123; throw &#125;</code>**：<code>async</code> doesn’t override <code>handleJobException</code>, so **it won’t handle the exception, the result will pass.</strong></li>
+<li><strong><code>launch &#123; async &#123; throw &#125; &#125;</code>**：Exception will pass to parent <code>launch</code>. **Without a Handler, the result will fail.</strong></li>
+<li><strong><code>launch(Job) &#123; throw &#125;</code>**：<code>Job</code> will return <code>false</code> on <code>handleException</code>, which will force the  child to handle. **Without a Handler, the result will fail.</strong></li>
+<li><strong><code>coroutineScope &#123; throw &#125;</code>**：Scope will throw exception once. **Without <code>try-catch</code>, the result will fail.</strong></li>
+<li><strong><code>coroutineScope &#123; launch(Handler) &#123; throw &#125; &#125;</code>**：claim to handle exception, make Handler won’t be used. **Without <code>try-catch</code>, the result will fail.</strong></li>
+</ul>
+<h4 id="Supervisor" class="article-heading"><a href="#Supervisor" class="headerlink" title="Supervisor"></a>Supervisor<a class="article-anchor" href="#Supervisor" aria-hidden="true"></a></h4><p>With supervisor, almost behave in the same way.</p>
+<ul>
+<li><strong><code>launch(SupervisorJob) &#123; throw &#125;</code>**：<code>SupervisorJob</code> will return <code>false</code> on <code>handleException</code>, which will force the child to handle. **Without a Handler, the result will fail.</strong></li>
+<li><strong><code>supervisorScope &#123; launch(Handler) &#123; throw &#125; &#125;</code>**：override <code>childCancelled</code> to return <code>false</code>, which will force child to handle. **Without a Handler, the result will fail.</strong></li>
+</ul>
+<h3 id="Diagram" class="article-heading"><a href="#Diagram" class="headerlink" title="Diagram"></a>Diagram<a class="article-anchor" href="#Diagram" aria-hidden="true"></a></h3><p>Maybe the cases above still pretty confusing, then let’s try another way: <strong>through the graph</strong>.</p>
+<h4 id="Definition" class="article-heading"><a href="#Definition" class="headerlink" title="Definition"></a>Definition<a class="article-anchor" href="#Definition" aria-hidden="true"></a></h4><p>Let’s see the table from <a href="https://ansgarlin.github.io/en/news/2020/01/24/crack_coroutine_exception_propagation_1/">Part 1</a> again:</p>
+<p><img src="final_table.png" alt="final_table"></p>
+<p>And then we use rectangular to represent the boundary of exception:</p>
+<p><img src="basic.png" alt="basic"></p>
+<h5 id="Solid-line" class="article-heading"><a href="#Solid-line" class="headerlink" title="Solid line"></a>Solid line<a class="article-anchor" href="#Solid-line" aria-hidden="true"></a></h5><p>Means the exception will be handled:</p>
+<ul>
+<li><strong>Coroutines</strong> that override <code>handleJobException</code> with Handler</li>
+<li><strong>Scopes</strong> that return <code>true</code> on <code>isScopeCoroutine</code>. </li>
+<li><strong><code>try-catch</code></strong> block.</li>
+</ul>
+<h5 id="Dot-line" class="article-heading"><a href="#Dot-line" class="headerlink" title="Dot line"></a>Dot line<a class="article-anchor" href="#Dot-line" aria-hidden="true"></a></h5><ul>
+<li><strong>Coroutines</strong> that don’t override <code>handleJobException</code>.</li>
+<li><strong>Coroutines</strong> that override <code>handleJobException</code> without Handler.</li>
+</ul>
+<h5 id="Dot-line-with-error" class="article-heading"><a href="#Dot-line-with-error" class="headerlink" title="Dot line with error"></a>Dot line with error<a class="article-anchor" href="#Dot-line-with-error" aria-hidden="true"></a></h5><ul>
+<li><strong>Coroutines</strong> or <strong>Scopes</strong> that claim to handle exception but failed to handle. <strong>In some operators that can cause crash.</strong></li>
+</ul>
+<h5 id="Arrow" class="article-heading"><a href="#Arrow" class="headerlink" title="Arrow"></a>Arrow<a class="article-anchor" href="#Arrow" aria-hidden="true"></a></h5><p>Means to propagate exception <strong>out</strong> or <strong>push back.</strong></p>
+<ul>
+<li><strong>out:</strong> <strong>Coroutines</strong> that don’t override <code>childCancelled</code>.</li>
+<li><strong>push back:</strong> <strong>Coroutines</strong> that override <code>childCancelled</code> or <code>handleException</code>.</li>
+</ul>
+<p>And here’s the combination of the above to represent the basic functions:</p>
+<p><img src="combination.png" alt="combination"></p>
+<h4 id="Scopes" class="article-heading"><a href="#Scopes" class="headerlink" title="Scopes"></a>Scopes<a class="article-anchor" href="#Scopes" aria-hidden="true"></a></h4><p>Since <strong>Scopes</strong> will return <code>true</code> on <code>isScopeCoroutine</code>, which makes <strong>Scopes</strong> claims to handle exception by default, and rethrow exception in other way. The graph of <strong>Scopes</strong> are quite different:</p>
+<p><img src="scopes.png" alt="scopes"></p>
+<p>The <strong>dot line means to rethrow exception.</strong> But it’s not like propagating exception between <strong>Coroutine</strong>, so we can use <strong><code>try-catch</code></strong> to handle exception.</p>
+<p>Now, let’s use the example above:</p>
+<pre><code>NonDisposableHandle -&gt; SupervisorJob() -&gt; launch -&gt; async -&gt; coroutineScope</code></pre>
+<p>The graph that you’ll get is:</p>
+<p><img src="example.png" alt="example"></p>
+<p><strong>The arrow will meet at the <code>launch</code>, which means the <code>launch</code> will handle the exception. If not, the whole constructed Coroutine will just crash.</strong></p>
+<h3 id="Summary" class="article-heading"><a href="#Summary" class="headerlink" title="Summary"></a>Summary<a class="article-anchor" href="#Summary" aria-hidden="true"></a></h3><p>Exception is important because it will crash the app and cause bad use experiences. Hope this article can help you to write a exception free constructed Coroutine easily.</p>
+
+  </div>
+  
+</article>
+
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/en/news/2020/01/24/crack_coroutine_exception_propagation_1/">
+              <strong class="archive-post-title" itemprop="name">Crack Coroutine Exception Propagation - Part 1</strong>
+              <span class="archive-post-date"><time datetime="2020-01-24T00:00:00.000Z">2020-01-24</time></span>
+            </a>
+          </article>
+        
+      
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

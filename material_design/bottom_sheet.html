@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Bottom Sheet | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/material_design/bottom_sheet.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/bottom_sheet.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/bottom_sheet.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="固定式用於呈現更深入的內容，與主頁面整合而不用另外開啟頁面，不使用時仍會存在於畫面中不會自動消失。  &gt; 固定式的下表將在地圖操作時持續顯示詳細資訊  模組式通常為選單或是對話框的替代方案，在表啟動時會從畫面下方滑入，畫面其他部分將蓋上一層灰，來提高下表的辨識度。使用者在使用完畢後關閉，讓被覆蓋在下方的內容可以再度被使用。 主要功能有以下三個：  以列表或網格的形式呈現按鈕選單或對話框     &gt;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bottom Sheet">
+<meta property="og:url" content="https://ansgarlin.github.io/material_design/bottom_sheet.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="固定式用於呈現更深入的內容，與主頁面整合而不用另外開啟頁面，不使用時仍會存在於畫面中不會自動消失。  &gt; 固定式的下表將在地圖操作時持續顯示詳細資訊  模組式通常為選單或是對話框的替代方案，在表啟動時會從畫面下方滑入，畫面其他部分將蓋上一層灰，來提高下表的辨識度。使用者在使用完畢後關閉，讓被覆蓋在下方的內容可以再度被使用。 主要功能有以下三個：  以列表或網格的形式呈現按鈕選單或對話框     &gt;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dDZKN1lHNG1TekU/components_bottomsheets_usage1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NWNQcUo1TnhhaWs/components_bottomsheets_modal1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UzA3RDctV2k0YUk/components_bottomsheets_modal2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Zm9IR1dxb0E5Ync/components_bottomsheets_modal15.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bmFYUkhqVXJpY3c/components_bottomsheets_modal7.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3b1BpT0dRd0tFaUE/components_bottomsheets_modal_do.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UTB0bG8tYWxVRG8/components_bottomsheets_modal_dont.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3a3Z2UGZJMkRWamM/components_bottomsheets_behavior1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cGt6TlA0ZzNLdDg/components_bottomsheets_behavior2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cTdiQWp2TkI0NEE/components_bottomsheets_behavior3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B7WCemMG6e0VTGwzWTdzNGdyZXM/components_bottomsheets_specs4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VVJVdF9wRG5Iem8/components_bottomsheets_specs9.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Ym9QLTlfbUR4ekk/components_bottomsheets_modal11.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dXNVNEpIZzZQdUU/components_bottomsheets_specs1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q3NrbGhWQXJxSGs/components_bottomsheets_specs3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3a2JBazEtX3R2Ulk/components_bottomsheets_specs7.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.476Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.476Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dDZKN1lHNG1TekU/components_bottomsheets_usage1.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Bottom Sheet</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="固定式" class="article-heading"><a href="#固定式" class="headerlink" title="固定式"></a>固定式<a class="article-anchor" href="#固定式" aria-hidden="true"></a></h2><p>用於呈現更深入的內容，與主頁面整合而不用另外開啟頁面，不使用時仍會存在於畫面中不會自動消失。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dDZKN1lHNG1TekU/components_bottomsheets_usage1.png" style="max-width:50%">
+> <p style="font-size: 12px">固定式的下表將在地圖操作時持續顯示詳細資訊</p>
+
+<h2 id="模組式" class="article-heading"><a href="#模組式" class="headerlink" title="模組式"></a>模組式<a class="article-anchor" href="#模組式" aria-hidden="true"></a></h2><p>通常為選單或是對話框的替代方案，在表啟動時會從畫面下方滑入，畫面其他部分將蓋上一層灰，來提高下表的辨識度。使用者在使用完畢後關閉，讓被覆蓋在下方的內容可以再度被使用。</p>
+<p>主要功能有以下三個：</p>
+<ul>
+<li>以列表或網格的形式呈現按鈕選單或對話框  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NWNQcUo1TnhhaWs/components_bottomsheets_modal1.png" style="max-width:50%">
+> <p style="font-size: 12px">列表</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UzA3RDctV2k0YUk/components_bottomsheets_modal2.png" style="max-width:50%">
+> <p style="font-size: 12px">網格</p>
+
+<ul>
+<li>呈現一個上下文選單</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Zm9IR1dxb0E5Ync/components_bottomsheets_modal15.png" style="max-width:100%">
+> <p style="font-size: 12px">從選單中跳出一個二級選單</p>
+
+<ul>
+<li>呈現詳細內容</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bmFYUkhqVXJpY3c/components_bottomsheets_modal7.png" style="max-width:50%">
+> <p style="font-size: 12px">同於固定式，模組式一樣可以拿來呈現由其他應用而來的內容</p>
+
+<h3 id="深層連結" class="article-heading"><a href="#深層連結" class="headerlink" title="深層連結"></a>深層連結<a class="article-anchor" href="#深層連結" aria-hidden="true"></a></h3><p>模組式選單可以放置深層連結，來與其他應用交互作用。</p>
+<p>深層鏈結不可以退到比起始點還要上一層的頁面，只有停在起始點，或是進入下一層時才可以退回。如有必須要退至上一層頁面，則再開啟一起始點是上一層的深層連結。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3b1BpT0dRd0tFaUE/components_bottomsheets_modal_do.png" style="max-width:50%">
+> <p style="font-size: 12px">在深層連結的起點，不可退回上一層，只可關閉</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3UTB0bG8tYWxVRG8/components_bottomsheets_modal_dont.png" style="max-width:50%">
+> <p style="font-size: 12px">進入下一層，可退回</p>
+
+<h3 id="操作方式" class="article-heading"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式<a class="article-anchor" href="#操作方式" aria-hidden="true"></a></h3><p>模組式開啟後可用以下三種方式關閉：</p>
+<ul>
+<li>向下拖移  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3a3Z2UGZJMkRWamM/components_bottomsheets_behavior1.png" style="max-width:50%">
+
+<ul>
+<li>點擊列表外的範圍  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cGt6TlA0ZzNLdDg/components_bottomsheets_behavior2.png" style="max-width:50%">
+
+<ul>
+<li>點擊關閉按鍵  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cTdiQWp2TkI0NEE/components_bottomsheets_behavior3.png" style="max-width:50%">
+
+<h3 id="畫面規範" class="article-heading"><a href="#畫面規範" class="headerlink" title="畫面規範"></a>畫面規範<a class="article-anchor" href="#畫面規範" aria-hidden="true"></a></h3><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B7WCemMG6e0VTGwzWTdzNGdyZXM/components_bottomsheets_specs4.png" style="max-width:50%">
+> <p style="font-size: 12px">標題<br>字型字體：Roboto Regular 16sp<br>顏色：黑 <br>不透明度：54%</p>
+<p style="font-size: 12px">灰色覆蓋<br>字型字體：Roboto Regular 16sp<br>顏色：黑 <br>不透明度：87%</p>
+<p style="font-size: 12px">背景<br>顏色：白</p>
+<p style="font-size: 12px">灰色覆蓋<br>顏色：黑 <br>不透明度：20%</p>
+
+<p>模組式在開啟時，預設是依照內容數量決定高度，最高到達高寬比為16:9。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VVJVdF9wRG5Iem8/components_bottomsheets_specs9.png" style="max-width:50%">
+> <p style="font-size: 12px">最大高度：寬 = 16：9</p>
+
+<p>如選項實際高度大於起始限制的最大高度，則一樣起始為限制的最大高度，而使用者可以藉由滾動讓選單填滿畫面。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Ym9QLTlfbUR4ekk/components_bottomsheets_modal11.png" style="max-width:50%">
+> <p style="font-size: 12px">選項多於一頁</p>
+
+<p>選單內容可分為三種：</p>
+<ul>
+<li>圖文列表  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dXNVNEpIZzZQdUU/components_bottomsheets_specs1.png" style="max-width:50%">
+> <p style="font-size: 12px">左右間距：16 dp<br>上下間距：8 dp<br>選項高：48 dp<br>選項圖示寬高：24 dp<br>選項圖示上下間距：垂直置中<br>文字與選項圖示間距：32 dp</p>
+
+<ul>
+<li>帶有標題的上下圖文列表  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q3NrbGhWQXJxSGs/components_bottomsheets_specs3.png" style="max-width:50%">
+> <p style="font-size: 12px">上列表標題高：56 dp<br>上列表的下間距：7 dp<br>上下表分隔線高：1 dp<br>其他與圖文列表相同</p>
+
+<p>*網格列表  </p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3a2JBazEtX3R2Ulk/components_bottomsheets_specs7.png" style="max-width:50%">
+> <p style="font-size: 12px">左右間距：24 dp<br>網格列上下間距：除最底邊24 dp，其餘16 dp<br>網格圖示寬高：48 dp<br>網格圖示上下間距：垂直置中<br>網格圖示左右間距：除左右圖示靠向邊界，中間圖示平均分佈<br>文字高度：16dp<br>文字間距：中央對齊各圖示</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.476Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/material_design/bottom_sheet.html';
+  var disqus_title = "Bottom Sheet";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E5%BC%8F"><span class="toc-text">固定式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E7%B5%84%E5%BC%8F"><span class="toc-text">模組式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%B1%A4%E9%80%A3%E7%B5%90"><span class="toc-text">深層連結</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="toc-text">操作方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%AB%E9%9D%A2%E8%A6%8F%E7%AF%84"><span class="toc-text">畫面規範</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>About Benchmark | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/en/news/2019/05/23/about_benchmark/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="We all tackle the performance issues all the time. To measure the performance, we usually need tp log timestamp before and after the code block. But actually, the result may vary from time to time, si">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About Benchmark">
+<meta property="og:url" content="https://ansgarlin.github.io/en/news/2019/05/23/about_benchmark/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="We all tackle the performance issues all the time. To measure the performance, we usually need tp log timestamp before and after the code block. But actually, the result may vary from time to time, si">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-05-23T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.048Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">About Benchmark</h1>
+    
+    <a href="/en/news/2019/05/23/about_benchmark/" class="article-date"><time datetime="2019-05-23T00:00:00.000Z">2019-05-23</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>We all tackle the performance issues all the time. To measure the performance, we usually need tp log timestamp before and after the code block. But actually, the result may vary from time to time, since there are still apps running at the same time. They all gonna consume the CPU cycle, the memory and the resource that your code may need, which will make the result not very correspond to the real situation and will misguide you.</p>
+<p>Actually, Google already has a tool, <strong>Benchmark</strong>, to benchmark the performance for everything in the framework. Now, Google makes it can be used without root access to the production devices, which will be useful when the developer tries to find the glitch in the code.</p>
+<p>You can check the video for more detail before jump into continue the rest part.</p>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=ZffMCJdA5Qc">Improving App Performance with Benchmarking (Google I/O’19)</a></li>
+</ul>
+<h3 id="Setup" class="article-heading"><a href="#Setup" class="headerlink" title="Setup"></a>Setup<a class="article-anchor" href="#Setup" aria-hidden="true"></a></h3><p>Check the <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/profile/benchmark.md#samples">official document</a>, or just download the samples from the following links:</p>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/googlesamples/android-performance">android-performance</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/googlesamples/android-architecture-components">android-architecture-components</a></li>
+</ul>
+<p>For short, to run Benchmark, at least you need:</p>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/?gclid=Cj0KCQjwoInnBRDDARIsANBVyATRTqaJfdfEscT1d6uAtdP_jwf3tJzgQAQnkAc_tjn4sMItxevXCv4aAliwEALw_wcB">Android studio 3.4+</a> for the samples, or <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/preview">3.5</a> if you want to setup the Benchmark module easily on your own project.</li>
+<li>Project which is already <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/jetpack/androidx/migrate">integrated with AndroidX</a></li>
+</ul>
+<h3 id="Play" class="article-heading"><a href="#Play" class="headerlink" title="Play"></a>Play<a class="article-anchor" href="#Play" aria-hidden="true"></a></h3><p>Let’s take an example from BitmapBenchmark in <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/googlesamples/android-performance">android-performance</a>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">	* Measure the cost of a single expensive JNI call to fetch a row of 100 pixels.</span><br><span class="line">  *&#x2F;</span><br><span class="line">@Test</span><br><span class="line">fun bitmapGetPixelsBenchmark() &#123;</span><br><span class="line">		val pixels &#x3D; IntArray(100) &#123; it &#125;</span><br><span class="line">        benchmarkRule.measureRepeated &#123;</span><br><span class="line">            bitmap.getPixels(pixels, 0, 100, 0, 0, 100, 1)</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The test will check how long will the connected device takes to do the pixel fetching. Before you click run, <strong>make sure you plug-in a real device.</strong> Then you will get the following message if you do everything right:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Started running tests</span><br><span class="line">benchmark:        15,040 ns BitmapBenchmark.bitmapGetPixelsBenchmark</span><br><span class="line"></span><br><span class="line">Tests ran to completion.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Thins-to-consider" class="article-heading"><a href="#Thins-to-consider" class="headerlink" title="Thins to consider"></a>Thins to consider<a class="article-anchor" href="#Thins-to-consider" aria-hidden="true"></a></h3><p>According to the speaker in Google I/O session above, you need to take the following into consideration before benchmarking everything:</p>
+<ul>
+<li><strong>Don’t benchmark everything</strong>: start with Systrace, identify the slow part of your code, then use Benchmark to measure.</li>
+<li><strong>Measure for synchronous block:</strong> Because it’s more straight forward and stable to be measured.</li>
+<li><strong>Small block:</strong> the target code block should better run perhaps within <strong>50ms.</strong></li>
+<li><strong>Hot code:</strong> Benchmark will run the code in loops, means it might get JITed. If the code only run once at runtime, the result may not that accurate. it’s better to benchmark the code actually run in a loop at runtime.</li>
+<li><strong>Cache:</strong> the result of your code may get cached by you, library, or the System, which will influence the benchmark**.**</li>
+<li><strong>Don’t use parameterized:</strong> try to use the real data in real world, not just like unit test.</li>
+<li><strong>DO NOT COMPARE DEVICES:</strong> Benchmark is only designed for performance on one device over time.</li>
+<li><strong>Run locally, not in CI:</strong> Benchmark means you need to do some changes, so you don’t need to benchmark after you finish the improvement. But it’s also no harm to monitor it in CI for each build.</li>
+</ul>
+<h3 id="Troubleshoot" class="article-heading"><a href="#Troubleshoot" class="headerlink" title="Troubleshoot"></a>Troubleshoot<a class="article-anchor" href="#Troubleshoot" aria-hidden="true"></a></h3><p>Benchmark also provides warnings to guide you along the way to set everything right. Like you will get the following warning if you forget to plug in a device before running:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Started running tests</span><br><span class="line">benchmark: WARNING: Running on Emulator</span><br><span class="line">benchmark:     Benchmark is running on an emulator, which is not representative of</span><br><span class="line">benchmark:     real user devices. Use a physical device to benchmark. Emulator</span><br><span class="line">benchmark:     benchmark improvements might not carry over to a real user&#39;s</span><br><span class="line">benchmark:     experience (or even regress real device performance).</span><br><span class="line">benchmark:</span><br><span class="line">benchmark:         3,133 ns EMULATOR_BitmapBenchmark.bitmapGetPixelsBenchmark</span><br><span class="line"></span><br><span class="line">Tests ran to completion.</span><br></pre></td></tr></table></figure>
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/en/news/2019/05/23/about_benchmark/index.html';
+  var disqus_title = "About Benchmark";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

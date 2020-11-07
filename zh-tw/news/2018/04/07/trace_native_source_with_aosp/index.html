@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Trace Native Source With AOSP | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在開發或是解bug的過程中，有時我們需要先理解Android原始碼運作的原理，僅僅是閱讀並不能完全了解運作時的變化。 透過IDE，我們可以在程式碼上設定breakpoint，藉此逐步查看執行時產生的變化，但這僅限於Java層的原始碼。 而將自行編譯AOSP得到的image，掛載在模擬器上，我們也可以順利在Native層設定breakpoint，就如同在Java層一樣。 以下會用MacOS為主要環境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Trace Native Source With AOSP">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在開發或是解bug的過程中，有時我們需要先理解Android原始碼運作的原理，僅僅是閱讀並不能完全了解運作時的變化。 透過IDE，我們可以在程式碼上設定breakpoint，藉此逐步查看執行時產生的變化，但這僅限於Java層的原始碼。 而將自行編譯AOSP得到的image，掛載在模擬器上，我們也可以順利在Native層設定breakpoint，就如同在Java層一樣。 以下會用MacOS為主要環境">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_emulator_version.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_edit_run_config.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_debugger_native.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_run_debug_mode.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_enter_lldb.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_trigger_breakpoint.png">
+<meta property="article:published_time" content="2018-04-07T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.111Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/aosp_emulator_version.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Trace Native Source With AOSP</h1>
+    
+    <a href="/zh-tw/news/2018/04/07/trace_native_source_with_aosp/" class="article-date"><time datetime="2018-04-07T00:00:00.000Z">2018-04-07</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在開發或是解bug的過程中，有時我們需要先理解Android原始碼運作的原理，僅僅是閱讀並不能完全了解運作時的變化。</p>
+<p>透過IDE，我們可以在程式碼上設定breakpoint，藉此逐步查看執行時產生的變化，但這僅限於Java層的原始碼。</p>
+<p>而將自行編譯AOSP得到的image，掛載在模擬器上，我們也可以順利在Native層設定breakpoint，就如同在Java層一樣。</p>
+<p>以下會用MacOS為主要環境，並分成兩大部分介紹從環境設定，到掛載image並設定breakpoint的過程：</p>
+<ul>
+<li>編譯AOSP。</li>
+<li>掛載image，設定breakpoint並執行。</li>
+</ul>
+<p>其他OS步驟大同小異，請對照<a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/setup/build/initializing">官方文件</a>閱讀</p>
+<h3 id="編譯AOSP" class="article-heading"><a href="#編譯AOSP" class="headerlink" title="編譯AOSP"></a>編譯AOSP<a class="article-anchor" href="#編譯AOSP" aria-hidden="true"></a></h3><p>先列出這邊我的環境設定：</p>
+<ul>
+<li>MacOS 10.13</li>
+<li>Xcode 9.3</li>
+<li>JDK 1.7</li>
+</ul>
+<p>而我選用的Android版本是：</p>
+<ul>
+<li>Build name - LMY48X</li>
+<li>AOSP version - android-5.1.1_r25</li>
+</ul>
+<h4 id="版本對應" class="article-heading"><a href="#版本對應" class="headerlink" title="版本對應"></a>版本對應<a class="article-anchor" href="#版本對應" aria-hidden="true"></a></h4><p>由於最後是要與模擬器產生連結，且IDE針對Android-22所使用的核心版本是android-5.1.1_r25。所以我們在選擇AOSP的branch時也用android-5.1.1_r25的版本。另外，JDK也必須設定成Android-22對應的版本1.7。</p>
+<p>其餘版本對應可以參考以下兩個網址：</p>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds">https://source.android.com/setup/start/build-numbers#source-code-tags-and-builds</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/setup/build/requirements">https://source.android.com/setup/build/requirements</a></li>
+</ul>
+<h4 id="建立編譯環境" class="article-heading"><a href="#建立編譯環境" class="headerlink" title="建立編譯環境"></a>建立編譯環境<a class="article-anchor" href="#建立編譯環境" aria-hidden="true"></a></h4><h5 id="JDK" class="article-heading"><a href="#JDK" class="headerlink" title="JDK"></a>JDK<a class="article-anchor" href="#JDK" aria-hidden="true"></a></h5><p>是1.8則直接至官網下載安裝。是1.7可以至此<a target="_blank" rel="noopener external nofollow noreferrer" href="http://cdn-files.evildayz.com/mirror/java/jdk_7u80/">鏡像網站</a>下載。另外建議可用<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.jenv.be/">jEnv</a>來做版控。</p>
+<h5 id="Xcode" class="article-heading"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode<a class="article-anchor" href="#Xcode" aria-hidden="true"></a></h5><p>直接在AppStore上下載即可。</p>
+<h5 id="Xcode-command-line" class="article-heading"><a href="#Xcode-command-line" class="headerlink" title="Xcode command line"></a>Xcode command line<a class="article-anchor" href="#Xcode-command-line" aria-hidden="true"></a></h5><p>安裝指令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+
+<p>安裝後簽署同意書：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sudo xcodebuild -license</span><br></pre></td></tr></table></figure>
+
+<h5 id="MacPorts" class="article-heading"><a href="#MacPorts" class="headerlink" title="MacPorts"></a>MacPorts<a class="article-anchor" href="#MacPorts" aria-hidden="true"></a></h5><p>編譯所需套件要透過此軟體安裝，直接到<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.macports.org/install.php">官網</a>下載安裝。安裝後執行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo port -v selfupdate</span><br></pre></td></tr></table></figure>
+
+<p>這樣就完成MacPorts的設定，可以透過<code>man port</code>確認安裝完成。</p>
+<p>修改環境變數PATH，並確認<code>/opt/local/bin</code>在<code>/usr/bin</code>之前：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;opt&#x2F;local&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<h5 id="Repo" class="article-heading"><a href="#Repo" class="headerlink" title="Repo"></a>Repo<a class="article-anchor" href="#Repo" aria-hidden="true"></a></h5><p>要下載AOSP得用專用的指令，但這指令一般用不到，所以可以選擇建立在帳號的目錄下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir ~&#x2F;bin</span><br><span class="line">PATH&#x3D;~&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>透過curl下載安裝：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;storage.googleapis.com&#x2F;git-repo-downloads&#x2F;repo &gt; ~&#x2F;bin&#x2F;repo</span><br><span class="line">chmod a+x ~&#x2F;bin&#x2F;repo</span><br></pre></td></tr></table></figure>
+
+<h5 id="編譯所需套件" class="article-heading"><a href="#編譯所需套件" class="headerlink" title="編譯所需套件"></a>編譯所需套件<a class="article-anchor" href="#編譯所需套件" aria-hidden="true"></a></h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">POSIXLY_CORRECT&#x3D;1 sudo port install gmake libsdl git gnupg</span><br></pre></td></tr></table></figure>
+
+<h5 id="提高檔案開啟上限" class="article-heading"><a href="#提高檔案開啟上限" class="headerlink" title="提高檔案開啟上限"></a>提高檔案開啟上限<a class="article-anchor" href="#提高檔案開啟上限" aria-hidden="true"></a></h5><p>編譯時是多條執行緒同步執行，提高預設上限避免產生問題：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ulimit -S -n 1024</span><br></pre></td></tr></table></figure>
+
+<h5 id="Trouble-shooting" class="article-heading"><a href="#Trouble-shooting" class="headerlink" title="Trouble shooting"></a>Trouble shooting<a class="article-anchor" href="#Trouble-shooting" aria-hidden="true"></a></h5><h6 id="Error-zlib-ncurses-no-destroot-found" class="article-heading"><a href="#Error-zlib-ncurses-no-destroot-found" class="headerlink" title="Error: zlib, ncurses: no destroot found"></a>Error: zlib, ncurses: no destroot found<a class="article-anchor" href="#Error-zlib-ncurses-no-destroot-found" aria-hidden="true"></a></h6><p>執行以下指令後重試：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo port clean zlib ncurses</span><br></pre></td></tr></table></figure>
+
+<h6 id="Error-active-failed" class="article-heading"><a href="#Error-active-failed" class="headerlink" title="Error: active failed"></a>Error: active failed<a class="article-anchor" href="#Error-active-failed" aria-hidden="true"></a></h6><p>依照提示執行相對指令，如zlib則是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">port -f activate zlib</span><br></pre></td></tr></table></figure>
+
+<h4 id="建立專用磁區" class="article-heading"><a href="#建立專用磁區" class="headerlink" title="建立專用磁區"></a>建立專用磁區<a class="article-anchor" href="#建立專用磁區" aria-hidden="true"></a></h4><p>在Mac上編譯AOSP需要case sensitive的磁區，執行以下指令建立：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hdiutil create -type SPARSE -fs &#39;Case-sensitive Journaled HFS+&#39; -size 150g ~&#x2F;android.dmg</span><br></pre></td></tr></table></figure>
+
+<p>執行後會產生android.dmg.sparseimage的檔案。</p>
+<p>如要修改磁區大小：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hdiutil resize -size &lt;new-size-you-want&gt;g ~&#x2F;android.dmg.sparseimage</span><br></pre></td></tr></table></figure>
+
+<p>由於AOSP整個原始碼佔用空間很大，建議設定150g以上，以避免編譯時產生空間不夠的錯誤。</p>
+<h4 id="下載AOSP" class="article-heading"><a href="#下載AOSP" class="headerlink" title="下載AOSP"></a>下載AOSP<a class="article-anchor" href="#下載AOSP" aria-hidden="true"></a></h4><p>先掛載專用磁區：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hdiutil attach ~&#x2F;android.dmg.sparseimage -mountpoint &#x2F;Volumes&#x2F;android</span><br></pre></td></tr></table></figure>
+
+<p>如果要卸載：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hdiutil detach &#x2F;Volumes&#x2F;android</span><br></pre></td></tr></table></figure>
+
+<p>建立資料夾並進入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir aosp</span><br><span class="line">cd aosp</span><br></pre></td></tr></table></figure>
+
+<p>建立git專用的帳號，如本身有在用git這布應是不用，可用<code>git config -l</code>確定：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>初始化repo和要抓的版本，這邊依照前面介紹選擇android-5.1.1_r25：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repo init -u https:&#x2F;&#x2F;android.googlesource.com&#x2F;platform&#x2F;manifest -b android-5.1.1_r25</span><br></pre></td></tr></table></figure>
+
+<p>接著就可以下載了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repo sync</span><br></pre></td></tr></table></figure>
+
+<p>如有遇到網路問題或是需要鏡像給多人使用，請直接參考<a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/setup/build/downloading">官方文件</a>。</p>
+<h4 id="編譯AOSP-1" class="article-heading"><a href="#編譯AOSP-1" class="headerlink" title="編譯AOSP"></a>編譯AOSP<a class="article-anchor" href="#編譯AOSP-1" aria-hidden="true"></a></h4><p>編譯前最好都先清除上一次編譯產生的檔案：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make clobber</span><br></pre></td></tr></table></figure>
+
+<p>再透過內建的script做環境設定：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source build&#x2F;envsetup.sh</span><br></pre></td></tr></table></figure>
+
+<p>接著需要再選一次編譯類型，這邊要注意CPU類型是x86或x86_64，建議與電腦本身的CPU類型相同，我在編譯時就因此而編譯失敗：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">lunch aosp_x86_64-eng</span><br></pre></td></tr></table></figure>
+
+<p>之後要建立模擬器時，選用的CPU類型也需要與此對應。</p>
+<p>接著就可以開始編譯了，執行緒數量建議是CPU核心數乘以2來達到最大效率，乘3以上較無意義：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make -j16</span><br></pre></td></tr></table></figure>
+
+<p>編譯完成後會全部都放在<code>/Volumes/android/aosp/out/target/product/generic_x86_64</code>底下，連同我們所需要的<code>system.img</code>。</p>
+<h5 id="Touble-shooting" class="article-heading"><a href="#Touble-shooting" class="headerlink" title="Touble shooting"></a>Touble shooting<a class="article-anchor" href="#Touble-shooting" aria-hidden="true"></a></h5><h6 id="Can-not-find-SDK-10-6" class="article-heading"><a href="#Can-not-find-SDK-10-6" class="headerlink" title="Can not find SDK 10.6"></a>Can not find SDK 10.6<a class="article-anchor" href="#Can-not-find-SDK-10-6" aria-hidden="true"></a></h6><p>新版本的Xcode並沒有舊版的SDK，可以透過以下兩個途徑取得：</p>
+<ul>
+<li>如有開發者帳號，可直接至<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.apple.com/download/more/">開發者頁面</a>下載Xcode 4.1。下載後從<code>Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs</code>底下取得MacOSX10.6.sdk。</li>
+<li>到好心人phracker的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/phracker/MacOSX-SDKs/releases">github</a>下載。</li>
+</ul>
+<h6 id="FAILED-bin-bash-c-“prebuilts-misc-darwin-x86-bison-bison" class="article-heading"><a href="#FAILED-bin-bash-c-“prebuilts-misc-darwin-x86-bison-bison" class="headerlink" title="FAILED: /bin/bash -c “prebuilts/misc/darwin-x86/bison/bison"></a>FAILED: /bin/bash -c “prebuilts/misc/darwin-x86/bison/bison<a class="article-anchor" href="#FAILED-bin-bash-c-“prebuilts-misc-darwin-x86-bison-bison" aria-hidden="true"></a></h6><p>錯誤訊息不一定相同，就是和bison相關。解法是自己手動編譯，先到bison的目錄底下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;external&#x2F;bison</span><br></pre></td></tr></table></figure>
+
+<p>取得修正的commit：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git cherry-pick c0c852bd6fe462b148475476d9124fd740eba160</span><br></pre></td></tr></table></figure>
+
+<p>執行編譯，使用mma可以自動編譯相依套件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mma</span><br></pre></td></tr></table></figure>
+
+<p>將編譯後的bison複製到misc底下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;out&#x2F;host&#x2F;darwin-x86&#x2F;bin&#x2F;bison &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;prebuilts&#x2F;misc&#x2F;darwin-x86&#x2F;bison&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="掛載image，設定breakpoint並執行" class="article-heading"><a href="#掛載image，設定breakpoint並執行" class="headerlink" title="掛載image，設定breakpoint並執行"></a>掛載image，設定breakpoint並執行<a class="article-anchor" href="#掛載image，設定breakpoint並執行" aria-hidden="true"></a></h3><p>編出image，最難的部分就結束了。</p>
+<h4 id="掛載image" class="article-heading"><a href="#掛載image" class="headerlink" title="掛載image"></a>掛載image<a class="article-anchor" href="#掛載image" aria-hidden="true"></a></h4><p>建立Android - 22的模擬器：</p>
+<p><img src="aosp_emulator_version.png"></p>
+<p>接著用指令開啟：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">emulator -avd &lt;emulator name&gt; -verbose -no-boot-anim -system &lt;path to the system.img&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果沒將emulator位置加入環境變數PATH，可以在<code>~/Library/Android/sdk/tools/emulator</code>底下找到。</p>
+</li>
+<li><p>需要emlator的名字，可以透過<code>-list-avds</code>查到所有目前已建立的模擬器。</p>
+<p>emulator的詳細指令可以用<code>-help-all</code>或查看<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/run/emulator-commandline.html">官方文件</a>。</p>
+</li>
+</ul>
+<p>修改run config：</p>
+<p><img src="aosp_edit_run_config.png"></p>
+<p>將debugger改成native模式：</p>
+<p><img src="aosp_debugger_native.png"></p>
+<p>然後以debug模式編譯並裝載app：</p>
+<p><img src="aosp_run_debug_mode.png"></p>
+<p>切到debug tab，暫停，並切換到LLDB：</p>
+<p><img src="aosp_enter_lldb.png"></p>
+<h4 id="設定breakpoint並執行" class="article-heading"><a href="#設定breakpoint並執行" class="headerlink" title="設定breakpoint並執行"></a>設定breakpoint並執行<a class="article-anchor" href="#設定breakpoint並執行" aria-hidden="true"></a></h4><p>在這我們以最常見的GC為範例下breakpoint：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">br s -n CollectGarbageInternal</span><br><span class="line">&#x2F;&#x2F; Print out</span><br><span class="line">Breakpoint 4: where &#x3D; libart.so&#96;art::gc::Heap::CollectGarbageInternal(art::gc::collector::GcType, art::gc::GcCause, bool), address &#x3D; 0x00007fa58750c8b0</span><br></pre></td></tr></table></figure>
+
+<p>輸出結果只看出是斷在libart.so中，並沒有其他有用訊息。所以我們必須要與對應的實際libart.so做連結：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">add-dsym &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;out&#x2F;target&#x2F;product&#x2F;generic_x86_64&#x2F;symbols&#x2F;system&#x2F;lib64&#x2F;libart.so</span><br><span class="line">&#x2F;&#x2F; Print out</span><br><span class="line">symbol file &#39;...&#x2F;libart.so&#39; has been added to &#39;&#x2F;Users&#x2F;ansgarl&#x2F;.lldb&#x2F;module_cache&#x2F;remote-android&#x2F;.cache&#x2F;9C85D290-0000-0000-0000-000000000000&#x2F;libart.so&#39;</span><br></pre></td></tr></table></figure>
+
+<p>如此再列出剛下的breakpoint：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">br list</span><br><span class="line">&#x2F;&#x2F; Print out</span><br><span class="line">4: name &#x3D; &#39;CollectGarbageInternal&#39;, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 0</span><br><span class="line">  4.1: where &#x3D; libart.so&#96;art::gc::Heap::CollectGarbageInternal(art::gc::collector::GcType, art::gc::GcCause, bool) at heap.cc:2124, address &#x3D; 0x00007fa58750c8b0, resolved, hit count &#x3D; 0 </span><br></pre></td></tr></table></figure>
+
+<p>此時就會有完整的位址訊息，代表完成建立與檔案的連結，在我們觸發breakpoint時，就會成功定位到檔案內對應的位置：</p>
+<p><img src="aosp_trigger_breakpoint.png"></p>
+<p>如果此時還沒有辦法正確跳轉，唯一可能就是AOSP是在其他電腦上編譯。</p>
+<p>可以先用<code>source info</code>查看在.so內對應的路徑：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source info</span><br><span class="line">&#x2F;&#x2F; Print out</span><br><span class="line">Lines found in module &#96;libart.so</span><br><span class="line">[...): &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;art&#x2F;runtime&#x2F;gc&#x2F;heap.cc:2124</span><br></pre></td></tr></table></figure>
+
+<p>應該會看到另一台電腦上的路徑，再透過以下指令完成路徑的連結：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">settings set target.source-map &#x2F;Volumes&#x2F;android&#x2F;aosp&#x2F;android-5.1.1_r25&#x2F; &lt;local path&gt;&#x2F;android-5.1.1_r25</span><br></pre></td></tr></table></figure>
+
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://lldb.llvm.org/tutorial.html">The LLDB Debugger</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.alsutton.blog/google-import/current-state-of-building-the-aosp-on-os-x/">How to tracked down an AOSP build issue</a></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/04/07/trace_native_source_with_aosp/index.html';
+  var disqus_title = "Trace Native Source With AOSP";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

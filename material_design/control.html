@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Control | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/material_design/control.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/control.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/control.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="控制器以圖示的型態存在於一個列表方塊的左邊或是右邊，用於顯示當前方塊的狀態、資訊或是操作。 控制器也可以存在方塊的底層，使用滑動的方式將其顯示。  控制器可以當作以下四種功能來使用：  顯示狀態    主要操作      複選框，選取操作比顯示細節重要    巢狀選單   次要操作      複選框    開關    排序   &gt; 延展   &gt; 其他，同時提示使用者在整個應用中，滑動列表方塊代表的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Control">
+<meta property="og:url" content="https://ansgarlin.github.io/material_design/control.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="控制器以圖示的型態存在於一個列表方塊的左邊或是右邊，用於顯示當前方塊的狀態、資訊或是操作。 控制器也可以存在方塊的底層，使用滑動的方式將其顯示。  控制器可以當作以下四種功能來使用：  顯示狀態    主要操作      複選框，選取操作比顯示細節重要    巢狀選單   次要操作      複選框    開關    排序   &gt; 延展   &gt; 其他，同時提示使用者在整個應用中，滑動列表方塊代表的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7TWlQcWJZRE1NQ1U/components_listcontrols_usage.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MEdoQjlzVjZZOVk/components_listcontrols_menu1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7Vnh0b0VhSlE5ajg/components_listcontrols_checkbox1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MTZ3SU1HZ1V3dVE/components_listcontrols_menu3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7YUQ5TEFVT3ZJQjg/components_listcontrols_checkbox2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ZDhGVEFDTFQya2s/components_listcontrols_switch.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7X0pmWjRNZ21UUFE/components_listcontrols_reorder.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bl8zNGVqM19TNWM/components_listcontrols_expand2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsVHpIeFlLM1JEXzg/components_listcontrols_leave2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MTlwWk9tajlPeFE/components_listcontrols_menu2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cFp4WHdDaWZESmM/components_switches_check3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cy1pRXJxY2dnN28/components_switches_check4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cEVOUmMwZ05tU00/components_switches_radio3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3aWtqNWY3NmxJeHc/components_switches_radio4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Mk55RHlTUi1YaVE/components_switches_switch3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsTDJPbG5DUjJOYkk/components_switches_switch4.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.477Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.477Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7TWlQcWJZRE1NQ1U/components_listcontrols_usage.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Control</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>控制器以圖示的型態存在於一個列表方塊的左邊或是右邊，用於顯示當前方塊的狀態、資訊或是操作。</p>
+<p>控制器也可以存在方塊的底層，使用滑動的方式將其顯示。</p>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7TWlQcWJZRE1NQ1U/components_listcontrols_usage.png"></p>
+<p>控制器可以當作以下四種功能來使用：</p>
+<ul>
+<li>顯示狀態</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MEdoQjlzVjZZOVk/components_listcontrols_menu1.png"></p>
+<ul>
+<li>主要操作  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7Vnh0b0VhSlE5ajg/components_listcontrols_checkbox1.png"></p>
+<blockquote>
+<p style="font-size: 12px">複選框，選取操作比顯示細節重要</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MTZ3SU1HZ1V3dVE/components_listcontrols_menu3.png"></p>
+<blockquote>
+<p style="font-size: 12px">巢狀選單</p>
+</blockquote>
+<ul>
+<li>次要操作  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7YUQ5TEFVT3ZJQjg/components_listcontrols_checkbox2.png"></p>
+<blockquote>
+<p style="font-size: 12px">複選框</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ZDhGVEFDTFQya2s/components_listcontrols_switch.png"></p>
+<blockquote>
+<p style="font-size: 12px">開關</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7X0pmWjRNZ21UUFE/components_listcontrols_reorder.png"></p>
+<blockquote>
+<p style="font-size: 12px">排序</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bl8zNGVqM19TNWM/components_listcontrols_expand2.png" style="max-width:50%">
+> <p style="font-size: 12px">延展</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsVHpIeFlLM1JEXzg/components_listcontrols_leave2.png" style="max-width:50%">
+> <p style="font-size: 12px">其他，同時提示使用者在整個應用中，滑動列表方塊代表的意義</p>
+
+<ul>
+<li>次要資訊  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7MTlwWk9tajlPeFE/components_listcontrols_menu2.png"></p>
+<blockquote>
+<p style="font-size: 12px">功能說明</p>
+</blockquote>
+<p>不能將控制器圖示並排於其他圖示，而屬於次要操作的控制項應至於右邊。</p>
+<h2 id="類型" class="article-heading"><a href="#類型" class="headerlink" title="類型"></a>類型<a class="article-anchor" href="#類型" aria-hidden="true"></a></h2><p>控制器依照類型分為三種，各種有不同的使用時機：</p>
+<ul>
+<li>複選框<br>用於讓使用者可以進行複選，但如果只有一個選項，建議使用開關。</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cFp4WHdDaWZESmM/components_switches_check3.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色</p>
+<p style="font-size: 12px">關<br>顏色：黑<br>透明度：54 %</p>
+<p style="font-size: 12px">停用<br>顏色：黑<br>透明度：26 %</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cy1pRXJxY2dnN28/components_switches_check4.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色</p>
+<p style="font-size: 12px">關<br>顏色：白<br>透明度：70 %</p>
+<p style="font-size: 12px">停用<br>顏色：白<br>透明度：30 %</p>
+</blockquote>
+<ul>
+<li>單選按鈕<br>用於讓使用者從一組選項中挑選一個，通常為第二層選單且選單是全部展開，如果不需要使用者可以一次看到所有選項，建議使用下拉式選單。</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cEVOUmMwZ05tU00/components_switches_radio3.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色</p>
+<p style="font-size: 12px">關<br>顏色：黑<br>透明度：54 %</p>
+<p style="font-size: 12px">停用<br>顏色：黑<br>透明度：26 %</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3aWtqNWY3NmxJeHc/components_switches_radio4.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色</p>
+<p style="font-size: 12px">關<br>顏色：白<br>透明度：70 %</p>
+<p style="font-size: 12px">停用<br>顏色：白<br>透明度：30 %</p>
+</blockquote>
+<ul>
+<li>開關<br>用於讓使用者決定某一個選項的開關狀態</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Mk55RHlTUi1YaVE/components_switches_switch3.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色（控鈕），主題色（橫桿）<br>透明度：100 %（控鈕），50 %（橫桿）</p>
+<p style="font-size: 12px">關<br>顏色：#FAFAFA（控鈕），黑（橫桿）<br>透明度：100 %（控鈕），26 %（橫桿）</p>
+<p style="font-size: 12px">關<br>顏色：#BDBDBD（控鈕），黑（橫桿）<br>透明度：100 %（控鈕），12 %（橫桿）</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsTDJPbG5DUjJOYkk/components_switches_switch4.png"></p>
+<blockquote>
+<p style="font-size: 12px">開<br>顏色：主題色 200（控鈕），主題色 200（橫桿）<br>透明度：100 %（控鈕），50 %（橫桿）</p>
+<p style="font-size: 12px">關<br>顏色：#FAFAFA（控鈕），白（橫桿）<br>透明度：100 %（控鈕），30 %（橫桿）</p>
+<p style="font-size: 12px">關<br>顏色：#424242（控鈕），白（橫桿）<br>透明度：100 %（控鈕），10 %（橫桿）</p></blockquote>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.477Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/material_design/control.html';
+  var disqus_title = "Control";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%9E%E5%9E%8B"><span class="toc-text">類型</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

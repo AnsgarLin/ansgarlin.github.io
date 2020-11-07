@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>About ProGuard - Part 5 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/08/04/about_proguard_5/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在前面的篇章，我們已經理解ProGuard在執行初期，是如何預先準備好其所需要的設定檔和要處理的程式碼。 接著就要開始Shrink的部分，一樣的先看回到ProGuard.execute()： &#x2F;&#x2F; In ProGuardpublic void execute() throws IOException &amp;#123;	...    readInput();    ...    if (configur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About ProGuard - Part 5">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/08/04/about_proguard_5/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在前面的篇章，我們已經理解ProGuard在執行初期，是如何預先準備好其所需要的設定檔和要處理的程式碼。 接著就要開始Shrink的部分，一樣的先看回到ProGuard.execute()： &#x2F;&#x2F; In ProGuardpublic void execute() throws IOException &amp;#123;	...    readInput();    ...    if (configur">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-08-04T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.131Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">About ProGuard - Part 5</h1>
+    
+    <a href="/zh-tw/news/2018/08/04/about_proguard_5/" class="article-date"><time datetime="2018-08-04T00:00:00.000Z">2018-08-04</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在前面的篇章，我們已經理解ProGuard在執行初期，是如何預先準備好其所需要的設定檔和要處理的程式碼。</p>
+<p>接著就要開始Shrink的部分，一樣的先看回到<code>ProGuard.execute()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuard</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    readInput();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (configuration.shrink) &#123;</span><br><span class="line">        shrink();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡省略不是主要的操作，直接看到<code>shrink()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuard </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">shrink</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Perform the actual shrinking.</span></span><br><span class="line">    programClassPool = <span class="keyword">new</span> Shrinker(configuration).execute(programClassPool,</span><br><span class="line">                                                           libraryClassPool);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據經驗，主要操作都是發生在<code>execute()</code>裡面，且Shrinker分成兩大部分：標記有使用的程式碼和刪除未使用的程式碼，以下我們反著從刪除的部分開始看起。</p>
+<h3 id="刪除" class="article-heading"><a href="#刪除" class="headerlink" title="刪除"></a>刪除<a class="article-anchor" href="#刪除" aria-hidden="true"></a></h3><p>先只列出關於刪除的部分：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Shrinker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ClassPool <span class="title">execute</span><span class="params">(ClassPool programClassPool,</span></span></span><br><span class="line"><span class="function"><span class="params">                         ClassPool libraryClassPool)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    ClassPool newProgramClassPool = <span class="keyword">new</span> ClassPool();</span><br><span class="line">   </span><br><span class="line">    programClassPool.classesAccept(</span><br><span class="line">        <span class="keyword">new</span> UsedClassFilter(usageMarker,</span><br><span class="line">        <span class="keyword">new</span> MultiClassVisitor(</span><br><span class="line">            <span class="keyword">new</span> ClassShrinker(usageMarker),</span><br><span class="line">            <span class="keyword">new</span> ClassPoolFiller(newProgramClassPool)</span><br><span class="line">        )));</span><br><span class="line"></span><br><span class="line">    programClassPool.clear();</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">return</span> newProgramClassPool;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到<code>classesAccept()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassPool</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">classesAccept</span><span class="params">(ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">    Iterator iterator = classes.values().iterator();</span><br><span class="line">    <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">        Clazz clazz = (Clazz)iterator.next();</span><br><span class="line">        clazz.accept(classVisitor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊依序從取出ProgramClassPool內的ProgramClass來呼叫<code>accept()</code>。</p>
+<p>在這需要重申Part4提過的觀念，以方便理解接下來的分析：</p>
+<ul>
+<li><strong>執行<code>clazz.accept(visitor)</code>，可直接看成<code>visitor.visitXXXClass()</code>。由<code>clazz</code>屬於ProgramClass或LibraryClass來決定<code>XXX</code>是什麼。</strong></li>
+</ul>
+<p>依此觀念，<code>classesAccept()</code>會帶到UsedClassFileter的<code>visitProgramClass()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In UsedClassFileter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (usageMarker.isUsed(programClass)) &#123;</span><br><span class="line">        classVisitor.visitProgramClass(programClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡先用到UsageMaker來判斷傳入的ProgramClass是否被標記成使用，是代表在程式碼內有被引用到：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In UsageMaker</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isUsed</span><span class="params">(VisitorAccepter visitorAccepter)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> visitorAccepter.getVisitorInfo() == USED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>是就再呼叫<code>visitProgramClass()</code>，搭配一開始的傳入的參數，知道這是MultiClassVisitor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In MultiClassVisitor</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; classVisitorCount; index++) &#123;</span><br><span class="line">        classVisitors[index].visitProgramClass(programClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊依序透過其所擁有的ClassVisitor：ClassShrinker和ClassPoolFiller，來呼叫<code>visitProgramClass</code>。</p>
+<h4 id="ClassShrinker" class="article-heading"><a href="#ClassShrinker" class="headerlink" title="ClassShrinker"></a>ClassShrinker<a class="article-anchor" href="#ClassShrinker" aria-hidden="true"></a></h4><p>ClassShrink的<code>visitProgramClass()</code>內做的事情大致相同，以<code>shrinkArray()</code>為範例來看：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassShrinker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">int</span> oldFieldsCount = programClass.u2fieldsCount;</span><br><span class="line">    programClass.u2fieldsCount = shrinkArray(programClass.fields, </span><br><span class="line">                                             programClass.u2fieldsCount);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">shrinkArray</span><span class="params">(VisitorAccepter[] array, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; length; index++) &#123;</span><br><span class="line">        VisitorAccepter visitorAccepter = array[index];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (usageMarker.isUsed(visitorAccepter)) &#123;</span><br><span class="line">            array[counter++] = visitorAccepter;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Clear any remaining array elements.</span></span><br><span class="line">    <span class="keyword">if</span> (counter &lt; length) &#123;</span><br><span class="line">        Arrays.fill(array, counter, length, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> counter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一個迴圈是依序將陣列內的ProgramField取出，並透過<code>usageMaker</code>判斷是否有被使用，有的話就從頭依序覆蓋回原本的陣列。接著如果新的陣列應該比較短，則將餘下的部分歸零。</p>
+<p>總的來說，ClassShrinker的<code>visitProgramClass()</code>內有很多<code>shrinkXXX()</code>的函示，用來去除<code>usageMaker</code>判斷為未使用的類別、函示或變數，以達到刪除的目的。</p>
+<h3 id="標記" class="article-heading"><a href="#標記" class="headerlink" title="標記"></a>標記<a class="article-anchor" href="#標記" aria-hidden="true"></a></h3><h4 id="Create-ClassVisitor" class="article-heading"><a href="#Create-ClassVisitor" class="headerlink" title="Create ClassVisitor"></a>Create ClassVisitor<a class="article-anchor" href="#Create-ClassVisitor" aria-hidden="true"></a></h4><p>從刪除的部分看得出來，一個類別、函示或變數能不能留下，端看其呼叫<code>getVisitorInfo()</code>時，回傳的是不是USED。</p>
+<p>接著回到<code>execute()</code>的前半段，也就是建立標記的部分：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Shrinker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ClassPool <span class="title">execute</span><span class="params">(ClassPool programClassPool,</span></span></span><br><span class="line"><span class="function"><span class="params">                         ClassPool libraryClassPool)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Create a visitor for marking the seeds.</span></span><br><span class="line">    UsageMarker usageMarker = configuration.whyAreYouKeeping == <span class="keyword">null</span> ?</span><br><span class="line">        <span class="keyword">new</span> UsageMarker() :</span><br><span class="line">        <span class="keyword">new</span> ShortestUsageMarker();</span><br></pre></td></tr></table></figure>
+
+<p>在函示的一開始，就來建立<code>usageMaker</code>，這裡假設沒設定<code>-whyAreYouKeeping</code>，所以選用UsageMaker。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Automatically mark the parameterless constructors of seed classes,</span></span><br><span class="line"><span class="comment">// mainly for convenience and for backward compatibility.</span></span><br><span class="line">ClassVisitor classUsageMarker =</span><br><span class="line">    <span class="keyword">new</span> MultiClassVisitor(<span class="keyword">new</span> ClassVisitor[] &#123;</span><br><span class="line">        usageMarker,</span><br><span class="line">        <span class="keyword">new</span> NamedMethodVisitor(ClassConstants.METHOD_NAME_INIT,</span><br><span class="line">                               ClassConstants.METHOD_TYPE_INIT,</span><br><span class="line">                               usageMarker)</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>接著再包一層NamedMethodVisitor，然後傳入MultiClassVisitor。在這，先總結一下<code>classUsageMarker</code>的結構：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassVisitor &#123;</span><br><span class="line">    MultiClassVisitor &#123;</span><br><span class="line">        UsageMarker,</span><br><span class="line">        NamedMethodVisitor &#123;</span><br><span class="line">            name = <span class="string">&quot;&lt;init&gt;&quot;</span>,</span><br><span class="line">            descriptor = <span class="string">&quot;()V&quot;</span>,</span><br><span class="line">            usageMarker</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而<code>usageMaker</code>和<code>classUsageMaker</code>會一起被傳入KeepClassSpecificationVisitorFactory的<code>createClassPoolVisitor()</code>，連同ProGuard的keep設定：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassPoolVisitor classPoolvisitor =</span><br><span class="line">    <span class="keyword">new</span> KeepClassSpecificationVisitorFactory(<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>)</span><br><span class="line">        .createClassPoolVisitor(configuration.keep,</span><br><span class="line">                                classUsageMarker,</span><br><span class="line">                                usageMarker,</span><br><span class="line">                                usageMarker,</span><br><span class="line">                                usageMarker);</span><br></pre></td></tr></table></figure>
+
+<p><code>Shrinker.execute()</code>部份到這先暫停，先從取得ClassPoolVisitor這片段繼續深入。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In KeepClassSpecificationVisitorFactory</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ClassPoolVisitor <span class="title">createClassPoolVisitor</span><span class="params">(List             keepClassSpecifications,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               ClassVisitor     classVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               MemberVisitor    fieldVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               MemberVisitor    methodVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               AttributeVisitor attributeVisitor)</span> </span>&#123;</span><br><span class="line">    MultiClassPoolVisitor multiClassPoolVisitor = <span class="keyword">new</span> MultiClassPoolVisitor();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; keepClassSpecifications.size(); index++)&#123;</span><br><span class="line">            KeepClassSpecification keepClassSpecification =</span><br><span class="line">                (KeepClassSpecification)keepClassSpecifications.get(index);</span><br><span class="line">            <span class="keyword">if</span> ((shrinking &amp;&amp; !keepClassSpecification.allowShrinking) || ...) &#123;</span><br><span class="line">                multiClassPoolVisitor.addClassPoolVisitor(</span><br><span class="line">                    createClassPoolVisitor(keepClassSpecification,</span><br><span class="line">                                           classVisitor,</span><br><span class="line">                                           fieldVisitor,</span><br><span class="line">                                           methodVisitor,</span><br><span class="line">                                           attributeVisitor));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> multiClassPoolVisitor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡跑了一個迴圈依序取出每條keep的設定，並再透過<code>createClassPoolVisitor()</code>逐一得到個別的ClassVisitor，來加入MultiClassPoolVisitor回傳。根據前面內容，這邊參數除了<code>classVisitor</code>是<code>classUsageMaker</code>，其餘都是<code>usagMaker</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In KeepClassSpecificationVisitorFactory</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ClassPoolVisitor <span class="title">createClassPoolVisitor</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    KeepClassSpecification keepClassSpecification, </span></span></span><br><span class="line"><span class="function"><span class="params">    ClassVisitor           classVisitor,                                           </span></span></span><br><span class="line"><span class="function"><span class="params">    MemberVisitor          fieldVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">    MemberVisitor          methodVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">    AttributeVisitor       attributeVisitor)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    List variableStringMatchers = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Just parse the actual keep specification.</span></span><br><span class="line">        <span class="keyword">return</span> createClassPoolVisitor(keepClassSpecification,</span><br><span class="line">                                      classVisitor,</span><br><span class="line">                                      fieldVisitor,</span><br><span class="line">                                      methodVisitor,</span><br><span class="line">                                      attributeVisitor,</span><br><span class="line">                                      variableStringMatchers);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著，我們引入Part3的範例，但將後面的描述拿掉，著重在類別上：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-keep <span class="class"><span class="keyword">class</span> * <span class="title">extend</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">classname</span></span></span><br></pre></td></tr></table></figure>
+
+<p>根據範例所會得到的<code>keepClassSpecification</code>，會使<code>createClassPoolVisitor()</code>直接跳過中間所有操作，直接走到父類ClassSpecificationVisitorFactory：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassSpecificationVisitorFactory</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> ClassPoolVisitor <span class="title">createClassPoolVisitor</span><span class="params">(ClassSpecification classSpecification,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  ClassVisitor       classVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  MemberVisitor      fieldVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  MemberVisitor      methodVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  AttributeVisitor   attributeVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  List               variableStringMatchers)</span> </span>&#123;</span><br><span class="line">    String className             = classSpecification.className;</span><br><span class="line">    ...</span><br><span class="line">    String extendsClassName      = classSpecification.extendsClassName;</span><br><span class="line">    <span class="keyword">if</span> (className == <span class="keyword">null</span>) &#123;</span><br><span class="line">        className = <span class="string">&quot;**&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>依照Part3的分析，<code>extendsClassName</code>是<code>com.example.classname</code>；<code>className</code>為null，而在這被設為<code>**</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">StringMatcher classNameMatcher =</span><br><span class="line">    <span class="keyword">new</span> ListParser(<span class="keyword">new</span> ClassNameParser(variableStringMatchers)).parse(className);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>這邊不贅述，僅說明<code>classNameMatcher</code>會是一個VariableStringMatcher，並被記錄在<code>variableStringMatchers</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Combine both visitors.</span></span><br><span class="line">ClassVisitor combinedClassVisitor =</span><br><span class="line">    createCombinedClassVisitor(classSpecification.attributeNames,</span><br><span class="line">                               classSpecification.fieldSpecifications,</span><br><span class="line">                               classSpecification.methodSpecifications,</span><br><span class="line">                               classVisitor,</span><br><span class="line">                               fieldVisitor,</span><br><span class="line">                               methodVisitor,</span><br><span class="line">                               attributeVisitor,</span><br><span class="line">                               variableStringMatchers);</span><br></pre></td></tr></table></figure>
+
+<p>接著再呼叫<code>createCombinedClassVisitor()</code>，在這不繼續深入。依照本篇範例，此函示會直接回傳傳入的<code>classVisitor</code>。</p>
+<p>接著繼續往下看：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// If the class name has wildcards, only visit classes with matching names.</span></span><br><span class="line"><span class="keyword">if</span> (... || extendsClassName != <span class="keyword">null</span> || containsWildCards(className)) &#123;</span><br><span class="line">    combinedClassVisitor =</span><br><span class="line">        <span class="keyword">new</span> ClassNameFilter(classNameMatcher, combinedClassVisitor);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// We&#x27;ll have to visit all classes now.</span></span><br><span class="line">    className = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>以上得到的都會在包進去ClassNameFilter，<code>className</code>此時又復原回null。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// If it&#x27;s specified, start visiting from the extended class.</span></span><br><span class="line"><span class="keyword">if</span> (... || extendsClassName      != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="comment">// Start visiting from the extended class.</span></span><br><span class="line">    combinedClassVisitor =</span><br><span class="line">        <span class="keyword">new</span> ClassHierarchyTraveler(<span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">true</span>, combinedClassVisitor);</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// If specified, only visit extended classes with matching names.</span></span><br><span class="line">    <span class="keyword">if</span> (extendsClassName != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Start visiting from the named extended class.</span></span><br><span class="line">            className = extendsClassName;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由於<code>extendsClassName</code>不為null，所以<code>combinedClassVisitor</code>又被包進去ClassHierarchyTraveler，然後將值設給<code>className</code>，所以此時<code>className</code>為<code>com.example.classname</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="comment">// If specified, visit a single named class, otherwise visit all classes.</span></span><br><span class="line">    <span class="keyword">return</span> className != <span class="keyword">null</span> ?</span><br><span class="line">        <span class="keyword">new</span> NamedClassVisitor(combinedClassVisitor, className) :</span><br><span class="line">        <span class="keyword">new</span> AllClassVisitor(combinedClassVisitor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後，<code>className</code>不為null，所以再包一層NamedClassVisitor回傳。</p>
+<p>這邊總結一下取得的ClassPoolVisitor結構，並結合從Shrinker傳入的ClassVisitor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">MultiClassPoolVisitor &#123;</span><br><span class="line">    NamedClassVisitor &#123;</span><br><span class="line">        name = <span class="string">&quot;com.example.classname&quot;</span>,</span><br><span class="line">        classVisitor = ClassHierarchyTraveler &#123;</span><br><span class="line">            visitSubclasses = <span class="keyword">true</span>,</span><br><span class="line">            classVisitor = ClassNameFilter &#123;</span><br><span class="line">                regularExpressionMatcher = VariableStringMatcher,</span><br><span class="line">                classVisitor = MultiClassVisitor &#123;</span><br><span class="line">                    UsageMarker,</span><br><span class="line">                    NamedMethodVisitor &#123;</span><br><span class="line">                        name = <span class="string">&quot;&lt;init&gt;&quot;</span>,</span><br><span class="line">                        descriptor = <span class="string">&quot;()V&quot;</span>,</span><br><span class="line">                        usageMarker</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Accept-ClassVisitor" class="article-heading"><a href="#Accept-ClassVisitor" class="headerlink" title="Accept ClassVisitor"></a>Accept ClassVisitor<a class="article-anchor" href="#Accept-ClassVisitor" aria-hidden="true"></a></h4><p>回到Shrinker，取得ClassVisitor後，接著就是透過<code>accept</code>傳入，開始進行靜態分析的動作：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="comment">// Mark the seeds.</span></span><br><span class="line">    programClassPool.accept(classPoolvisitor);</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以下我們用<code>programClassPool</code>為例。</p>
+<p>看到<code>accept()</code>，直接聯想到MultiClassPoolVisitor的<code>visitClassPool()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In MultiClassPoolVisitor</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitClassPool</span><span class="params">(ClassPool classPool)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; classPoolVisitorCount; index++) &#123;</span><br><span class="line">        classPoolVisitors[index].visitClassPool(classPool);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一個迴圈依照順序取出ClassPoolVisitor，對照前面結構，就是NamedClassVisitor，再將ProgramClassPool傳入：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NamedClassVisitor</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitClassPool</span><span class="params">(ClassPool classPool)</span> </span>&#123;</span><br><span class="line">    classPool.classAccept(name, classVisitor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>沒做什麼，就是將<code>com.example.classname</code>和ClassHierarchyTraveler，透過<code>classAccept()</code>傳入ProgramClassPool：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassPool</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">classAccept</span><span class="params">(String className, ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">    Clazz clazz = getClass(className);</span><br><span class="line">    <span class="keyword">if</span> (clazz != <span class="keyword">null</span>) &#123;</span><br><span class="line">        clazz.accept(classVisitor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊嘗試使用傳入的類別名稱，來從ProgramClassPool取出對應的Clazz。這邊ProGuard還沒做任何Shrink的動作，所以應是會有<code>com.example.classname</code>這個類別的Clazz。</p>
+<p>一樣的看到<code>accept()</code>就知道會走到ClassHierarchyTraveler內：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassHierarchyTraveler</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">    programClass.hierarchyAccept(visitThisClass, visitSuperClass, visitInterfaces,</span><br><span class="line">                                 visitSubclasses, classVisitor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後再回到ProgramClass，也就是前面才剛提到的Clazz：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProgramClass</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hierarchyAccept</span><span class="params">(<span class="keyword">boolean</span>      visitThisClass, <span class="keyword">boolean</span>      visitSuperClass,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="keyword">boolean</span>      visitInterfaces, <span class="keyword">boolean</span>      visitSubclasses,</span></span></span><br><span class="line"><span class="function"><span class="params">                            ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Then visit its subclasses, recursively.</span></span><br><span class="line">    <span class="keyword">if</span> (visitSubclasses) &#123;</span><br><span class="line">        <span class="keyword">if</span> (subClasses != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; subClasses.length; index++)&#123;</span><br><span class="line">                Clazz subClass = subClasses[index];</span><br><span class="line">                subClass.hierarchyAccept(<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">true</span>, classVisitor);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由前面內容知道只有<code>visitSubclasses</code>會是true，所以省略不會執行的部份。</p>
+<p>這邊依照順序取出<code>com.example.classname</code>的子類，由於取得的也是Clazz，可以再呼叫<code>hierarchyAccept()</code>來產生遞迴，就可以逐一分析到所有的子類。這樣的執行方式，也印證範例中<code>* extend com.example.classname</code>的規則。</p>
+<p>接著看到子類執行<code>hierarchyAccept()</code>的部分，此時<code>visitThisClass</code>也是true：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProgramClass</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hierarchyAccept</span><span class="params">(<span class="keyword">boolean</span>      visitThisClass, <span class="keyword">boolean</span>      visitSuperClass,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="keyword">boolean</span>      visitInterfaces, <span class="keyword">boolean</span>      visitSubclasses,</span></span></span><br><span class="line"><span class="function"><span class="params">                            ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// First visit the current classfile.</span></span><br><span class="line">    <span class="keyword">if</span> (visitThisClass) &#123;</span><br><span class="line">        accept(classVisitor);</span><br><span class="line">&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到<code>accept()</code>，自動走到ClassNameFilter：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassNameFilter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (accepted(programClass.getName())) &#123;</span><br><span class="line">        classVisitor.visitProgramClass(programClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">accepted</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> regularExpressionMatcher.matches(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊會透過<code>regularExpressionMatcher</code>判斷傳入的是否是符合特定規則，也就是前面提過，由字串<code>**</code>產生的VariableStringMatcher，所以任何傳給他的字串都會符合規則，這也印證了範例中<code>*</code>的規則。</p>
+<p>確認符合規則後，再使用其所帶有的<code>classVisitor</code>呼叫<code>visitProgramClass</code>。依照前面的結構，這邊的<code>calssVisitor</code>就是在<code>Shrinker.execute()</code>產生的MultiClassVisitor。</p>
+<p>MultiClassVisitor前面有介紹過，所以直接看到內含的UsageMarker：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In UsageMarker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (shouldBeMarkedAsUsed(programClass)) &#123;</span><br><span class="line">        <span class="comment">// Mark this class.</span></span><br><span class="line">        markAsUsed(programClass);</span><br><span class="line">        markProgramClassBody(programClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">markAsUsed</span><span class="params">(VisitorAccepter visitorAccepter)</span> </span>&#123;</span><br><span class="line">    visitorAccepter.setVisitorInfo(USED);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到此就是將此ProgramClass標記成USED，這樣就與前面刪除前的判斷互相呼應。</p>
+<p>接著再看到MultiClassVisitor內另一個NamedMethodVisitor：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NamedMethodVisitor</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramClass</span><span class="params">(ProgramClass programClass)</span> </span>&#123;</span><br><span class="line">    programClass.methodAccept(name, descriptor, memberVisitor);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In ProgramClass</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodAccept</span><span class="params">(String name, String descriptor, MemberVisitor memberVisitor)</span> </span>&#123;</span><br><span class="line">    Method method = findMethod(name, descriptor);</span><br><span class="line">    <span class="keyword">if</span> (method != <span class="keyword">null</span>) &#123;</span><br><span class="line">        method.accept(<span class="keyword">this</span>, memberVisitor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>依照前面的結構，<code>name</code>和<code>descriptor</code>組起來是<code>&lt;init&gt;()V</code>，就是泛指Java的default constructor。這邊傳入的<code>memverVisitor</code>就是<code>usageMaker</code>，所以直接看到<code>visitProgramMethod</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In UsageMaker</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitProgramMethod</span><span class="params">(ProgramClass programClass, ProgramMethod programMethod)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (shouldBeMarkedAsUsed(programMethod)) &#123;</span><br><span class="line">        <span class="comment">// Is the method&#x27;s class used?</span></span><br><span class="line">        <span class="keyword">if</span> (isUsed(programClass)) &#123;</span><br><span class="line">            markAsUsed(programMethod);</span><br><span class="line">            <span class="comment">// Mark the method body.</span></span><br><span class="line">            markProgramMethodBody(programClass, programMethod);</span><br><span class="line">            <span class="comment">// Mark the method hierarchy.</span></span><br><span class="line">            markMethodHierarchy(programClass, programMethod);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Hasn&#x27;t the method been marked as possibly being used yet?</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (shouldBeMarkedAsPossiblyUsed(programMethod)) &#123;</span><br><span class="line">            <span class="comment">// We can&#x27;t process the method yet, because the class isn&#x27;t</span></span><br><span class="line">            <span class="comment">// marked as being used (yet). Give it a preliminary mark.</span></span><br><span class="line">            markAsPossiblyUsed(programMethod);</span><br><span class="line">            <span class="comment">// Mark the method hierarchy.</span></span><br><span class="line">            markMethodHierarchy(programClass, programMethod);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>透過comment可以明確理解，這邊會先判斷ProgramClass有沒有被標記，有的話就保留傳入的ProgramMethod，也就是類別的default constructor；如果沒有被keep，則會先標記成POSSIBLY_USED，然後再透過<code>markMethodHierarchy</code>重新從類別的父類或子類裡找尋是否有被引用。</p>
+<p>以上這一小段落同時也帶出一個觀念：</p>
+<ul>
+<li><strong>類別被keep，default constructor一定也會被keep</strong></li>
+</ul>
+<p>至此，我們完成分析Shrink從標記到刪除的步驟，相較於前面章節更為複雜，也將<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Visitor_pattern">Visitor Pattern</a>和<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Decorator_pattern">Decorator Pattern</a>發揮到一個極限。</p>
+<p>不過如果讀者從Part1一路看下來，應該會有感覺其實實作方式非常單一，也就是：</p>
+<ul>
+<li><strong>透過Decorator Pattern將Visitor一層層封裝，並將每一層所需要的判斷邏輯包含在內；再透過Visitor Pattern一層層將Visitor解開，來將要處理的內容一層層傳遞。</strong></li>
+</ul>
+<p>講白話一點，就是Visitor封裝的階層，就如同Java程式碼的block階層：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassPool &#123; </span><br><span class="line">    Class &#123;</span><br><span class="line">        field,</span><br><span class="line">        method</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此在閱讀ProGuard原始碼時，將Java的結構規則銘記於心，有助於理解每一層處理邏輯和包裝的順序。</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/08/04/about_proguard_5/index.html';
+  var disqus_title = "About ProGuard - Part 5";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

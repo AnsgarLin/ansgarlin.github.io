@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>News | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/news/2018/06/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="News">
+<meta property="og:url" content="https://ansgarlin.github.io/news/2018/06/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    
+<div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      
+        
+          <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1>
+        <a href="/zh-tw/news/2018/06/26/about_proguard_1/" class="article-title" itemprop="name">About ProGuard - Part 1</a>
+      </h1>
+    
+    <a href="/zh-tw/news/2018/06/26/about_proguard_1/" class="article-date"><time datetime="2018-06-26T00:00:00.000Z">2018-06-26</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>身為一個工程師，我們都會很好奇別人成品是如何實作，於是就會使用工具進行反組譯，一窺其中的內容。對於公司產品的開發者來說，這是最不願意遇到的，因為其中可能有特殊的商業邏輯，所以任何可被查閱的機會都是不被允許的。</p>
+<p>對於Java來說，通常都會用ProGuard來進行防禦。ProGuard是一個開源工具，與Android相同由Java撰寫並編譯。ProGuard會刪除不必要的程式碼，和在不影響程式邏輯下，將類別、變數等的名稱，由更短且不具有字面意義的字母代替，以降低產品被反組譯並解讀的機會。</p>
+<p>Google透過Gradle，讓開發者可以在編譯中開啟ProGuard。不過由<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/build/shrink-code">官方文件</a>可知，Google是將ProGuard當成是降低APK大小的工具。在近期的Google I/O的一場<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=x9T5EYE-QWQ&t=811s">talk</a>，主講者也說明了上述兩個動作，只是稍微提高反組譯並解讀的難度。</p>
+<p>由於筆者本身是Android工程師，分析都會透過IDE，跟直接使用指令來使用會有些不同，但大致上都大同小異，以下介紹可以當成是Android的ProGuard。</p>
+<p>本系列將從ProGuard的運作方式介紹開始，整個ProGuard流程分成兩大部分：</p>
+<ul>
+<li>前置作業</li>
+<li>ProGuard主流程</li>
+</ul>
+<h3 id="前置作業" class="article-heading"><a href="#前置作業" class="headerlink" title="前置作業"></a>前置作業<a class="article-anchor" href="#前置作業" aria-hidden="true"></a></h3><p>在這一部分，ProGuard需要準備好兩個素材，依照取得順序為：ProGuard設定檔和class檔。</p>
+<h4 id="ProGuard設定檔" class="article-heading"><a href="#ProGuard設定檔" class="headerlink" title="ProGuard設定檔"></a>ProGuard設定檔<a class="article-anchor" href="#ProGuard設定檔" aria-hidden="true"></a></h4><p><img src="proguard_read_configuration.png"></p>
+<p>透過設定檔，ProGuard可以決定要如何處理被導入的程式內容。一般來說會有以下幾個來源：</p>
+<ul>
+<li><p><strong>proguard-rules.pro</strong>，自訂的ProGuard設定檔。</p>
+</li>
+<li><p><strong>lib/proguard-rules.pro</strong>，library內的ProGuard設定檔。</p>
+</li>
+<li><p><strong>aapt_rule.txt</strong>，由AAPT(Android Asset Packaging Tool)主動在專案內的xml檔尋找引用，然後輸出而成。</p>
+<p>Android Studio編譯後會出現在以下路徑：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;project_dir&gt;&#x2F;build&#x2F;intermediate&#x2F;proguard-rules&#x2F;&lt;flavor&gt;&#x2F;&lt;buildType&gt;&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>內容形式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"># Referenced at .../res/layout/custom_layout.xml:26</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">design</span>.<span class="title">internal</span>.<span class="title">BaselineLayout</span> </span>&#123; &lt;init&gt;(...); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>此段是在告訴ProGuard：在custom_layout這layout檔內的第26行，有用到BaselineLayout這個View，所以需要保留其Class名稱，和所有Constructor。</p>
+<p>除了layout檔，以下是其他來源和對應類別：</p>
+<ul>
+<li><strong>AndroidManifest.xml</strong>，提供引用到的Activity、Service、ContentProvider和BroadcastReceiver。</li>
+<li><strong>Preference.xml</strong>，提供引用到的Preference、PreferenceCategory等相關類別。</li>
+<li><strong>Menu.xml</strong>，提供用在Menu上引用到的View。</li>
+<li><strong>Layout.xml</strong>，提供任何被引用到的View。</li>
+</ul>
+</li>
+<li><p><strong>proguard-default.txt</strong>，這是Android自帶的設定檔，透過Gradle指定，Android Studio編譯後可在以下路徑看到：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;project_dir&gt;&#x2F;build&#x2F;intermediate&#x2F;proguard-files&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>路徑下還會有另外兩種設定檔，分別是：</p>
+<ul>
+<li><strong>proguard-android.txt</strong>，proguard-default差異不大。</li>
+<li><strong>proguard-android-optimize.txt</strong>，有打開ProGuard優化Java的功能。由此可知Android預設是將優化關閉，</li>
+</ul>
+</li>
+</ul>
+<h4 id="class檔" class="article-heading"><a href="#class檔" class="headerlink" title="class檔"></a>class檔<a class="article-anchor" href="#class檔" aria-hidden="true"></a></h4><p><img src="proguard_read_input.png"></p>
+<p>class檔就是java檔被編譯後的文件，在ProGaurd內有分成兩大部分：</p>
+<ul>
+<li><p><strong>Program class pool</strong>，主要是程式內容和引用的library內容。</p>
+</li>
+<li><p><strong>Library class poo</strong>l，編譯時會需要的底層library，我們撰寫的應用會架構在其之上。以Android來說就是Framwork層的部分，android.jar。要注意的是，<strong>ProGuard並不會處理Library class pool內的任何類別</strong>。</p>
+</li>
+</ul>
+<h3 id="ProGuard主流程" class="article-heading"><a href="#ProGuard主流程" class="headerlink" title="ProGuard主流程"></a>ProGuard主流程<a class="article-anchor" href="#ProGuard主流程" aria-hidden="true"></a></h3><p><img src="proguard_process.png"></p>
+<h4 id="Print-Seed" class="article-heading"><a href="#Print-Seed" class="headerlink" title="Print Seed"></a>Print Seed<a class="article-anchor" href="#Print-Seed" aria-hidden="true"></a></h4><p>在載入class檔和ProGuard設定後，可以透過<code>-printSeed</code>要求ProGuard輸出seed.txt，內容是符合keep設定所帶的規則的類別、函式或變數。</p>
+<p>舉例來說，如果我們現在有以下的ProGuard設定：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">MainEntry</span></span></span><br></pre></td></tr></table></figure>
+
+<p>這樣在seed.txt內只會有如下內容，不包含類別內的函式和變數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In seed.txt</span></span><br><span class="line">com.example.MainEntry</span><br></pre></td></tr></table></figure>
+
+<p>Android Studio在編譯之後會擺在以下路徑：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;project_dir&gt;/build/outputs/mapping/&lt;flavor&gt;/&lt;buildType&gt;/</span><br></pre></td></tr></table></figure>
+
+<p>接著進入分析和處理程式內容的流程，依照順序應有以下幾個步驟：</p>
+<ul>
+<li><strong>Shrink</strong>，刪除不會被執行到的程式碼。</li>
+<li><del>Optimize</del>，針對JVM的優化，不過如前面所述，Android預設是關閉，所以接下去不會再深入。</li>
+<li><strong>Obfuscate</strong>，將類別、函式和變數等的名稱，由更短且不具有字面意義的字母代替。</li>
+<li><del>Preverify</del>，針對Java的效驗功能，根據ProGuard<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.guardsquare.com/en/products/proguard/manual/usage#dontpreverify">官方文件</a>的說明，如果是目標平台是Android則不用打開，可以減少編譯時間，於是接下去也不會再深入。</li>
+</ul>
+<h4 id="Shrink" class="article-heading"><a href="#Shrink" class="headerlink" title="Shrink"></a>Shrink<a class="article-anchor" href="#Shrink" aria-hidden="true"></a></h4><p>此階段ProGuard再透過seed.txt的內容為分析的進入點，逐步找出程式執行階段有被使用的類別、函式和變數。</p>
+<p>假設目前有兩個類別ClassA和ClassB，加上一個程式執行的起點<code>main()</code>，屬於MainEntry類別。<code>main()</code>被執行後會先宣告ClassA，再呼叫到<code>doWork()</code>，列出如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> workA &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassB</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> workB &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainEntry</span> </span>&#123;</span><br><span class="line">    ClassA classA;</span><br><span class="line">    <span class="keyword">void</span> main &#123;</span><br><span class="line">        classA = <span class="keyword">new</span> ClassA();</span><br><span class="line">        doWork();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">void</span> doWork &#123;</span><br><span class="line">        <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line">        classA.workA();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般來說程式的進入點都會被紀錄到seed.txt之中，所以我們可以直接假設seed.txt內有一段如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In seed.txt</span></span><br><span class="line">com.example.MainEntry: main()</span><br></pre></td></tr></table></figure>
+
+<p>以下我們與Google說法一樣，稱需要被留下的類別、函式或變數為life，所以整段分析如下：</p>
+<ul>
+<li>依照seed.txt，MainEntry這類別和<code>main()</code>為life，但不包含變數classA和函示<code>doWork()</code>。接著逐行判斷<code>main()</code>裡面的內容。</li>
+<li>ClassA被宣告出來，所以ClassA和變數classA為life，但不包含<code>workA()</code>。</li>
+<li>執行<code>doWork()</code>，所以<code>doWork()</code>變成life。</li>
+<li><code>doWork()</code>使用classA呼叫<code>workA()</code>，所以ClassA內的<code>workA()</code>變成life。</li>
+</ul>
+<p>由於<code>doWork()</code>沒有更多的內容，到此分析就結束了，接著刪掉沒有變成life的部分，留下的如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> workA &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainEntry</span> </span>&#123;</span><br><span class="line">    ClassA classA;</span><br><span class="line">    <span class="keyword">void</span> main &#123;</span><br><span class="line">        classA = <span class="keyword">new</span> ClassA();</span><br><span class="line">        doWork();</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">void</span> doWork &#123;</span><br><span class="line">        classA.workA();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這可以透過<code>-printusage</code>要求輸出被刪掉的部分至usage.txt：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In usage.txt</span></span><br><span class="line">com.example.ClassB</span><br></pre></td></tr></table></figure>
+
+<p>Android Studio在編譯後會放置於以下目錄：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;project_dir&gt;/build/outputs/mapping/&lt;flavor&gt;/&lt;buildType&gt;/</span><br></pre></td></tr></table></figure>
+
+<h4 id="Obfuscate" class="article-heading"><a href="#Obfuscate" class="headerlink" title="Obfuscate"></a>Obfuscate<a class="article-anchor" href="#Obfuscate" aria-hidden="true"></a></h4><p>在這個階段，就是要將留下來的類別、函式和變數名稱，用更短的名稱取代。前面我們提到seed.txt是從ProGuard設定檔內容而來，所以可以推斷ProGuard檔內一定有如下內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">MainEntry</span> </span>&#123; <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>keep是ProGuard專有的一個參數，提供在Shrink階段要用的進入點，以及指定在Obfuscate階段，不要被改名的類別、函式或變數。</p>
+<p>所以，由上述規則可知，除了MainEntry此類別名稱，和程式執行起點<code>main()</code>以外，其他部分的名稱都沒有改名的限制，於是結果如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> c &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainEntry</span> </span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    <span class="keyword">void</span> main &#123;</span><br><span class="line">        a = <span class="keyword">new</span> A();</span><br><span class="line">        b();</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">void</span> b &#123;</span><br><span class="line">        a.c();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被改動的部分，可以透過<code>-printmapping</code>要求列出至mapping.txt：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In mapping.txt</span></span><br><span class="line">com.example.ClassA -&gt; com.example.A:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">workA</span><span class="params">()</span> -&gt; c</span></span><br><span class="line"><span class="function">com.example.MainEntry -&gt; com.example.MainEntry:</span></span><br><span class="line"><span class="function">    com.example.ClassA classA -&gt; a</span></span><br><span class="line"><span class="function">    <span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> -&gt; main</span></span><br><span class="line"><span class="function">    <span class="keyword">void</span> <span class="title">doWork</span><span class="params">()</span> -&gt; b</span></span><br></pre></td></tr></table></figure>
+
+<p>Android Studio在編譯後會放置於以下目錄：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;project_dir&gt;/build/outputs/mapping/&lt;flavor&gt;/&lt;buildType&gt;/</span><br></pre></td></tr></table></figure>
+
+<p>到這就完成了所有ProGuard包含的流程，接著要進入收尾階段：</p>
+<ul>
+<li>將改動後的程式碼重新打包成output.jar檔。</li>
+<li>將class的結構內容輸出成dump.txt。</li>
+<li>最後會再透過DX將jar檔轉成轉成dex檔，同時也進行優化，因此不需要打開ProGuard的Optimize功能。</li>
+</ul>
+<p>總和前面所有流程，可以減縮成一張圖如下：</p>
+<p><img src="proguard_whole_process.png"></p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><h4 id="R8-D8" class="article-heading"><a href="#R8-D8" class="headerlink" title="R8/D8"></a>R8/D8<a class="article-anchor" href="#R8-D8" aria-hidden="true"></a></h4><p>Google在2017年已經開始導入<a target="_blank" rel="noopener external nofollow noreferrer" href="https://android-developers.googleblog.com/2017/08/next-generation-dex-compiler-now-in.html">D8</a>來替換DX，提供更快速的編譯，以及更有效的優化。接著在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://android-developers.googleblog.com/2018/04/android-studio-switching-to-d8-dexer.html">今年</a>淘汰DX，正式將D8導入Android Studio中。</p>
+<p>在今年的Google I/O的一場<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=gGOOkk2y_Ss">talk</a>，也首次公開介紹了R8。<a target="_blank" rel="noopener external nofollow noreferrer" href="https://r8.googlesource.com/r8">R8</a>是一個開源軟體，提供與ProGuard相同的功能，所以依然可以使用相同的ProGuard設定檔。R8內也包含了D8，所以R8執行完後會透過D8直接轉出dex檔，前面介紹的流程可以再簡化如下圖：</p>
+<p><img src="proguard_r8_d8.png"></p>
+<p>順帶一提的是，Google對於原本ProGuard內的Shrink和Obfuscate，用了新的名詞代替，並大量使用在原始碼中：</p>
+<ul>
+<li><strong>Shrink -&gt; Tree-Shaking</strong></li>
+<li><strong>Obfuscate -&gt; Minification</strong></li>
+</ul>
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.guardsquare.com/en/products/proguard/manual/introduction">ProGuard Introduction</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/build/shrink-code">Shrink your code and resources</a></p>
+</li>
+</ul>
+
+  </div>
+  
+</article>
+
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/06/13/what_is_inside_the_workmanager_5/">
+              <strong class="archive-post-title" itemprop="name">What is inside the WorkManager - Final</strong>
+              <span class="archive-post-date"><time datetime="2018-06-13T00:00:00.000Z">2018-06-13</time></span>
+            </a>
+          </article>
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/06/10/what_is_inside_the_workmanager_4/">
+              <strong class="archive-post-title" itemprop="name">What is inside the WorkManager - Part 4</strong>
+              <span class="archive-post-date"><time datetime="2018-06-10T00:00:00.000Z">2018-06-10</time></span>
+            </a>
+          </article>
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/06/09/what_is_inside_the_workmanager_3/">
+              <strong class="archive-post-title" itemprop="name">What is inside the WorkManager - Part 3</strong>
+              <span class="archive-post-date"><time datetime="2018-06-09T00:00:00.000Z">2018-06-09</time></span>
+            </a>
+          </article>
+        
+      
+        
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href="/zh-tw/news/2018/06/02/what_is_inside_the_workmanager_2/">
+              <strong class="archive-post-title" itemprop="name">What is inside the WorkManager - Part 2</strong>
+              <span class="archive-post-date"><time datetime="2018-06-02T00:00:00.000Z">2018-06-02</time></span>
+            </a>
+          </article>
+        
+      
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

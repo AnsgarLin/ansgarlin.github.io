@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>按鈕（Button） | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/material_design/button.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/button.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/button.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="按鈕有分以下三種類型：懸浮式按鈕、抬升式按鈕、平面化按鈕 依照權重排列如下圖：   權重由上至下排序，越上層權重越高  在選擇將按鈕放在哪個層級時，必須要考慮以下三個因素：  功能性按鈕是否重要到必須懸浮在應用上層，使其在操作過程中不會消失 圖層依照畫面的圖層數量，決定是否需要將按鈕拉升一層，使其容易辨識 限制任何一個畫面應盡量以一種類型為主，除非有非用不可的原因  懸浮式按鈕懸浮式按鈕為權重最高">
+<meta property="og:type" content="website">
+<meta property="og:title" content="按鈕（Button）">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/material_design/button.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="按鈕有分以下三種類型：懸浮式按鈕、抬升式按鈕、平面化按鈕 依照權重排列如下圖：   權重由上至下排序，越上層權重越高  在選擇將按鈕放在哪個層級時，必須要考慮以下三個因素：  功能性按鈕是否重要到必須懸浮在應用上層，使其在操作過程中不會消失 圖層依照畫面的圖層數量，決定是否需要將按鈕拉升一層，使其容易辨識 限制任何一個畫面應盡量以一種類型為主，除非有非用不可的原因  懸浮式按鈕懸浮式按鈕為權重最高">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7RHFUU2dFdmMtcm8/components_buttons_usage_main.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7aGcyakNwSW1iR1U/layout_principles_papercraft_actions1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7eVA3azhXVEFabUE/layout_principles_papercraft_actions2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7S2NiZlNhcDUxSTA/patterns_actions_fab_content2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7WHhJcEFEVDdjM0k/patterns_actions_fab_content1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZHRMSzRFTXhoMnM/patterns_actions_fab_actions10.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6GnvA6rl3tYWEZGZFBuc1RxMEk/components_fab_flyouts_do.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrUy1EQlFoWmJZSE0/patterns_actions_fab_actions6.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrQWdBMWF1aXpJb1U/patterns_actions_fab_actions2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrOHBsN0xtTFJ5aEE/patterns_actions_fab_qualities5.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrWktOTnVaYk1TaU0/patterns_actions_fab_qualities1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7dkNVa080Ykd0ejg/patterns_actions_fab3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7dkNVa080Ykd0ejg/patterns_actions_fab3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMF8xdDNDNUc0Zk0/components_buttons_main7.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7WlduMk1kbTRzQWc/components_buttons_main15.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7UTh2dExpSlRVWVU/components_buttons_main16.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsU1A0aDJMMGhQRjQ/components_buttons_keyline1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWVJfOVpiVHYtZ00/components_buttons_main9.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsdU42S2h4QnJMZVE/components_buttons_usage_buttons1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsTDEwRlFpUmZtVm8/components_buttons_main11.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7SnA4Umw3S0pfNWs/components_buttons_main13.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bEFqalRSeUJkbEU/components_buttons_main14.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsU1A0aDJMMGhQRjQ/components_buttons_keyline1.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.492Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.492Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7RHFUU2dFdmMtcm8/components_buttons_usage_main.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">按鈕（Button）</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>按鈕有分以下三種類型：懸浮式按鈕、抬升式按鈕、平面化按鈕</p>
+<p>依照權重排列如下圖：</p>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7RHFUU2dFdmMtcm8/components_buttons_usage_main.png"></p>
+<blockquote>
+<p style="font-size: 12px">權重由上至下排序，越上層權重越高</p>
+</blockquote>
+<p>在選擇將按鈕放在哪個層級時，必須要考慮以下三個因素：</p>
+<ul>
+<li>功能性<br>按鈕是否重要到必須懸浮在應用上層，使其在操作過程中不會消失</li>
+<li>圖層<br>依照畫面的圖層數量，決定是否需要將按鈕拉升一層，使其容易辨識</li>
+<li>限制<br>任何一個畫面應盡量以一種類型為主，除非有非用不可的原因</li>
+</ul>
+<h2 id="懸浮式按鈕" class="article-heading"><a href="#懸浮式按鈕" class="headerlink" title="懸浮式按鈕"></a>懸浮式按鈕<a class="article-anchor" href="#懸浮式按鈕" aria-hidden="true"></a></h2><p>懸浮式按鈕為權重最高的按鈕，通常使用為需要常駐的按鈕。</p>
+<p>主要會以下面兩種形式存在：</p>
+<ul>
+<li>新增</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7aGcyakNwSW1iR1U/layout_principles_papercraft_actions1.png"></p>
+<blockquote>
+<p style="font-size:12px">點擊後新增一物件</p>
+</blockquote>
+<ul>
+<li>分離</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7eVA3azhXVEFabUE/layout_principles_papercraft_actions2.png"></p>
+<blockquote>
+<p style="font-size:12px">點擊後分離兩物件</p>
+</blockquote>
+<p>其代表的功能為當前畫面的主要功能，且無法由其他的當前畫面的物件代表，所以一個畫面最多只有一個。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7S2NiZlNhcDUxSTA/patterns_actions_fab_content2.png" style="max-width:50%">
+> <p style="font-size: 12px">此畫面主要用途為新增檔案，任何其他物件都不具有新增功能</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7WHhJcEFEVDdjM0k/patterns_actions_fab_content1.png" style="max-width:50%">
+> <p style="font-size: 12px">此畫面主要用途為點擊圖片，所以不需要懸浮式按鈕</p>
+
+<h3 id="動畫" class="article-heading"><a href="#動畫" class="headerlink" title="動畫"></a>動畫<a class="article-anchor" href="#動畫" aria-hidden="true"></a></h3><p>跟懸浮式按鈕本身有關的動畫有分以下三種：</p>
+<ul>
+<li>轉場</li>
+</ul>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWm9PdVplYzZvNTg/components-buttons-fab-behavior_03_xhdpi_001.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWm9PdVplYzZvNTg/components-buttons-fab-behavior_03_xhdpi_001.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size:  12px">畫面轉變時，如所代表的功能不同，則需要一個動畫提示；如果相同，則移動到新的位置即可</p>
+</blockquote>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMGF1M0lwX2NEOHc/components-buttons-fab-behavior_05_xhdpi_009.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMGF1M0lwX2NEOHc/components-buttons-fab-behavior_05_xhdpi_009.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p><br></p><p style="font-size:  12px">按鈕應該獨立於畫面的轉場動畫外</p><p></p>
+</blockquote>
+<ul>
+<li>選單</li>
+</ul>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-ajMzVHp3VzJ4UkU/components-buttons-fab-transition_toolbar_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-ajMzVHp3VzJ4UkU/components-buttons-fab-transition_toolbar_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size:  12px">按鈕可以轉變成一個工具列</p>
+</blockquote>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-MnVVYmJTcTBoSGs/components-buttons-fab-transition_scrolltoolbar_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-MnVVYmJTcTBoSGs/components-buttons-fab-transition_scrolltoolbar_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size:  12px">滾動可以還原按鈕</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZHRMSzRFTXhoMnM/patterns_actions_fab_actions10.png" style="max-width:50%">
+> <p style="font-size: 12px">由懸浮式按鈕轉變成的工具列，必須要放類型相關的功能</p>
+
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TmpnUHVKRV9DU0E/components-buttons-fab-transition_speeddial_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3TmpnUHVKRV9DU0E/components-buttons-fab-transition_speeddial_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size: 12px">懸浮式按鈕也可轉變成數個小按鈕，且懸浮式按鈕將留在畫面中，並轉為關閉圖示</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6GnvA6rl3tYWEZGZFBuc1RxMEk/components_fab_flyouts_do.png" style="max-width:50%">
+> <p style="font-size: 12px">小按鈕的數量至少2個，至多6個</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrUy1EQlFoWmJZSE0/patterns_actions_fab_actions6.png" style="max-width:50%">
+> <p style="font-size: 12px">相同的，由懸浮式按鈕轉變而來的小按鈕，也要具備與內容直接相關的功能</p>
+
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-TjBicTdvQjg4M1E/components-buttons-fab-transition_card_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-TjBicTdvQjg4M1E/components-buttons-fab-transition_card_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size: 12px">如需要多餘6個以上的功能，或是要顯示圖文選項，則可將懸浮式按鈕轉變成選單列</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrQWdBMWF1aXpJb1U/patterns_actions_fab_actions2.png" style="max-width:50%">
+> <p style="font-size: 12px">選單列將包含一個工具列，即可處理多功能的情況</p>
+
+<ul>
+<li>形變</li>
+</ul>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-c0UwMFAyQU5Jb1U/components-buttons-fab-transition_morph_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-c0UwMFAyQU5Jb1U/components-buttons-fab-transition_morph_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size: 12px">懸浮式按鈕可以轉變成一個物件，並插入當前畫面</p>
+</blockquote>
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-RWVHZjYybnlDeUE/components-buttons-fab-transition_fullscreen_02.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B8v7jImPsDi-RWVHZjYybnlDeUE/components-buttons-fab-transition_fullscreen_02.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size: 12px">懸浮式按鈕可以轉變成一個全新的畫面，也因此並不能中斷動畫</p>
+</blockquote>
+<h3 id="規範" class="article-heading"><a href="#規範" class="headerlink" title="規範"></a>規範<a class="article-anchor" href="#規範" aria-hidden="true"></a></h3><p>按鈕必須為圓形且平面化：</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrOHBsN0xtTFJ5aEE/patterns_actions_fab_qualities5.png" style="max-width:50%">
+> <p style="font-size: 12px">圓形且平面</p>
+
+<p>中央圖示必須要是正面意義：<br><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B1PhAWhtrRTrWktOTnVaYk1TaU0/patterns_actions_fab_qualities1.png"></p>
+<blockquote>
+<p style="font-size: 12px">新增、最愛、探索和導航等</p>
+</blockquote>
+<p>依照情境有分成兩種大小：</p>
+<ul>
+<li>一般  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7dkNVa080Ykd0ejg/patterns_actions_fab3.png" style="max-width:50%">
+> <p style="font-size: 12px">直徑：56 dp<br>圖示：24 dp，同[系統圖示](../style/icon.html#系統圖示)
+
+<ul>
+<li>縮小  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7dkNVa080Ykd0ejg/patterns_actions_fab3.png" style="max-width:50%">
+> </p><p style="font-size: 12px">直徑：40 dp<br>圖示：同一般
+
+</p><h2 id="抬升式按鈕" class="article-heading"><a href="#抬升式按鈕" class="headerlink" title="抬升式按鈕"></a>抬升式按鈕<a class="article-anchor" href="#抬升式按鈕" aria-hidden="true"></a></h2><p>抬升式按鈕為權重次高的按鈕，通常使用在畫面之中：</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsMF8xdDNDNUc0Zk0/components_buttons_main7.png" style="max-width:50%">
+> <p style="font-size: 12px">抬升效果可比平面化按鈕更凸出於畫面之中
+
+</p><h3 id="狀態" class="article-heading"><a href="#狀態" class="headerlink" title="狀態"></a>狀態<a class="article-anchor" href="#狀態" aria-hidden="true"></a></h3><p>依照情境可分以下兩種：</p>
+<ul>
+<li>容器底色為亮色系  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7WlduMk1kbTRzQWc/components_buttons_main15.png" style="max-width:50%">
+> <p style="font-size:  12px">停用<br>文字顏色：黑<br>不透明度：26%</p><p style="font-size:  12px">按鈕底色：黑<br>不透明度：12%
+</p>
+
+<ul>
+<li>容器底色為暗色系  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7UTh2dExpSlRVWVU/components_buttons_main16.png" style="max-width:50%">
+> <p style="font-size:  12px">碰觸<br>按鈕底色：600</p><p style="font-size: 12px">按壓<br>按鈕底色：700</p><p style="font-size: 12px">停用<br>文字顏色：白<br>不透明度：30%
+</p><p style="font-size: 12px">按鈕底色：白<br>不透明度：12%
+</p>
+
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B3T7oTWa3HiFRmZDbzdkSEp0ZEk/components-buttons-raisedbuttons.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B3T7oTWa3HiFRmZDbzdkSEp0ZEk/components-buttons-raisedbuttons.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size:  12px">運用實例</p>
+</blockquote>
+<h3 id="設計規範" class="article-heading"><a href="#設計規範" class="headerlink" title="設計規範"></a>設計規範<a class="article-anchor" href="#設計規範" aria-hidden="true"></a></h3><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsU1A0aDJMMGhQRjQ/components_buttons_keyline1.png" style="max-width:50%">
+> <p style="font-size: 12px">文字：全部大寫<br>
+文字顏色：白<br>按鈕底色：500<br>按鈕觸控範圍高：48 dp<br>按鈕高：36 dp<br>按鈕寬：至少 88 dp<br>左右內間距：8 dp<br>左右外間距：8 dp
+</p>
+
+<h2 id="平面化按鈕" class="article-heading"><a href="#平面化按鈕" class="headerlink" title="平面化按鈕"></a>平面化按鈕<a class="article-anchor" href="#平面化按鈕" aria-hidden="true"></a></h2><p>平面化按鈕為權重最低的按鈕，通常使用在三種地方：</p>
+<ul>
+<li>對話框  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsWVJfOVpiVHYtZ00/components_buttons_main9.png" style="max-width:50%">
+> <p style="font-size: 12px">詳細請查看[對話框](dialog.html)
+
+<ul>
+<li>置底按鈕  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsdU42S2h4QnJMZVE/components_buttons_usage_buttons1.png" style="max-width:50%">
+> </p><p style="font-size: 12px">如果應用需要一個長駐的按鈕，除了使用懸浮按鈕，也可以使用置底按鈕</p>
+
+<ul>
+<li>卡片  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsTDEwRlFpUmZtVm8/components_buttons_main11.png" style="max-width:50%">
+> <p style="font-size: 12px">詳細請查看[卡片](card.html)
+
+</p><h3 id="狀態-1" class="article-heading"><a href="#狀態-1" class="headerlink" title="狀態"></a>狀態<a class="article-anchor" href="#狀態-1" aria-hidden="true"></a></h3><p>依照情境可分以下兩種：</p>
+<ul>
+<li>容器底色為亮色系  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7SnA4Umw3S0pfNWs/components_buttons_main13.png" style="max-width:50%">
+> <p style="font-size:  12px">碰觸<br>按鈕底色：#999999<br>不透明度：20%</p><p style="font-size: 12px">按壓<br>按鈕底色：#999999<br>不透明度：40%</p><p style="font-size: 12px">停用<br>文字顏色：黑<br>不透明度：26%
+</p>
+
+<ul>
+<li>容器底色為暗色系  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bEFqalRSeUJkbEU/components_buttons_main14.png" style="max-width:50%">
+> <p style="font-size:  12px">碰觸<br>按鈕底色：#CCCCCC<br>不透明度：15%</p><p style="font-size: 12px">按壓<br>按鈕底色：#CCCCCC<br>不透明度：25%</p><p style="font-size: 12px">停用<br>文字顏色：白<br>不透明度：30%
+</p>
+
+<video height="auto" width="50%" preload="metadata" loop controls>
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B3T7oTWa3HiFSTNhRndpWXBwRDA/components-buttons-flatbuttons.webm" type="video/webm">
+  <source src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B3T7oTWa3HiFSTNhRndpWXBwRDA/components-buttons-flatbuttons.mp4" type="video/mp4">
+</video>
+
+<blockquote>
+<p style="font-size:  12px">運用實例</p>
+</blockquote>
+<h3 id="設計規範-1" class="article-heading"><a href="#設計規範-1" class="headerlink" title="設計規範"></a>設計規範<a class="article-anchor" href="#設計規範-1" aria-hidden="true"></a></h3><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsU1A0aDJMMGhQRjQ/components_buttons_keyline1.png" style="max-width:50%">
+> <p style="font-size: 12px">與抬升式按鈕大致相同，除了以下項目：<br>
+文字顏色：主題色，或與內容文字不同的顏色<br>按鈕底色：同容器底色<br>按鈕寬：至少 88 dp（一般），64 dp （對話框）</p>
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.492Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/material_design/button.html';
+  var disqus_title = "按鈕（Button）";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%87%B8%E6%B5%AE%E5%BC%8F%E6%8C%89%E9%88%95"><span class="toc-text">懸浮式按鈕</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8B%95%E7%95%AB"><span class="toc-text">動畫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%8F%E7%AF%84"><span class="toc-text">規範</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%AC%E5%8D%87%E5%BC%8F%E6%8C%89%E9%88%95"><span class="toc-text">抬升式按鈕</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%80%E6%85%8B"><span class="toc-text">狀態</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A8%AD%E8%A8%88%E8%A6%8F%E7%AF%84"><span class="toc-text">設計規範</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B3%E9%9D%A2%E5%8C%96%E6%8C%89%E9%88%95"><span class="toc-text">平面化按鈕</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%80%E6%85%8B-1"><span class="toc-text">狀態</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A8%AD%E8%A8%88%E8%A6%8F%E7%AF%84-1"><span class="toc-text">設計規範</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

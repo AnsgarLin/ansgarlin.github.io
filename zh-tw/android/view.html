@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>View | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/android/view.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/android/view.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/android/view.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="What處理畫面的基本組件 Flowmeasure計算佔用範圍，在onMeasure取得結果layout算出在ViewGrop的位置，在onLayout取得結果draw中的流程：drawBackground畫自身背景 -&gt; call onDraw取得自訂的前景 -&gt; call dispatchDraw畫子view -&gt; call onDrawScrollBars來畫滾動條 -&amp;g">
+<meta property="og:type" content="website">
+<meta property="og:title" content="View">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/android/view.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="What處理畫面的基本組件 Flowmeasure計算佔用範圍，在onMeasure取得結果layout算出在ViewGrop的位置，在onLayout取得結果draw中的流程：drawBackground畫自身背景 -&gt; call onDraw取得自訂的前景 -&gt; call dispatchDraw畫子view -&gt; call onDrawScrollBars來畫滾動條 -&amp;g">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:14:05.275Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.275Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="android/view.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">View</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h3 id="What" class="article-heading"><a href="#What" class="headerlink" title="What"></a>What<a class="article-anchor" href="#What" aria-hidden="true"></a></h3><p>處理畫面的基本組件</p>
+<h3 id="Flow" class="article-heading"><a href="#Flow" class="headerlink" title="Flow"></a>Flow<a class="article-anchor" href="#Flow" aria-hidden="true"></a></h3><p>measure計算佔用範圍，在onMeasure取得結果<br>layout算出在ViewGrop的位置，在onLayout取得結果<br>draw中的流程：drawBackground畫自身背景 -&gt; call onDraw取得自訂的前景 -&gt; call dispatchDraw畫子view -&gt; call onDrawScrollBars來畫滾動條 -&gt; 畫ViewOverlay<br>※如果view沒設定background drawable，則會直接跳至call dispatchDraw</p>
+<h3 id="ViewOverlay" class="article-heading"><a href="#ViewOverlay" class="headerlink" title="ViewOverlay"></a>ViewOverlay<a class="article-anchor" href="#ViewOverlay" aria-hidden="true"></a></h3><p>已陣列儲存drawable並且永遠覆蓋在view上</p>
+<h3 id="Performance" class="article-heading"><a href="#Performance" class="headerlink" title="Performance"></a>Performance<a class="article-anchor" href="#Performance" aria-hidden="true"></a></h3><p>少用RequestLayout，因為會整串view包含viewgroup都重新計算，如果有錯誤還會重算<br>少用invalidate，已invalidate(rect)代替，可以降低相同畫面重繪的次數</p>
+<h3 id="Touch-event" class="article-heading"><a href="#Touch-event" class="headerlink" title="Touch event"></a>Touch event<a class="article-anchor" href="#Touch-event" aria-hidden="true"></a></h3><ol>
+<li>觸碰螢幕後，觸發最大的 ViewGroup 的dispatchTouchEvent</li>
+<li>ViweGrop 的 dispatchTouchEvent會啟動子 view 的dispatchTouchEvent，子 view如果是 ViewGroup 則會繼續往其子 view的 dispatchTouchEvent 進行</li>
+<li>如果任何一個ViewGoup 的 onInterceptTouchEvent回傳 true，則直接執行當前 ViewGroup的 super.dispatchTouchEvent，也就是View. dispatchTouchEvent</li>
+<li>View.dispatchTouchEvent 會判斷是否有直做 onTouchListener，有則執行onTouchListener，沒有則執行 View.onTouchEvent</li>
+<li>ParentView 到子 View,然后还有可能再从子 View 返回到ParentView<br><a target="_blank" rel="noopener external nofollow noreferrer" href="http://blog.csdn.net/windskier/article/details/6966264">http://blog.csdn.net/windskier/article/details/6966264</a><br><a target="_blank" rel="noopener external nofollow noreferrer" href="http://blog.csdn.net/stonecao/article/details/6759189">http://blog.csdn.net/stonecao/article/details/6759189</a><br><a target="_blank" rel="noopener external nofollow noreferrer" href="http://blog.csdn.net/guolin_blog/article/details/9097463">http://blog.csdn.net/guolin_blog/article/details/9097463</a><br><a target="_blank" rel="noopener external nofollow noreferrer" href="http://blog.csdn.net/guolin_blog/article/details/9153747">http://blog.csdn.net/guolin_blog/article/details/9153747</a> </li>
+</ol>
+<h3 id="Summary" class="article-heading"><a href="#Summary" class="headerlink" title="Summary"></a>Summary<a class="article-anchor" href="#Summary" aria-hidden="true"></a></h3><p>呈現畫面的基本組建，最廣義的flow就是在measure計算佔位空間，layout計算位置，draw中繪製畫面，draw又可以分成drawBackground背景 -&gt; onDraw(前景) -&gt; dispatchDraw(子view) -&gt; onDrawScrollBars(scrollbar) -&gt; ViewOverlay，要注意的是如果沒有設計定背景，則會直接call dispatchDraw。少用requestLayout，因為其會重新計算view，包含viewgroup，有衝突會重新計算；少用invalidate讓view重新繪製不需要重繪的部分。</p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><h4 id="Optimize" class="article-heading"><a href="#Optimize" class="headerlink" title="Optimize"></a>Optimize<a class="article-anchor" href="#Optimize" aria-hidden="true"></a></h4><p>使用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/view/View.html#setWillNotDraw(boolean)"><code>setWillNotDraw</code></a>控制是否要繪製背景。可搭配onDraw來控制是否需要繪製自訂的內容。</p>
+<h4 id="View-id" class="article-heading"><a href="#View-id" class="headerlink" title="View id"></a>View id<a class="article-anchor" href="#View-id" aria-hidden="true"></a></h4><blockquote>
+<p>以下皆出自此篇<a target="_blank" rel="noopener external nofollow noreferrer" href="https://stackoverflow.com/questions/8460680/how-can-i-assign-an-id-to-a-view-programmatically?answertab=active#tab-top">文章</a></p>
+</blockquote>
+<h5 id="設定id" class="article-heading"><a href="#設定id" class="headerlink" title="設定id"></a>設定id<a class="article-anchor" href="#設定id" aria-hidden="true"></a></h5><p>在xml中加入</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">android:id=&quot;@+id/<span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在程式中動態加入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">View.setId(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
+<h5 id="產生id" class="article-heading"><a href="#產生id" class="headerlink" title="產生id"></a>產生id<a class="article-anchor" href="#產生id" aria-hidden="true"></a></h5><p>透過內建函示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">View.generateViewId()</span><br></pre></td></tr></table></figure>
+
+<p>設定id資源：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">&quot;reservedNamedId&quot;</span> <span class="attr">type</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="規則" class="article-heading"><a href="#規則" class="headerlink" title="規則"></a>規則<a class="article-anchor" href="#規則" aria-hidden="true"></a></h5><ul>
+<li>透過<code>android:id</code>設定的id具有唯一性。</li>
+<li>程式動態設定的id不具唯一性。</li>
+<li>程式動態設定的id可與<code>android:id</code>設定的id相同</li>
+</ul>
+<p>由於<code>findViewById()</code>會回傳第一個id相符的View，所以基於第三條的規則，在設計layout或動態產生layout時，必須要保持layout中的id的唯一性。</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.275Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="service.html" class="article-footer-prev" title="Service"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="viewpager.html" class="article-footer-next" title="ViewPager"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/android/view.html';
+  var disqus_title = "View";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#What"><span class="toc-text">What</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow"><span class="toc-text">Flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewOverlay"><span class="toc-text">ViewOverlay</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Performance"><span class="toc-text">Performance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Touch-event"><span class="toc-text">Touch event</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What%E2%80%99s-more"><span class="toc-text">What’s more</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Optimize"><span class="toc-text">Optimize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#View-id"><span class="toc-text">View id</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A8%AD%E5%AE%9Aid"><span class="toc-text">設定id</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A2%E7%94%9Fid"><span class="toc-text">產生id</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A6%8F%E5%89%87"><span class="toc-text">規則</span></a></li></ol></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">架構元件</strong><a href="workmanager.html" class="sidebar-link">WorkManager</a><a href="room.html" class="sidebar-link">Room</a><strong class="sidebar-title">元件</strong><a href="context.html" class="sidebar-link">Context</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="activity.html" class="sidebar-link">Activity</a><a href="executor.html" class="sidebar-link">Executor</a><a href="fragment.html" class="sidebar-link">Fragment</a><a href="intentservice.html" class="sidebar-link">IntentService</a><a href="lrucache.html" class="sidebar-link">LruCache</a><a href="recyclerview.html" class="sidebar-link">RecyclerView</a><a href="service.html" class="sidebar-link">Service</a><a href="view.html" class="sidebar-link current">View</a><a href="viewpager.html" class="sidebar-link">ViewPager</a><a href="path.html" class="sidebar-link">Path</a><a href="paint.html" class="sidebar-link">Paint</a><strong class="sidebar-title">系統</strong><a href="asynctask.html" class="sidebar-link">AsyncTask</a><a href="handler.html" class="sidebar-link">Handler</a><strong class="sidebar-title">通信</strong><a href="aidl.html" class="sidebar-link">AIDL</a><strong class="sidebar-title">其他</strong><a href="intdef.html" class="sidebar-link">IntDef</a><a href="parcelable.html" class="sidebar-link">Parcelable</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="proguard.html" class="sidebar-link">ProGuard</a><a href="gradle.html" class="sidebar-link">Gradle</a><strong class="sidebar-title">心得</strong><a href="efficientandroidthreading.html" class="sidebar-link">Android高效能多執行緒</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">架構元件</strong><a href="workmanager.html" class="mobile-nav-link">WorkManager</a><a href="room.html" class="mobile-nav-link">Room</a><strong class="mobile-nav-title">元件</strong><a href="context.html" class="mobile-nav-link">Context</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="activity.html" class="mobile-nav-link">Activity</a><a href="executor.html" class="mobile-nav-link">Executor</a><a href="fragment.html" class="mobile-nav-link">Fragment</a><a href="intentservice.html" class="mobile-nav-link">IntentService</a><a href="lrucache.html" class="mobile-nav-link">LruCache</a><a href="recyclerview.html" class="mobile-nav-link">RecyclerView</a><a href="service.html" class="mobile-nav-link">Service</a><a href="view.html" class="mobile-nav-link current">View</a><a href="viewpager.html" class="mobile-nav-link">ViewPager</a><a href="path.html" class="mobile-nav-link">Path</a><a href="paint.html" class="mobile-nav-link">Paint</a><strong class="mobile-nav-title">系統</strong><a href="asynctask.html" class="mobile-nav-link">AsyncTask</a><a href="handler.html" class="mobile-nav-link">Handler</a><strong class="mobile-nav-title">通信</strong><a href="aidl.html" class="mobile-nav-link">AIDL</a><strong class="mobile-nav-title">其他</strong><a href="intdef.html" class="mobile-nav-link">IntDef</a><a href="parcelable.html" class="mobile-nav-link">Parcelable</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="proguard.html" class="mobile-nav-link">ProGuard</a><a href="gradle.html" class="mobile-nav-link">Gradle</a><strong class="mobile-nav-title">心得</strong><a href="efficientandroidthreading.html" class="mobile-nav-link">Android高效能多執行緒</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="android/view.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

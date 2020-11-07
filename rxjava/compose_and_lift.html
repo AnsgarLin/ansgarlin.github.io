@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>compose() & lift() | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/rxjava/compose_and_lift.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/rxjava/compose_and_lift.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/rxjava/compose_and_lift.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在使用RxJava實作的過程中，會經常遇到以下兩個情形：  相同的operator組合重複出現 相同的資料操作邏輯重複出現  剛好RxJava本身也有提供自訂operator的方式，對應上面情形如下：  compose() lift()  以下將舉例介紹別分析其原理。 compose()在官方介紹中，其被定義為Transformation Operator，用來將多個operator封裝。以下引用">
+<meta property="og:type" content="website">
+<meta property="og:title" content="compose() &amp; lift()">
+<meta property="og:url" content="https://ansgarlin.github.io/rxjava/compose_and_lift.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在使用RxJava實作的過程中，會經常遇到以下兩個情形：  相同的operator組合重複出現 相同的資料操作邏輯重複出現  剛好RxJava本身也有提供自訂operator的方式，對應上面情形如下：  compose() lift()  以下將舉例介紹別分析其原理。 compose()在官方介紹中，其被定義為Transformation Operator，用來將多個operator封裝。以下引用">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-07T10:14:05.261Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.261Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="rxjava/compose_and_lift.html">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">compose() & lift()</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>在使用RxJava實作的過程中，會經常遇到以下兩個情形：</p>
+<ul>
+<li>相同的operator組合重複出現</li>
+<li>相同的資料操作邏輯重複出現</li>
+</ul>
+<p>剛好RxJava本身也有提供自訂operator的方式，對應上面情形如下：</p>
+<ul>
+<li>compose()</li>
+<li>lift()</li>
+</ul>
+<p>以下將舉例介紹別分析其原理。</p>
+<h3 id="compose" class="article-heading"><a href="#compose" class="headerlink" title="compose()"></a>compose()<a class="article-anchor" href="#compose" aria-hidden="true"></a></h3><p>在官方介紹中，其被定義為<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/ReactiveX/RxJava/wiki/Implementing-Your-Own-Operators#transformational-operators">Transformation Operator</a>，用來將多個operator封裝。以下引用<a target="_blank" rel="noopener external nofollow noreferrer" href="http://blog.danlew.net/2015/03/02/dont-break-the-chain/">Don’t break the chain: use RxJava’s compose() operator</a>中使用的範例。</p>
+<p>試想在使用RxJava時，最終都得使用<code>observeOn()</code>和<code>subscribeOn()</code>。如果將這兩個operator封裝，並大量複用的話會變成如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">applySchedulers</span><span class="params">(Observable&lt;T&gt; observable)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> observable.subscribeOn(Schedulers.io())</span><br><span class="line">        .observeOn(AndroidSchedulers.mainThread());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">applySchedulers(Observable.from(someSource).map(data -&gt; manipulate(data)))</span><br><span class="line">    .subscribe(data -&gt; doSomething(data));</span><br></pre></td></tr></table></figure>
+
+<p>可以看得出來這完全打破RxJava可以串連operator的好處。</p>
+<p>透過<code>compose()</code>我們可以將<code>applySchedulers()</code>修改如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">ObservableTransformer&lt;T, T&gt; <span class="title">applySchedulers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ObservableTransformer&lt;T, T&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> ObservableSource&lt;T&gt; <span class="title">apply</span><span class="params">(Observable&lt;T&gt; upstream)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> upstream.subscribeOn(Schedulers.io())</span><br><span class="line">                .observeOn(AndroidSchedulers.mainThread());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就可以不打破鏈結，達到使用<code>observeOn()</code>和<code>subscribeOn()</code>的目的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Observable.from(someSource)  </span><br><span class="line">    .map(data -&gt; manipulate(data))</span><br><span class="line">    .compose(applySchedulers())</span><br><span class="line">    .subscribe(data -&gt; doSomething(data));</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果是用JDK 7或更舊的版本編譯，需要改成<code>this.&lt;Type&gt;applySchedulers()</code>。</p>
+</blockquote>
+<p>且<code>applySchedulers()</code>本身並不依賴任何外部的參數，可以被重複使用在各個情境內。</p>
+<h4 id="How" class="article-heading"><a href="#How" class="headerlink" title="How"></a>How<a class="article-anchor" href="#How" aria-hidden="true"></a></h4><p>接著來看<code>compose()</code>是如何實作來達到接續串聯的效果，首先看到原始碼內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">compose</span><span class="params">(ObservableTransformer&lt;? <span class="keyword">super</span> T, ? extends R&gt; composer)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> wrap(((ObservableTransformer&lt;T, R&gt;) ObjectHelper.requireNonNull(composer, <span class="string">&quot;composer is null&quot;</span>)).apply(<span class="keyword">this</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>意外的沒做很多事情，只是透過傳入的composer轉換成ObservableTransformer後執行<code>apply()</code>，接著再看到ObservableTransformer： </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableTransformer</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Applies a function to the upstream Observable and returns an ObservableSource with</span></span><br><span class="line"><span class="comment"> * optionally different element type.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> upstream the upstream Observable instance</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the transformed ObservableSource instance</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="function">ObservableSource&lt;Downstream&gt; <span class="title">apply</span><span class="params">(<span class="meta">@NonNull</span> Observable&lt;Upstream&gt; upstream)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>由註解就很明顯地說出<code>apply()</code>的用途：承先啟後，將上游的Observable處理後，再傳出一個Observable，才能將鏈結延續下去。</p>
+<p>綜合前面的分析，如果要使用<code>compose()</code>，必須要有以下幾個條件：</p>
+<ul>
+<li><strong>繼承ObservableTransformer，並實作<code>apply()</code></strong></li>
+<li><strong>不論<code>apply()</code>內容為何，必須要回傳Observable。</strong></li>
+<li><strong>必須要使用傳入的Observable作為起點向下串連。</strong></li>
+</ul>
+<h4 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h4><p><code>compose()</code>畢竟只是固定的operator組合，通常不需要重複建立新的ObservableTransformer，所以範例中ObservableTransformer的部分可以抽出如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> ObservableTransformer schedules = <span class="keyword">new</span> ObservableTransformer() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ObservableSource <span class="title">apply</span><span class="params">(Observable upstream)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> upstream.subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如此我們就有一個可以一直複用的ObservableTransformer，最後再把<code>applySchedulers()</code>修改：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">ObservableTransformer&lt;T, T&gt; <span class="title">applySchedulers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> schedules;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 此函式看起來有些多餘，但如此可避免直接使用<code>schedules</code>時，還要指定型態，如果型態名稱複雜則會降低整體可讀性。</p>
+</blockquote>
+<h3 id="lift" class="article-heading"><a href="#lift" class="headerlink" title="lift()"></a>lift()<a class="article-anchor" href="#lift" aria-hidden="true"></a></h3><p>在官方介紹中，其被定義為<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/ReactiveX/RxJava/wiki/Implementing-Your-Own-Operators#sequence-operators">Sequence Operators</a>，用在資料流的操作。以下我們用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.linkedin.com/pulse/switch-case-if-else-blocks-rx-java-streams-ahmed-adel/">Switch-case and If-else blocks in Rx-Java streams</a>當作範例來說明。</p>
+<p>試想我們有一個資料流，然後要針對不同類型的資料做對應的操作，則勢必會在operator內使用switch-case或是if-else的方式作分流：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Observable.fromIterable(list)</span><br><span class="line">    .flatMap(integer -&gt; &#123;</span><br><span class="line">        <span class="keyword">switch</span> (integer) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> Observable.just(<span class="string">&quot;First Odd Number : &quot;</span> + integer);</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> Observable.just(<span class="string">&quot;First Even Number : &quot;</span> + integer);</span><br><span class="line">            <span class="keyword">default</span>: <span class="keyword">return</span> Observable.empty();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).subscribe(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>類似的操作可能會在不同的operator鏈結中出現，於是可以用<code>lift()</code>將switch-case包裝成一個通用型的observer：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">caseBlocks.put(<span class="number">1</span>, (integer) -&gt; <span class="string">&quot;First Odd Number : &quot;</span> + integer);</span><br><span class="line">caseBlocks.put(<span class="number">2</span>, (integer) -&gt; <span class="string">&quot;First Even Number : &quot;</span> + integer);</span><br><span class="line">Observable.fromIterable(list)</span><br><span class="line">        .lift(<span class="keyword">new</span> SwitchCaseBreak&lt;&gt;(caseBlocks))</span><br><span class="line">        .subscribe(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>如此就可以將定義操作和oprator鏈結拆開，保持了整串鏈結的可讀性。同時，由於判斷條件和對應操作已從switch-case分離，使得構成switch-case的元件都可以個別被定義，然後彈性的在不同的情境中複用。</p>
+<h4 id="How-1" class="article-heading"><a href="#How-1" class="headerlink" title="How"></a>How<a class="article-anchor" href="#How-1" aria-hidden="true"></a></h4><p>接著來看<code>lift()</code>是如何實作來包裝操作邏輯，首先看到原始碼內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">lift</span><span class="params">(ObservableOperator&lt;? extends R, ? <span class="keyword">super</span> T&gt; lifter)</span> </span>&#123;</span><br><span class="line">    ObjectHelper.requireNonNull(lifter, <span class="string">&quot;onLift is null&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableLift&lt;R, T&gt;(<span class="keyword">this</span>, lifter));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用了ObservableLift來包裝傳入的lifter：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableLift</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObservableLift</span>&lt;<span class="title">R</span>, <span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">	<span class="comment">/** The actual operator. */</span></span><br><span class="line">	<span class="keyword">final</span> ObservableOperator&lt;? extends R, ? <span class="keyword">super</span> T&gt; operator;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObservableLift</span><span class="params">(ObservableSource&lt;T&gt; source, ObservableOperator&lt;? extends R, ? <span class="keyword">super</span> T&gt; operator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(source);</span><br><span class="line">        <span class="keyword">this</span>.operator = operator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> R&gt; s)</span> </span>&#123;</span><br><span class="line">        Observer&lt;? <span class="keyword">super</span> T&gt; observer;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            observer = ObjectHelper.requireNonNull(operator.apply(s), <span class="string">&quot;Operator &quot;</span> + operator + <span class="string">&quot; returned a null Observer&quot;</span>);</span><br><span class="line">        &#125; </span><br><span class="line">        ...</span><br><span class="line">        source.subscribe(observer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般來說，<code>subscribeActual()</code>的內容只有一行，用來將上下游的Observer串連，如ObservableMap：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableMap</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> U&gt; t)</span> </span>&#123;</span><br><span class="line">    source.subscribe(<span class="keyword">new</span> MapObserver&lt;T, U&gt;(t, function));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如尚未熟悉Operator之間串連的原理，可以參閱基本概念章節。</p>
+</blockquote>
+<p>而ObservableLift內多出來的部分，則是用傳入的operator來呼叫<code>apply()</code>，並傳入下游的Observer：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableOperator</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Applies a function to the child Observer and returns a new parent Observer.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> observer the child Observer instance</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the parent Observer instance</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception on failure</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line">Observer&lt;? <span class="keyword">super</span> Upstream&gt; apply(<span class="meta">@NonNull</span> Observer&lt;? <span class="keyword">super</span> Downstream&gt; observer) <span class="keyword">throws</span> Exception;</span><br></pre></td></tr></table></figure>
+
+<p>由註解可以知道，就是將下游的Observer再做一層打包，產生新的Observer。</p>
+<p>實作<code>apply()</code>的方式就是：</p>
+<ul>
+<li><p>建立新的Observer</p>
+</li>
+<li><p>並實作其中<code>onNext()</code>等含式</p>
+</li>
+</ul>
+<p>如此就能在資料流在往下傳之前，進行一些額外的操作，簡單示意如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.lift(<span class="keyword">new</span> ObservableOperator&lt;Object, String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Observer&lt;? <span class="keyword">super</span> String&gt; apply(<span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> Object&gt; observer) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Observer&lt;List&lt;UIModel&gt;&gt;() &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(List&lt;UIModel&gt; uiModels)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// Some implement</span></span><br><span class="line">                observer.onNext();</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>綜合前面的分析，如果要使用<code>lift()</code>，必須要有以下幾個條件：</p>
+<ul>
+<li><strong>繼承ObservableOperator，並實作<code>apply()</code></strong></li>
+<li><strong>不論<code>apply()</code>內容為何，必須要回傳Observer。</strong></li>
+<li><strong>如在<code>apply()</code>內新增自訂的Observer，必須要在各函示最後使用傳入的Observer呼叫對應的函示，如<code>onNext()</code>。</strong></li>
+</ul>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.261Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                <a href="thread_control.html" class="article-footer-prev" title="Thread Control"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="groupby.html" class="article-footer-next" title="groupBy()"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/rxjava/compose_and_lift.html';
+  var disqus_title = "compose() & lift()";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#compose"><span class="toc-text">compose()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#How"><span class="toc-text">How</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#What%E2%80%99s-more"><span class="toc-text">What’s more</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lift"><span class="toc-text">lift()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#How-1"><span class="toc-text">How</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Introduction</strong><a href="index.html" class="sidebar-link">Overview</a><strong class="sidebar-title">Source Analysis</strong><a href="basic_concept.html" class="sidebar-link">Basic Concept</a><a href="thread_control.html" class="sidebar-link">Thread Control</a><a href="compose_and_lift.html" class="sidebar-link current">compose() & lift()</a><a href="groupby.html" class="sidebar-link">groupBy()</a><strong class="sidebar-title">Decision Table</strong><a href="creation_operator_decision_table.html" class="sidebar-link">Creation Operator</a><a href="instance_operator_decision_table.html" class="sidebar-link">Instance Operator</a><strong class="sidebar-title">Others</strong><a href="error_handle.html" class="sidebar-link">Error Handle</a><a href="caveat_about_merge_method.html" class="sidebar-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="sidebar-link">Not RxJava Guide For Lazy Folks</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Introduction</strong><a href="index.html" class="mobile-nav-link">Overview</a><strong class="mobile-nav-title">Source Analysis</strong><a href="basic_concept.html" class="mobile-nav-link">Basic Concept</a><a href="thread_control.html" class="mobile-nav-link">Thread Control</a><a href="compose_and_lift.html" class="mobile-nav-link current">compose() & lift()</a><a href="groupby.html" class="mobile-nav-link">groupBy()</a><strong class="mobile-nav-title">Decision Table</strong><a href="creation_operator_decision_table.html" class="mobile-nav-link">Creation Operator</a><a href="instance_operator_decision_table.html" class="mobile-nav-link">Instance Operator</a><strong class="mobile-nav-title">Others</strong><a href="error_handle.html" class="mobile-nav-link">Error Handle</a><a href="caveat_about_merge_method.html" class="mobile-nav-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="mobile-nav-link">Not RxJava Guide For Lazy Folks</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="rxjava/compose_and_lift.html">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

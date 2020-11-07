@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Refactor RecyclerView With Delegate Pattern | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/en/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Thanks for Benjamin Cheng coming out with the solution and big help on writing the post. The following contents are all from the company’s project. The code in the post has been modified and not a wo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Refactor RecyclerView With Delegate Pattern">
+<meta property="og:url" content="https://ansgarlin.github.io/en/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Thanks for Benjamin Cheng coming out with the solution and big help on writing the post. The following contents are all from the company’s project. The code in the post has been modified and not a wo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-12-22T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.047Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Refactor RecyclerView With Delegate Pattern</h1>
+    
+    <a href="/en/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/" class="article-date"><time datetime="2017-12-22T00:00:00.000Z">2017-12-22</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <blockquote>
+<p><em>Thanks for <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/benjamin-cheng">Benjamin Cheng</a> coming out with the solution and big help on writing the post.</em></p>
+<p><em>The following contents are all from the company’s project. The code in the post has been modified and not a working code, but is enough to show the concept.</em></p>
+</blockquote>
+<p>For a long time, the homepage of the company’s App has kinds of View, and each View depends on the different source. It is predictable that the logic will be more complex. </p>
+<p>The Android components that are used to show homepage are Fragment and RecyclerView. If we follow the official sample, the logic of Views will be placed in the same adapter. The switch will be used in every callback, which may increase the complexity of the steps for implementing or removing a feature.</p>
+<p>Even we don’t take switch as the example. There must have methods that must be used for each View, but the logic will be slightly different. In this case, we will need to use if-else to implement, which may cause the same problem above. </p>
+<p>Here are the callbacks that will have the problem when using an Adapter: <code>getItemViewType</code>、<code>onCreateViewHolder</code>、<code>onBindViewHolder</code>, and the methods are called from them.</p>
+<p>The direct solution is to find a way to separate the logic. We choose the solution which is introduced by Hannes Dorfmann.</p>
+<p>The solution of Hannes Dorfmann is a usage of Delegate Pattern, so the following chapters will start from talking about the Delegate Pattern.</p>
+<h3 id="Delegate-Pattern" class="article-heading"><a href="#Delegate-Pattern" class="headerlink" title="Delegate Pattern"></a>Delegate Pattern<a class="article-anchor" href="#Delegate-Pattern" aria-hidden="true"></a></h3><p>Accroding to <a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Delegate_pattern">Wiki</a>:</p>
+<blockquote>
+<p><strong>Delegation</strong> is a way to make composition as powerful for reuse as inheritance [Lie86, JZ91]. In delegation, <em>two</em> objects are involved in handling a request: a receiving object delegates operations to its <strong>delegate</strong>. This is analogous to subclasses deferring requests to parent classes. But with inheritance, an inherited operation can always refer to the receiving object through the <code>this</code> member variable in C++ and <code>self</code> in Smalltalk. To achieve the same effect with delegation, the receiver passes itself to the delegate to let the delegated operation refer to the receiver.[<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Delegation_pattern#cite_note-2">2]</a></p>
+</blockquote>
+<p>In short, a function call will be delegated to the other object with the same function name.</p>
+<h3 id="Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" class="article-heading"><a href="#Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" class="headerlink" title="Hannes Dorfmann’s JOE’S GREAT ADAPTER HELL ESCAPE"></a>Hannes Dorfmann’s <a target="_blank" rel="noopener external nofollow noreferrer" href="http://hannesdorfmann.com/android/adapter-delegates">JOE’S GREAT ADAPTER HELL ESCAPE</a><a class="article-anchor" href="#Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" aria-hidden="true"></a></h3><p>The problem in the Hannes Dorfmann’s post is:</p>
+<blockquote>
+<p>At the beginning, there is only a kind of View in the Adapter. When we need to show another kind of View, the solution is to implement a new Adapter which inherits the previous one. So when something changes in the logic, the situations below will come up:</p>
+<ul>
+<li>When we only need to show a View, the logic of the View will mix up with the others because the Adapter inherits the logic from the previous one, too.</li>
+<li>When we need to show the same View, the logic may repeat in different Adapters.</li>
+</ul>
+</blockquote>
+<p>The above situation is different from ours, but with the same problem: The View’s logic is mixed together, and not easy to change.</p>
+<p>The solution in the post is to use the Delegate Pattern, the following are the two main interfaces:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdapterDelegate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isForViewType</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position)</span></span>;</span><br><span class="line">  <span class="meta">@NonNull</span> <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position, <span class="meta">@NonNull</span> RecyclerView.ViewHolder holder)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AdapterDelegate is used to wrap the logic of a View.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdapterDelegatesManager</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> AdapterDelegatesManager&lt;T&gt; <span class="title">addDelegate</span><span class="params">(<span class="meta">@NonNull</span> AdapterDelegate&lt;T&gt; delegate)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position, <span class="meta">@NonNull</span> RecyclerView.ViewHolder viewHolder)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AdapterDelegatesManager is using to keep the instances of the AdapterDelegate of the different kinds of Views and call <code>AdapterDelegate.onCreaterViewHolder</code>和<code>onBindViewHolder</code> by the view type in <code>onCreaterViewHolder</code> and <code>onBindViewHolder</code>.</p>
+<h3 id="After-refactor" class="article-heading"><a href="#After-refactor" class="headerlink" title="After refactor"></a>After refactor<a class="article-anchor" href="#After-refactor" aria-hidden="true"></a></h3><p>To make the AdapterDelegatesManager as a normal Adapter, the following are the adjustment we do and the implementations:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdapterDelegate</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NonNull</span> <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, Item data)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdapterDelegatesManager</span> <span class="keyword">extends</span> <span class="title">Adapter</span>&lt;<span class="title">ViewHolder</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Integer, AdapterDelegate&gt; adapterDelegates = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="keyword">private</span> List&lt;ItemData&gt; mItemDatas = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> AdapterDelegatesManager <span class="title">addDelegate</span><span class="params">(<span class="keyword">int</span> viewType, <span class="meta">@NonNull</span> AdapterDelegate&lt;T&gt; delegate)</span> </span>&#123;</span><br><span class="line">    adapterDelegates.put(viewType, delegate);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItemData</span><span class="params">(List&lt;ItemData&gt; itemDatas)</span> </span>&#123;</span><br><span class="line">    mItemDatas = itemDatas;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    mItemDatas.get(position).getViewType()</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> adapterDelegates.get(viewType).onCreateViewHolder(parent);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    adapterDelegates.get(getItemViewType(position)).onBindViewHolder(holder, mItemDatas.get(position));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here we use a class ItemData, which does not only keep the information that will be used to show View but also give the view type to identify the data:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemData</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> viewType = R.layout.viewId;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewType</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> viewType; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The executive process is like below:</p>
+<ol>
+<li>Using <code>addDelegate()</code> to add the AdapterDelegate and the view type into a Map.</li>
+<li>Using <code>setItemata()</code> to add the ItemData for showing the View into the Adapter.</li>
+<li>Using <code>getItemViewType()</code> to get the view type from ItemData in <code>mItemDatas</code>.</li>
+<li>Using <code>onCreateViewHolder()</code> to get the AdapterDelegate from <code>adapterDelegates</code>, and call the <code>AdapterDelegate.onCreateViewHolder()</code> to get the ViewHolder。</li>
+<li>Using <code>onBindViewHolder()</code> to get the AdapterDelegate and Data for <code>adapterDelegates</code> and <code>mItemDatas</code>，and call <code>AdapterDelegate.onBindViewHolder()</code> to bind the ItemData into the ViewHolder.</li>
+</ol>
+<p>The key of the Map is only used for finding which AdapterDelegate to use, so it is OK to use anything you want.</p>
+<h3 id="Concludsion" class="article-heading"><a href="#Concludsion" class="headerlink" title="Concludsion"></a>Concludsion<a class="article-anchor" href="#Concludsion" aria-hidden="true"></a></h3><p>After the adjustment, we can separate the View’s logic into different AdapterDelegates, which solve the problem we face at the beginning.</p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>Next, we are going to introduce the problems we solve with the same solution.</p>
+<h4 id="ItemDecoration" class="article-heading"><a href="#ItemDecoration" class="headerlink" title="ItemDecoration"></a>ItemDecoration<a class="article-anchor" href="#ItemDecoration" aria-hidden="true"></a></h4><p>RecyclerView uses ItemDecoration to set the extra space between the Views. By overriding the <code>ItemDecoration.getItemOffsets()</code>, we can add extra space to the View’s layout.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, View view, RecyclerView recyclerView, RecyclerView.State state)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>At run-time, the method will get called during every drawing View process. So if there is only an ItemDecoration, every space settings of the Views will be mixed up together. Just like the problem above.</p>
+<p>You can say how about separate the logic into ItemDecorations, and set into the RecyclerView one by one. Unfortunately, ItemDecoration doesn’t have the ability to identify which View it belongs to. You still need to check in <code>getItemOffsets()</code>, so it doesn’t make many benefits to do. If we make ItemDecorations to inherit each other, we fall into the same problem that Hannes Dorfmann faces.</p>
+<p>Why not use the same solution if the problems are the same. Hense we design a new ItemDecoration:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Decoration</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ItemDecoration</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Class, CompositeDecoSpace&gt; mSpacingMap;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Decoration</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	mSpacingMap.put(ItemData.class, <span class="keyword">new</span> CompositeDecoSpace(<span class="number">16</span>, <span class="number">0</span>, <span class="number">16</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, View view, RecyclerView recyclerView, RecyclerView.State state)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> position = recyclerView.getChildAdapterPosition(view);</span><br><span class="line">    Class itemDataClass = recyclerView.getAdapter().getItemData(position).getClass();</span><br><span class="line">    </span><br><span class="line">    CompositeDecoSpace compositeDecoSpace = mSpacingMap.get(itemDataClass);</span><br><span class="line">    compositeDecoSpace.fetchSpanInfo(recyclerView, position);</span><br><span class="line">    </span><br><span class="line">    outRect.left = compositeDecoSpace.left();</span><br><span class="line">    outRect.top = compositeDecoSpace.top();</span><br><span class="line">    outRect.right = compositeDecoSpace.right();</span><br><span class="line">    outRect.bottom = compositeDecoSpace.bottom();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>You may wonder why using the class type of ItemData as the key, not the ViewHolder. It’s because there might have the Views with the same layout, but with different ItemData class types. It usually happens on different data sources that need to show in the same form. To keep the flexibility, we choose not to use the values that relate to the layout. But the same as AdapterDelegate, it’s not forced, you can still use anything you want to be the key.</p>
+<p>We design the CompositerDecoSpace to handle the extra spaces of View. Not only to record the setting of the default extra space of Views, we also use Locate to mark the position of Views when they are shown on the screen: full width, left, right or middle. We can adjust the space based on the Locate at run-time:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">CompositeDecoSpace</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> left;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> top;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> right;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> bottom;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> middle;</span><br><span class="line">  <span class="keyword">private</span> Locate locate;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">enum</span> <span class="title">Locate</span> </span>&#123;</span><br><span class="line">    FULL, LEFT, MIDDLE, RIGHT;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CompositeDecoSpace</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom, <span class="keyword">int</span> middle)</span> </span>&#123;</span><br><span class="line">    locate = Locate.FULL;</span><br><span class="line">    <span class="keyword">this</span>.left = left;</span><br><span class="line">    <span class="keyword">this</span>.top = top;  </span><br><span class="line">    <span class="keyword">this</span>.right = right; </span><br><span class="line">    <span class="keyword">this</span>.bottom = bottom;    </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">left</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (locate == Locate.RIGHT || locate == Locate.MIDDLE) &#123;</span><br><span class="line">      <span class="keyword">return</span> middle / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> top;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">right</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (locate == Locate.LEFT || locate == Locate.MIDDLE) &#123;</span><br><span class="line">      <span class="keyword">return</span> middle / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bottom;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">middle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> middle;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchSpanInfo</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isLeft()) &#123;</span><br><span class="line">      locate = Locate.LEFT;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isRight()) &#123;</span><br><span class="line">      locate = Locate.RIGHT;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isMiddle()) &#123;</span><br><span class="line">      locate = Locate.MIDDLE;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      locate = Locate.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The executive process is lined below:</p>
+<ol>
+<li>Using the constructor of Decoration to setting the Map of the item’s data type the CompositeDecoSpace.</li>
+<li>Using the parameters of <code>getItemOffsets</code> to get the ItemData of the View, and using the ItemData’s class type to get the CompositeDecoSpace.</li>
+<li>Using <code>fetchSpanInfo</code> to calculate the location of the View on the screen.</li>
+<li>Using <code>left</code>、<code>top</code>、<code>right</code>、<code>bottom</code> and <code>Locate</code> of the CompositeDecoSpace to get the final space setting.</li>
+</ol>
+<p>By using the same solution, we solve the problem. Furthermore, the flexibility and readability are higher because we can set the extra spaces of Views in the same place.</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/en/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html';
+  var disqus_title = "Refactor RecyclerView With Delegate Pattern";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

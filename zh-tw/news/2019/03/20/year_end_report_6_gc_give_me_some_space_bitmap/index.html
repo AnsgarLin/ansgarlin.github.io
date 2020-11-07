@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Year End Report - GC - Give me space! (Bitmap) | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Bitmap的存放一直是Android的主要問題之一，因為其通常是記憶體中佔比最大的物件。在2011年的Google IO上的session有提到Bitmap存放方式的改變。 官方文件上也有提到不同版本間的變化，並切割成以下幾個分水嶺：  Gingerbread and lower(1.0 - 2.3) Honeycomb to Nought(3.0 - 7.0) Oreo and after">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Year End Report - GC - Give me space! (Bitmap)">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Bitmap的存放一直是Android的主要問題之一，因為其通常是記憶體中佔比最大的物件。在2011年的Google IO上的session有提到Bitmap存放方式的改變。 官方文件上也有提到不同版本間的變化，並切割成以下幾個分水嶺：  Gingerbread and lower(1.0 - 2.3) Honeycomb to Nought(3.0 - 7.0) Oreo and after">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/gingerbread.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/honeycomb.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/oreo.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/profile.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/8.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/6.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/preview_btn.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/shallow_retain.png">
+<meta property="article:published_time" content="2019-03-20T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.229Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/gingerbread.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Year End Report - GC - Give me space! (Bitmap)</h1>
+    
+    <a href="/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/" class="article-date"><time datetime="2019-03-20T00:00:00.000Z">2019-03-20</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>Bitmap的存放一直是Android的主要問題之一，因為其通常是記憶體中佔比最大的物件。在2011年的Google IO上的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=_CruQY55HOk">session</a>有提到Bitmap存放方式的改變。</p>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/topic/performance/graphics/manage-memory">官方文件</a>上也有提到不同版本間的變化，並切割成以下幾個分水嶺：</p>
+<ul>
+<li><strong>Gingerbread and lower(1.0 - 2.3)</strong></li>
+<li><strong>Honeycomb to Nought(3.0 - 7.0)</strong></li>
+<li><strong>Oreo and after</strong></li>
+</ul>
+<p>存放位置的差異，也會影響其GC的方式，以下將簡單介紹個版本在這些方面的差異，以及其帶來的影響。</p>
+<h3 id="Gingerbread-and-lower-1-0-2-3" class="article-heading"><a href="#Gingerbread-and-lower-1-0-2-3" class="headerlink" title="Gingerbread and lower(1.0 - 2.3)"></a>Gingerbread and lower(1.0 - 2.3)<a class="article-anchor" href="#Gingerbread-and-lower-1-0-2-3" aria-hidden="true"></a></h3><p>由Gingerbread的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#80">Bitmap建構式</a>可看出Bitmap不存有pixel資料，而是透過一個變數來紀錄pixel資料的實際位址：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Bitmap</span><span class="params">(<span class="keyword">int</span> nativeBitmap, <span class="keyword">boolean</span> isMutable, <span class="keyword">byte</span>[] ninePatchChunk, <span class="keyword">int</span> density)</span> </span>&#123;</span><br><span class="line">    mNativeBitmap = nativeBitmap;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至於這個值在哪裡，就得從Bitmap如何建立開始介紹。</p>
+<h4 id="Create" class="article-heading"><a href="#Create" class="headerlink" title="Create"></a>Create<a class="article-anchor" href="#Create" aria-hidden="true"></a></h4><p>Bitmap物件是由接受不同參數的<code>createBitmap()</code>來取得，而不論哪一個，都會走到<code>nativeCreate()</code>。</p>
+<p>根據<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#586">native函示註冊表</a>，可知在Java層呼叫<code>nativeCreate()</code>，會呼叫到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#208"><code>Bitmap_creator()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> jobject <span class="title">Bitmap_creator</span><span class="params">(JNIEnv* env, jobject, jintArray jColors,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> offset, <span class="keyword">int</span> stride, <span class="keyword">int</span> width, <span class="keyword">int</span> height,</span></span></span><br><span class="line"><span class="function"><span class="params">                              SkBitmap::Config config, jboolean isMutable)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    SkBitmap bitmap;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (!GraphicsJNI::setJavaPixelRef(env, &amp;bitmap, <span class="literal">NULL</span>, <span class="literal">true</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> GraphicsJNI::createBitmap(env, <span class="keyword">new</span> SkBitmap(bitmap), isMutable, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這函示中會做幾件事：</p>
+<ul>
+<li><p>建立<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/include/core/SkBitmap.h">SkBitmap</a>。</p>
+</li>
+<li><p>透過<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#227"><code>setJavaPixelRef()</code></a>呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#493"><code>sk_malloc_flags()</code></a>。根據函示名稱，知道是用<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/src/core/SkMemory_stdlib.cpp#262"><code>malloc()</code></a>來宣告記憶體，所以是取得<strong>Native memory</strong>，此空間將用於存放pixel資料。</p>
+</li>
+<li><p>將此空間位址記錄在<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/include/core/SkPixelRef.h">SkPixelRef</a>物件，並<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#511">存在</a>前面建立的SkBitmap。</p>
+</li>
+<li><p>最後呼叫到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#363"><code>createBitmap()</code></a>：</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Graphics.cpp</span></span><br><span class="line"><span class="function">jobject <span class="title">GraphicsJNI::createBitmap</span><span class="params">(JNIEnv* env, SkBitmap* bitmap, <span class="keyword">bool</span> isMutable,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  jbyteArray ninepatch, <span class="keyword">int</span> density)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    jobject obj = env-&gt;AllocObject(gBitmap_class);</span><br><span class="line">    <span class="keyword">if</span> (obj) &#123;</span><br><span class="line">        env-&gt;CallVoidMethod(obj, gBitmap_constructorMethodID,</span><br><span class="line">                            (jint)bitmap, isMutable, ninepatch, density);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>透過<code>CallVoidMethod()</code>呼叫Bitmap的Java建構式取得Bitmap物件，並傳入前面取得的SkBitmap等參數。</p>
+<p>綜合以上，<strong>Bitmap是透過SkBitmap來間接引用到實際的pixel資料</strong>：</p>
+<p><img src="gingerbread.png" alt="gingerbread"></p>
+<p>如此將pixel資料放在native space會造成以下幾個狀況：</p>
+<ul>
+<li><strong>Hard to Debug</strong>：用Memory Analyzer查看HPROF檔案時，不會顯示Native memory內的物件。且Bitmap沒有pixel資料，因此不論什麼圖片，Bitmap物件都是一樣大，與其他物件相較起來容易被忽略。</li>
+<li><strong>Unpredictable collection</strong>：為了避免沒有呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#156"><code>recycle()</code></a>，Bitmap有實作<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#1012"><code>finalize()</code></a>來藉由<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Finalizer">Finalizer</a>機制回收pixel資料。但這有個潛在問題：**<code>finalize()</code>被呼叫的時機不定，記憶體不會即時被回收，就容易造成OutOfMemory的問題。**</li>
+</ul>
+<h4 id="Recycle" class="article-heading"><a href="#Recycle" class="headerlink" title="Recycle"></a>Recycle<a class="article-anchor" href="#Recycle" aria-hidden="true"></a></h4><p>當呼叫<code>recycle()</code>時，實際上是由<code>nativeRecycler()</code>完成，對應的native函示是<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#257"><code>Bitmap_recycle()    </code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Bitmap_recycle</span><span class="params">(JNIEnv* env, jobject, SkBitmap* bitmap)</span> </span>&#123;</span><br><span class="line">    bitmap-&gt;setPixels(<span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/src/core/SkBitmap.cpp#319"><code>setPixels()</code></a>的設計是：<strong>不論傳入的參數是否為NULL，都會先清空目前的pixel資料。</strong></p>
+<p>而這邊傳入的是NULL，所以直接看用於清空pixel資料的函示，<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/src/core/SkBitmap.cpp#336"><code>freePixels()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SkBitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SkBitmap::freePixels</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">NULL</span> != fPixelRef) &#123;</span><br><span class="line">        ...</span><br><span class="line">        fPixelRef-&gt;unref();</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>fPixleRef</code>就是前面提到，存有實際pixel資料位址的SkPixelRef，其實際上是<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#434">AndroidPixelRef</a>，並繼承了好幾層父類，但只有<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/include/core/SkRefCnt.h#32">SkRefCnt</a>內有<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/include/core/SkRefCnt.h#58"><code>unref()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SkRefCnt</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">unref</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    SkDELETE(<span class="keyword">this</span>);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>SkDELETE</code>是一個執行<code>delete</code>來銷毀當前物件的macro，此會觸發從AndroidPixelRef開始一連串的解構式，其中比較重點的解構式是屬於SkMallocPixelRef的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/2.3.6/xref/external/skia/src/core/SkBitmap.cpp#385">解構式</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SkBitmap.cpp</span></span><br><span class="line">SkMallocPixelRef::~SkMallocPixelRef() &#123;</span><br><span class="line">	...</span><br><span class="line">	sk_free(fStorage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>fStorage</code>就是pixel資料的記憶體位址，對應前面<code>sk_malloc_flag()</code>使用<code>malloc()</code>來宣告記憶體，最後必須用<code>sk_free()</code>來呼叫<code>free()</code>來釋放。</p>
+<p>由<code>recycle()</code>執行的過程，可知在呼叫的當下就會進行記憶體的回收，而不用等待GC或是Finalizer機制；因此官方會強烈建議<strong>主動呼叫<code>recycle()</code>來進行回收</strong>。</p>
+<h3 id="Honeycomb-to-Nought-3-0-7-0" class="article-heading"><a href="#Honeycomb-to-Nought-3-0-7-0" class="headerlink" title="Honeycomb to Nought(3.0 - 7.0)"></a>Honeycomb to Nought(3.0 - 7.0)<a class="article-anchor" href="#Honeycomb-to-Nought-3-0-7-0" aria-hidden="true"></a></h3><p>為了解決前版的問題，減少因為開發者忘記呼叫<code>recycle()</code>，導致memory leak引發OOM的機會。Android對於pixel資料處理的方式有所改變。</p>
+<p>由Honeycomb的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#96">Bitmap建構式</a>可看出多了一個<code>mBuffer</code>，估計就是用來存放pixel資料。一樣也是有一個變數來指向實際位址：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Bitmap</span><span class="params">(<span class="keyword">int</span> nativeBitmap, <span class="keyword">boolean</span> isMutable, <span class="keyword">byte</span>[] ninePatchChunk, <span class="keyword">int</span> density)</span> </span>&#123;</span><br><span class="line">    mBuffer = buffer;</span><br><span class="line">    mNativeBitmap = nativeBitmap;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Create-1" class="article-heading"><a href="#Create-1" class="headerlink" title="Create"></a>Create<a class="article-anchor" href="#Create-1" aria-hidden="true"></a></h4><p>依照前面的經驗，這邊可以直接看到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#213"><code>Bitmap_creator()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> jobject <span class="title">Bitmap_creator</span><span class="params">(JNIEnv* env, jobject, jintArray jColors,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> offset, <span class="keyword">int</span> stride, <span class="keyword">int</span> width, <span class="keyword">int</span> height,</span></span></span><br><span class="line"><span class="function"><span class="params">                              SkBitmap::Config config, jboolean isMutable)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    SkBitmap bitmap;</span><br><span class="line"></span><br><span class="line">    jbyteArray buff = GraphicsJNI::allocateJavaPixelRef(env, &amp;bitmap, <span class="literal">NULL</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> GraphicsJNI::createBitmap(env, <span class="keyword">new</span> SkBitmap(bitmap), buff, isMutable, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>操作步驟與前面版本類似：</p>
+<ul>
+<li>建立<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/external/skia/include/core/SkBitmap.h">SkBitmap</a>。</li>
+<li>透過<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#481"><code>allocateJavaPixelRef</code></a>呼叫<code>NewByteArray()</code>來取得一個<code>jbyteArray</code>：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Graphics.cpp</span></span><br><span class="line"><span class="function">jbyteArray <span class="title">GraphicsJNI::allocateJavaPixelRef</span><span class="params">(JNIEnv* env, SkBitmap* bitmap,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             SkColorTable* ctable)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    jbyteArray arrayObj = env-&gt;NewByteArray(size);</span><br><span class="line">    <span class="keyword">if</span> (arrayObj) &#123;</span><br><span class="line">        jbyte* addr = jniGetNonMovableArrayElements(&amp;env-&gt;functions, arrayObj);</span><br><span class="line">        <span class="keyword">if</span> (addr) &#123;</span><br><span class="line">            SkPixelRef* pr = <span class="keyword">new</span> AndroidPixelRef(env, (<span class="keyword">void</span>*) addr, size, arrayObj, </span><br><span class="line">                                                 ctable);</span><br><span class="line">            bitmap-&gt;setPixelRef(pr)-&gt;unref(); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arrayObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由<code>NewByteArray()</code>得到的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#400"><code>jbyteArray</code></a>，根據<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/dalvik/libnativehelper/include/nativehelper/jni.h#81">JNI定義</a>：**<code>jbyteArray</code>實際上是指標變數，代表取得的空間位址，也代表Java的<code>byte[]</code>。**</li>
+<li>透過<code>jniGetNonMovableArrayElements()</code>取得native操作需要的指標變數。</li>
+<li>將這些參數都放入<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#400">AndroidPixelRef</a>並交給SkBitmap。</li>
+<li>回傳<code>jbyteArray</code>。</li>
+</ul>
+<p>實際上，直接用名稱是找不到<code>NewByteArray()</code>的，因為其是由<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/dalvik/vm/Jni.cpp#2313">macro產生</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Jni.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NEW_PRIMITIVE_ARRAY(_artype, _jname, _typechar) </span></span><br><span class="line">    <span class="keyword">static</span> _artype New##_jname##Array(JNIEnv* env, jsize length) &#123;</span><br><span class="line">        ...</span><br><span class="line">        ArrayObject* arrayObj = dvmAllocPrimitiveArray(_typechar, length, ALLOC_DEFAULT);</span><br><span class="line">        ...</span><br><span class="line">        _artype result = (_artype) addLocalReference(ts.self(), (Object*) arrayObj);</span><br><span class="line">        dvmReleaseTrackedAlloc((Object*) arrayObj, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">NEW_PRIMITIVE_ARRAY(jbyteArray, Byte, <span class="string">&#x27;B&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>從<code>New##_jname##Array</code>可知此函式名稱是拼出來的，而<code>dvmAllocPrimitiveArray()</code>會呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/dalvik/vm/oo/Array.cpp#38"><code>allocArray()</code></a>，然後走到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/dalvik/vm/alloc/Heap.cpp#349"><code>dvmMalloc</code></a>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Heap.cc</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Allocate storage on the GC heap.  We guarantee 8-byte alignment.</span></span><br><span class="line"><span class="comment"> ...</span></span><br><span class="line"><span class="comment"> * Returns NULL and throws an exception on failure.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">void</span>* dvmMalloc(size_t size, <span class="keyword">int</span> flags)&#123;</span><br><span class="line">    <span class="keyword">void</span> *ptr;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">/* Try as hard as possible to allocate some memory. */</span></span><br><span class="line">    ptr = tryMalloc(size);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據註解，確定<code>dvmMalloc</code>是在GC Heap上取得記憶體空間，也就是在<strong>Dalvik Heap</strong>。</p>
+<p>回到<code>Bitmap_creator()</code>，將收到的<code>jbyteArray</code>傳入<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#347"><code>createBitmap()</code></a>，透過Bitmap的建構式，完成Bitmap的建立。</p>
+<p>因此，<strong>從Honeycomb開始，Pixel資料被搬進Dalvik Heap</strong>，但操作依然是透過SkBitmap：</p>
+<p><img src="honeycomb.png" alt="honeycomb.png"></p>
+<h4 id="Recycle-1" class="article-heading"><a href="#Recycle-1" class="headerlink" title="Recycle"></a>Recycle<a class="article-anchor" href="#Recycle-1" aria-hidden="true"></a></h4><p>回收操作在Honeycomb沒有太大的變化，一樣是執行到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/external/skia/include/core/SkPixelRef.h">SkRefCnt</a>的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/external/skia/include/core/SkRefCnt.h#58"><code>unref()</code></a>，並執行<code>delete</code>觸發一連串解構式，但此次的重點是AndroidPixelRef的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/frameworks/base/core/jni/android/graphics/Graphics.cpp#418">解構式</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Graphics.cpp</span></span><br><span class="line">AndroidPixelRef::~AndroidPixelRef() &#123;</span><br><span class="line">    <span class="keyword">if</span> (fOnJavaHeap) &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// Set this to NULL to prevent the SkMallocPixelRef destructor</span></span><br><span class="line">        <span class="comment">// from freeing the memory.</span></span><br><span class="line">        fStorage = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>將<code>fStorage</code>設成NULL來阻止SkRefCnt的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/4.0.3_r1/xref/external/skia/include/core/SkRefCnt.h#58">解構式</a>嘗試回收記憶體，回收的任務將交給GC，<code>recycle()</code>只是單純讓Bitmap無法再被使用    。</p>
+<p>搬到Dalvik Heap就可以有以下好處：</p>
+<ul>
+<li><strong>Easily to find</strong>：由Bitmap物件直接引用，所以透過Memory Analyzer查看HPROF檔案時也可以看到，pixel資料通常大於其他物件，就不容易被忽略。</li>
+<li><strong>Collectable by GC</strong>：在Dalvik Heap，就在GC回收範圍內，即使不呼叫<code>recycler()</code>，也可以保證在Bitmap回收後，pixel資料也一併回收。同時因為位置的變動，在Dalvik篇提到的GC_EXTERNAL_ALLOC，就不會再出現。</li>
+</ul>
+<h3 id="Oreo-and-after" class="article-heading"><a href="#Oreo-and-after" class="headerlink" title="Oreo and after"></a>Oreo and after<a class="article-anchor" href="#Oreo-and-after" aria-hidden="true"></a></h3><p>雖然將pixel資料放進Dalvik Heap可以讓GC在不需要時主動回收，但Dalvik Heap的大小有限，圖檔的大小和建立的速度如果處理不當，仍會很快就佔滿Dalvik Heap。</p>
+<p>從Bitmap的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#108">建構式</a>可以看到不再有<code>mBuffer</code>，而是和Gingerbread一樣，只有一個紀錄實際位址的變數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Bitmap</span><span class="params">(<span class="keyword">int</span> nativeBitmap, <span class="keyword">boolean</span> isMutable, <span class="keyword">byte</span>[] ninePatchChunk, <span class="keyword">int</span> density)</span> </span>&#123;</span><br><span class="line">    mNativePtr = nativeBitmap;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Create-2" class="article-heading"><a href="#Create-2" class="headerlink" title="Create"></a>Create<a class="article-anchor" href="#Create-2" aria-hidden="true"></a></h4><p>直接看到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#713"><code>Bitmap_creator()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> jobject <span class="title">Bitmap_creator</span><span class="params">(JNIEnv* env, jobject, jintArray jColors,</span></span></span><br><span class="line"><span class="function"><span class="params">                              offset, jint stride, jint width, jint height,</span></span></span><br><span class="line"><span class="function"><span class="params">                              jint configHandle, jboolean isMutable,</span></span></span><br><span class="line"><span class="function"><span class="params">                              jfloatArray xyzD50, jobject transferParameters)</span> </span>&#123;</span><br><span class="line">    SkBitmap bitmap;</span><br><span class="line">    ...</span><br><span class="line">    sk_sp&lt;Bitmap&gt; nativeBitmap = Bitmap::allocateHeapBitmap(&amp;bitmap, <span class="literal">NULL</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> createBitmap(env, nativeBitmap.release(),</span><br><span class="line">                        getPremulBitmapCreateFlags(isMutable));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要步驟依然沒有特別改變：</p>
+<ul>
+<li>建立<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/external/skia/include/core/SkBitmap.h">SkBitmap</a>。</li>
+<li>透過<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#265"><code>allocateHeapBitmap</code></a>呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#56"><code>allocateBitmap</code></a>取得<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/external/skia/include/core/SkRefCnt.h#246"><code>sk_sp&lt;Bitmap&gt;</code></a>。<code>sk_sp&lt;Bitmap&gt;</code>可當成是Native Bitmap的Wrapper，為了簡化說明，以下將直接稱作skspBitmap：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function">sk_sp&lt;Bitmap&gt; <span class="title">Bitmap::allocateHeapBitmap</span><span class="params">(SkBitmap* bitmap, SkColorTable* ctable)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> allocateBitmap(bitmap, ctable, &amp;android::allocateHeapBitmap);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> sk_sp&lt;Bitmap&gt; (*AllocPixeRef)(<span class="keyword">size_t</span> allocSize, <span class="keyword">const</span> SkImageInfo&amp; info, <span class="keyword">size_t</span> rowBytes, SkColorTable* ctable);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> sk_sp&lt;Bitmap&gt; <span class="title">allocateBitmap</span><span class="params">(SkBitmap* bitmap, SkColorTable* ctable, AllocPixeRef alloc)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> SkImageInfo&amp; info = bitmap-&gt;info();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">auto</span> wrapper = alloc(size, info, rowBytes, ctable);</span><br><span class="line">    <span class="keyword">if</span> (wrapper) &#123;</span><br><span class="line">        wrapper-&gt;getSkBitmap(bitmap);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> wrapper;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據傳入參數，和typedef對AllocPixelRef的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#53">定義</a>，可知<code>alloc</code>其實是另一個<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#86"><code>allocateHeapBitmap</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> sk_sp&lt;Bitmap&gt; <span class="title">allocateHeapBitmap</span><span class="params">(<span class="keyword">size_t</span> size, <span class="keyword">const</span> SkImageInfo&amp; info, <span class="keyword">size_t</span> rowBytes, SkColorTable* ctable)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span>* addr = <span class="built_in">calloc</span>(size, <span class="number">1</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> sk_sp&lt;Bitmap&gt;(<span class="keyword">new</span> Bitmap(addr, size, info, rowBytes, ctable));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到<code>calloc</code>確定空間就是宣告在Native Heap上，此空間位址會被傳入Native Bitmap的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#362">建構式</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line">Bitmap::Bitmap(<span class="keyword">void</span>* address, <span class="keyword">size_t</span> size, <span class="keyword">const</span> SkImageInfo&amp; info, <span class="keyword">size_t</span> rowBytes, SkColorTable* ctable) : SkPixelRef(info), mPixelStorageType(PixelStorageType::Heap) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊可以看到兩個重點：</p>
+<ul>
+<li>Native Bitmap繼承於<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/external/skia/include/core/SkPixelRef.h">SkPixelRef</a>，而不是與前面版本一樣是單純實作JNI介面的檔案。</li>
+<li><code>mPixelStorageType</code>給予的參數是<code>PixelStorageType::Heap</code>，代表是Native Heap。</li>
+</ul>
+<p>回到<code>allocateBitmap()</code>，<code>alloc</code>取得skspBitmap後，繼續看到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#484"><code>getSkBitmap()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Bitmap::getSkBitmap</span><span class="params">(SkBitmap* outBitmap)</span> </span>&#123;</span><br><span class="line">    outBitmap-&gt;setHasHardwareMipMap(mHasHardwareMipMap);</span><br><span class="line">    ...</span><br><span class="line">    outBitmap-&gt;setInfo(info(), rowBytes());</span><br><span class="line">    outBitmap-&gt;setPixelRef(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>outBitmap</code>就是前面建立的SkBitmap，用<code>setPixelRef()</code>將<code>this</code>，也就是Native Bitmap(SkPixelRef)傳入，但不回傳。所以<code>allocateBitmap</code>是回傳skspBitmap；<strong>與之前是包在SkBitmap中回傳不同</strong>。</p>
+<p>回到<code>Bitmap_creator</code>，<code>nativeBitmap</code>接收BitmapWrapper後，會先呼叫<code>release()</code>將包在其中的Native Bitmap取出才傳入<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#199"><code>createBitmap()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function">jobject <span class="title">createBitmap</span><span class="params">(JNIEnv* env, Bitmap* bitmap,</span></span></span><br><span class="line"><span class="function"><span class="params">                     <span class="keyword">int</span> bitmapCreateFlags, jbyteArray ninePatchChunk, jobject</span></span></span><br><span class="line"><span class="function"><span class="params">                     ninePatchInsets, <span class="keyword">int</span> density)</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">    BitmapWrapper* bitmapWrapper = <span class="keyword">new</span> BitmapWrapper(bitmap);</span><br><span class="line">    jobject obj = env-&gt;NewObject(gBitmap_class, gBitmap_constructorMethodID,</span><br><span class="line">            <span class="keyword">reinterpret_cast</span>&lt;jlong&gt;(bitmapWrapper), bitmap-&gt;width(), bitmap-&gt;height(), </span><br><span class="line">            density, isMutable, isPremultiplied, ninePatchChunk, ninePatchInsets);</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊Native Bitmap放到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#49">BitmapWrapper</a>，並傳入Java Bitmap的建構式，完成Java Bitmap的建立。</p>
+<p>雖然回傳的型態不同，但實際上的結構和Gingerbread類似，因為Native Heap依然是在Native space：</p>
+<p><img src="oreo.png" alt="oreo.png"></p>
+<p>雖然回傳的不是SkBitmap，但使用上沒有太多變化。以<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#1724"><code>setPixel()</code></a>為例，其native函示為<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#1434"><code>Bitmap_setPixel</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Bitmap_setPixel</span><span class="params">(JNIEnv* env, jobject, jlong bitmapHandle,</span></span></span><br><span class="line"><span class="function"><span class="params">                            jint x, jint y, jint colorHandle)</span> </span>&#123;</span><br><span class="line">    SkBitmap bitmap;</span><br><span class="line">    <span class="keyword">reinterpret_cast</span>&lt;BitmapWrapper*&gt;(bitmapHandle)-&gt;getSkBitmap(&amp;bitmap);</span><br><span class="line">    ...</span><br><span class="line">    proc(bitmap.getAddr(x, y), &amp;color, <span class="number">1</span>, x, y);</span><br><span class="line">    bitmap.notifyPixelsChanged();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裏的<code>getSkBitmap()</code>和前面的類似但有些不同，這裏是BitmapWrapper的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#77"><code>setSkBitmap</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getSkBitmap</span><span class="params">(SkBitmap* outBitmap)</span> </span>&#123;</span><br><span class="line">	mBitmap-&gt;getSkBitmap(outBitmap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>沒什麼特別，就是呼叫到前面介紹過的<code>Bitmap.getSkBitmap()</code>，將BitmapWrapper裡面存的Bitmap塞給外部的SkBitmap然後回傳。這樣外部的操作就會跟之前一樣：<strong>透過SkBitmap來操作Pixel</strong>。</p>
+<h4 id="Recycle-2" class="article-heading"><a href="#Recycle-2" class="headerlink" title="Recycle"></a>Recycle<a class="article-anchor" href="#Recycle-2" aria-hidden="true"></a></h4><p>既然Pixel操作變化不大，那<code>recycle()</code>也可以預期會差不多：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> jboolean <span class="title">Bitmap_recycle</span><span class="params">(JNIEnv* env, jobject, jlong bitmapHandle)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    bitmap-&gt;freePixels();</span><br><span class="line">    <span class="keyword">return</span> JNI_TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後呼叫BitmapWrapper的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#54"><code>freePixels()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">freePixels</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    mBitmap.reset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裏的<code>mBitmap</code>是skspBitmap，所以看到<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/external/skia/include/core/SkRefCnt.h#337"><code>reset()</code></a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SkRefCnt.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reset</span><span class="params">(T* ptr = <span class="literal">nullptr</span>)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    T* oldPtr = fPtr;</span><br><span class="line">    fPtr = ptr;</span><br><span class="line">    SkSafeUnref(oldPtr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">SkSafeUnref</span><span class="params">(T* obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj) &#123;</span><br><span class="line">        obj-&gt;unref();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>reset()</code>進行指標變數還原的動作；<code>SkSafeUnref()</code>則是用<code>unref()</code>，透過<code>delete</code>來啟動從Bitmap開始的一連串解構式。這邊的重點是Bitmap的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/libs/hwui/hwui/Bitmap.cpp#398">解構式</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.cpp</span></span><br><span class="line">Bitmap::~Bitmap() &#123;</span><br><span class="line">    <span class="keyword">switch</span> (mPixelStorageType) &#123;</span><br><span class="line">		...</span><br><span class="line">        <span class="keyword">case</span> PixelStorageType::Heap:</span><br><span class="line">    		<span class="built_in">free</span>(mPixelStorage.heap.address);</span><br><span class="line">    		<span class="keyword">break</span>;</span><br><span class="line">    	...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為<code>mPixelStorageType</code>在Native Bitmap建立時是用<code>calloc</code>宣告空間載<code>Heap</code>上。與之相對，就要用<code>free()</code>來釋放記憶體。</p>
+<h5 id="NativeAllocationRegistry" class="article-heading"><a href="#NativeAllocationRegistry" class="headerlink" title="NativeAllocationRegistry"></a>NativeAllocationRegistry<a class="article-anchor" href="#NativeAllocationRegistry" aria-hidden="true"></a></h5><p>Pixel資料放在Native Heap，一樣是在不屬於GC管理的Native space，因此會如Gingerbread一樣有記憶體無法即時回收的問題。於是，從Oreo開始，**建立Java Bitmap時就會<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/graphics/java/android/graphics/Bitmap.java#128">套用NativeAllocationRegistry機制</a>**：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Bitmap.java</span></span><br><span class="line">Bitmap(<span class="keyword">long</span> nativeBitmap, <span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">int</span> density,</span><br><span class="line">       boolean isMutable, boolean requestPremultiplied,</span><br><span class="line">       byte[] ninePatchChunk, NinePatch.InsetStruct ninePatchInsets) &#123;</span><br><span class="line">    ...</span><br><span class="line">    NativeAllocationRegistry registry = <span class="keyword">new</span> NativeAllocationRegistry(</span><br><span class="line">        Bitmap.class.getClassLoader(), nativeGetNativeFinalizer(), nativeSize);</span><br><span class="line">    registry.registerNativeAllocation(<span class="keyword">this</span>, nativeBitmap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>nativeGetNativeFinalizer()</code>回傳的是一個函式指標，指向<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/jni/android/graphics/Bitmap.cpp#864"><code>Bitmap_destruct()</code></a>，裡面<strong>直接使用<code>delete</code>來啟動如<code>recycle()</code>一樣的操作來回收記憶體。</strong></li>
+<li>建立NativeAllocationRegistry，並傳入前面得到的函式指標。</li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/luni/src/main/java/libcore/util/NativeAllocationRegistry.java#113"><code>registerNativeAllocation</code></a>會接收傳入的Bitmap物件，和代表BitmapWrapper的指標變數：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In NativeAllocationRegistry.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Runnable <span class="title">registerNativeAllocation</span><span class="params">(Object referent, <span class="keyword">long</span> nativePtr)</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">	Cleaner cleaner = Cleaner.create(referent, <span class="keyword">new</span> CleanerThunk(nativePtr));</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至於<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/ojluni/src/main/java/sun/misc/Cleaner.java">Cleaner</a>則是一種<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/ojluni/src/main/java/java/lang/ref/PhantomReference.java">PhantomReference</a>，當其接收的Bitmap物件只剩下Cleaner本身有引用到，就會執行回收並呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/ojluni/src/main/java/sun/misc/Cleaner.java#138"><code>clean()</code></a>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Cleaner.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	...</span><br><span class="line">	thunk.run();</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/luni/src/main/java/libcore/util/NativeAllocationRegistry.java#181">ClearTrunk</a>執行會呼叫<a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/8.0.0_r4/xref/libcore/luni/src/main/native/libcore_util_NativeAllocationRegistry.cpp#21"><code>applyFreeFunction()</code></a>來呼叫<code>Bitmap_destruct()</code>釋放BitmapWrapper物件。這樣即使記憶體存在GC無法直接處理的地方，也可以透過註冊的方式建立Bitmap物件與BitmapWrapper的連結，讓GC可以間接觸發BitmapWrapper的回收機制。</p>
+<h3 id="Summery" class="article-heading"><a href="#Summery" class="headerlink" title="Summery"></a>Summery<a class="article-anchor" href="#Summery" aria-hidden="true"></a></h3><p>不論哪個版本的作法，Bitmap都是透過<strong>SkBitmap</strong>來間接操作pixel。而一路演化而來，到Oreo開始才同時解決不同版本所遇到的問題：</p>
+<ul>
+<li><strong>記憶體在Native space，可以增長到實體記憶體塞滿為止。</strong></li>
+<li><strong>GC可在Bitmap物件需要回收時，主動回收Native Heap內的pixel資料。</strong></li>
+</ul>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><h4 id="Native-Memory-vs-Native-Heap" class="article-heading"><a href="#Native-Memory-vs-Native-Heap" class="headerlink" title="Native Memory vs Native Heap"></a>Native Memory vs Native Heap<a class="article-anchor" href="#Native-Memory-vs-Native-Heap" aria-hidden="true"></a></h4><p>由JNI產生的物件都會存放到此兩種空間，其都不屬於Java Heap，所以前面才通稱為Native space，但在本質上還是有些微差異。</p>
+<h5 id="Native-Memory" class="article-heading"><a href="#Native-Memory" class="headerlink" title="Native Memory"></a>Native Memory<a class="article-anchor" href="#Native-Memory" aria-hidden="true"></a></h5><p>不論是Dalvik或ART，在Process建立後都有分配專屬的空間，Native Memory會與Java Heap一起計算。以總分配空間為32M來說，如果free用了10M，則external則是22M。彼此不夠用時都會嘗試要去執行GC，並取得更多空間。如果Bitmap沒有被有效清除，就很容易用光分配的額度而產生OOM。</p>
+<h5 id="Native-Heap" class="article-heading"><a href="#Native-Heap" class="headerlink" title="Native Heap"></a>Native Heap<a class="article-anchor" href="#Native-Heap" aria-hidden="true"></a></h5><p>Native Heap不會被算入總分配空間，所以理論上將可不受限制的增長。但考量到系統穩定，大多應還是有個上限，只是會大得多，因此在Android 8以上比較難碰到Bitmap造成的OOM。</p>
+<h4 id="Profile" class="article-heading"><a href="#Profile" class="headerlink" title="Profile"></a>Profile<a class="article-anchor" href="#Profile" aria-hidden="true"></a></h4><p>Google有在Android Studio上提供一個好用的工具，<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/profile/memory-profiler.html">Profile</a>，可以用來觀察Runtime的記憶體使用狀況。</p>
+<p><img src="profile.png" alt="profile"></p>
+<p>依照觀察設備的不同，其所顯示的欄位也會有些差異：</p>
+<ul>
+<li>Android 8</li>
+</ul>
+<p><img src="8.png" alt="8"></p>
+<ul>
+<li>Android 6</li>
+</ul>
+<p><img src="6.png" alt="6"></p>
+<p>明顯可見，Pixel資料會分別歸類於Native和Shallow，就如同前面的介紹所述。另外由於Pixel資料儲存位置差異，也使Bitmap預覽的功能，只有在Android 8以前才有以下功能：</p>
+<p><img src="preview_btn.png" alt="preview_btn"></p>
+<p>因此，如果需要檢測Bitmap的使用狀況，最好還是使用Android 3到7之間的設備，才能確切知道每張圖的用途。</p>
+<h4 id="Retain-size" class="article-heading"><a href="#Retain-size" class="headerlink" title="Retain size"></a>Retain size<a class="article-anchor" href="#Retain-size" aria-hidden="true"></a></h4><p>看到Profile介面時，可能會好奇為何明明Shallow size很小，Retained size卻是最大。在2011年那場session，講者也有提到何謂Retained size。簡短來說兩者差異是是：</p>
+<ul>
+<li>Shallow是指物件本身記憶體大小，Retained表示其所連結到的所有物件記憶體總和。</li>
+</ul>
+<p>示意圖如下：</p>
+<p><img src="shallow_retain.png" alt="shallow_retain"></p>
+<p>圈內的是Shallow，圈外的是Retained。所以Ratained等同代表今天物件被回收時，可以被回收的記憶體總和。當然，物件在使用過程中的引用狀況一定比這還要複雜，針對被多重引用的物件，要如何計算其Retained，可以直接看那場session。</p>
+<p>到此，GC系列文結束，接著要看到的是App開啟流程：</p>
+<ul>
+<li><strong>《Launch Process - That’s how everything start》</strong></li>
+</ul>
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=_CruQY55HOk">Google I/O 2011: Memory management for Android Apps</a></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2019/03/20/year_end_report_6_gc_give_me_some_space_bitmap/index.html';
+  var disqus_title = "Year End Report - GC - Give me space! (Bitmap)";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

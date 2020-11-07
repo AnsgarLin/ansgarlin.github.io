@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>ViewPager | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/android/viewpager.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/android/viewpager.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/android/viewpager.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="What由一連串的相同佈局，但內容相異的Fragment組成 UsagemOffscreenPageLimit可以設定前後預載的頁數，如直接設定當前Fragment數量，則可以保存所有Fragment狀態，而不會因為離開畫面而被destroy如果設定為3代表前後欲載3個Fragment，也就是會有7個Fragment同時留存">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ViewPager">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/android/viewpager.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="What由一連串的相同佈局，但內容相異的Fragment組成 UsagemOffscreenPageLimit可以設定前後預載的頁數，如直接設定當前Fragment數量，則可以保存所有Fragment狀態，而不會因為離開畫面而被destroy如果設定為3代表前後欲載3個Fragment，也就是會有7個Fragment同時留存">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:14:05.275Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.275Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="android/viewpager.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">ViewPager</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="What" class="article-heading"><a href="#What" class="headerlink" title="What"></a>What<a class="article-anchor" href="#What" aria-hidden="true"></a></h2><p>由一連串的相同佈局，但內容相異的Fragment組成</p>
+<h2 id="Usage" class="article-heading"><a href="#Usage" class="headerlink" title="Usage"></a>Usage<a class="article-anchor" href="#Usage" aria-hidden="true"></a></h2><p>mOffscreenPageLimit可以設定前後預載的頁數，如直接設定當前Fragment數量，則可以保存所有Fragment狀態，而不會因為離開畫面而被destroy<br>如果設定為3代表前後欲載3個Fragment，也就是會有7個Fragment同時留存</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.275Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="view.html" class="article-footer-prev" title="View"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="path.html" class="article-footer-next" title="Path"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/android/viewpager.html';
+  var disqus_title = "ViewPager";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What"><span class="toc-text">What</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Usage"><span class="toc-text">Usage</span></a></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">架構元件</strong><a href="workmanager.html" class="sidebar-link">WorkManager</a><a href="room.html" class="sidebar-link">Room</a><strong class="sidebar-title">元件</strong><a href="context.html" class="sidebar-link">Context</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="activity.html" class="sidebar-link">Activity</a><a href="executor.html" class="sidebar-link">Executor</a><a href="fragment.html" class="sidebar-link">Fragment</a><a href="intentservice.html" class="sidebar-link">IntentService</a><a href="lrucache.html" class="sidebar-link">LruCache</a><a href="recyclerview.html" class="sidebar-link">RecyclerView</a><a href="service.html" class="sidebar-link">Service</a><a href="view.html" class="sidebar-link">View</a><a href="viewpager.html" class="sidebar-link current">ViewPager</a><a href="path.html" class="sidebar-link">Path</a><a href="paint.html" class="sidebar-link">Paint</a><strong class="sidebar-title">系統</strong><a href="asynctask.html" class="sidebar-link">AsyncTask</a><a href="handler.html" class="sidebar-link">Handler</a><strong class="sidebar-title">通信</strong><a href="aidl.html" class="sidebar-link">AIDL</a><strong class="sidebar-title">其他</strong><a href="intdef.html" class="sidebar-link">IntDef</a><a href="parcelable.html" class="sidebar-link">Parcelable</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="proguard.html" class="sidebar-link">ProGuard</a><a href="gradle.html" class="sidebar-link">Gradle</a><strong class="sidebar-title">心得</strong><a href="efficientandroidthreading.html" class="sidebar-link">Android高效能多執行緒</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">架構元件</strong><a href="workmanager.html" class="mobile-nav-link">WorkManager</a><a href="room.html" class="mobile-nav-link">Room</a><strong class="mobile-nav-title">元件</strong><a href="context.html" class="mobile-nav-link">Context</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="activity.html" class="mobile-nav-link">Activity</a><a href="executor.html" class="mobile-nav-link">Executor</a><a href="fragment.html" class="mobile-nav-link">Fragment</a><a href="intentservice.html" class="mobile-nav-link">IntentService</a><a href="lrucache.html" class="mobile-nav-link">LruCache</a><a href="recyclerview.html" class="mobile-nav-link">RecyclerView</a><a href="service.html" class="mobile-nav-link">Service</a><a href="view.html" class="mobile-nav-link">View</a><a href="viewpager.html" class="mobile-nav-link current">ViewPager</a><a href="path.html" class="mobile-nav-link">Path</a><a href="paint.html" class="mobile-nav-link">Paint</a><strong class="mobile-nav-title">系統</strong><a href="asynctask.html" class="mobile-nav-link">AsyncTask</a><a href="handler.html" class="mobile-nav-link">Handler</a><strong class="mobile-nav-title">通信</strong><a href="aidl.html" class="mobile-nav-link">AIDL</a><strong class="mobile-nav-title">其他</strong><a href="intdef.html" class="mobile-nav-link">IntDef</a><a href="parcelable.html" class="mobile-nav-link">Parcelable</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="proguard.html" class="mobile-nav-link">ProGuard</a><a href="gradle.html" class="mobile-nav-link">Gradle</a><strong class="mobile-nav-title">心得</strong><a href="efficientandroidthreading.html" class="mobile-nav-link">Android高效能多執行緒</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="android/viewpager.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

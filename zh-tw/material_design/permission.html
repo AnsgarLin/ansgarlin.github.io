@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>權限（Permission） | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/material_design/permission.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/permission.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/permission.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="要求使用者權限必須要簡潔且容易理解，務必詳細解釋為何需要此種權限，用於何處。 類型權限依照類型可分成如下表中的幾大類：    權限 功能    日曆 編輯日曆   相機 照相或綠影   聯絡人 編輯聯絡人   地點 定位資訊   麥克風 聲音錄製   電話 撥打和編輯來電   身體感測 心跳率和相關類型   簡訊 傳送和瀏覽簡訊   儲存 瀏覽多媒體和檔案   要求權限有些時候使用者的行為直接傳達">
+<meta property="og:type" content="website">
+<meta property="og:title" content="權限（Permission）">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/material_design/permission.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="要求使用者權限必須要簡潔且容易理解，務必詳細解釋為何需要此種權限，用於何處。 類型權限依照類型可分成如下表中的幾大類：    權限 功能    日曆 編輯日曆   相機 照相或綠影   聯絡人 編輯聯絡人   地點 定位資訊   麥克風 聲音錄製   電話 撥打和編輯來電   身體感測 心跳率和相關類型   簡訊 傳送和瀏覽簡訊   儲存 瀏覽多媒體和檔案   要求權限有些時候使用者的行為直接傳達">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3QXkxaEJ4OTM3X0E/patterns_permissions_patterns0.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OGJnTll2dmQ3T2c/patterns_permissions_patterns1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3N1hpVkRMWXU0WkE/patterns_permissions_patterns2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eE9IYkVXcU9fLXc/patterns_permissions_patterns4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3WGxFdDdfR1o4U2M/patterns_permissions_denied1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eDc0Zi1ZTlE5NjA/patterns_permissions_denied2.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.496Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.496Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3QXkxaEJ4OTM3X0E/patterns_permissions_patterns0.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">權限（Permission）</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>要求使用者權限必須要簡潔且容易理解，務必詳細解釋為何需要此種權限，用於何處。</p>
+<h2 id="類型" class="article-heading"><a href="#類型" class="headerlink" title="類型"></a>類型<a class="article-anchor" href="#類型" aria-hidden="true"></a></h2><p>權限依照類型可分成如下表中的幾大類：</p>
+<table>
+<thead>
+<tr>
+<th>權限</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日曆</td>
+<td>編輯日曆</td>
+</tr>
+<tr>
+<td>相機</td>
+<td>照相或綠影</td>
+</tr>
+<tr>
+<td>聯絡人</td>
+<td>編輯聯絡人</td>
+</tr>
+<tr>
+<td>地點</td>
+<td>定位資訊</td>
+</tr>
+<tr>
+<td>麥克風</td>
+<td>聲音錄製</td>
+</tr>
+<tr>
+<td>電話</td>
+<td>撥打和編輯來電</td>
+</tr>
+<tr>
+<td>身體感測</td>
+<td>心跳率和相關類型</td>
+</tr>
+<tr>
+<td>簡訊</td>
+<td>傳送和瀏覽簡訊</td>
+</tr>
+<tr>
+<td>儲存</td>
+<td>瀏覽多媒體和檔案</td>
+</tr>
+</tbody></table>
+<h2 id="要求權限" class="article-heading"><a href="#要求權限" class="headerlink" title="要求權限"></a>要求權限<a class="article-anchor" href="#要求權限" aria-hidden="true"></a></h2><p>有些時候使用者的行為直接傳達明確的意圖，就不需要要求權限，如拍照、選擇聯絡人或撥打等。</p>
+<p>但大部分的情況，需要在執行階段前跟使用者進行權限啟用確認，依照權限的重要程度和相對應的詢問方式可分成四個象限，如下圖：</p>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3QXkxaEJ4OTM3X0E/patterns_permissions_patterns0.png"></p>
+<blockquote>
+<p style="font-size: 12px">左右<br>需要目標權限的原因不明確，則需要先解釋</p>
+<p style="font-size: 12px">上下<br>應用是否需要目標權限才可使用，不同意則只會影響某部分操作</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OGJnTll2dmQ3T2c/patterns_permissions_patterns1.png" style="max-width:50%">
+> <p style="font-size: 12px">原因不明，預先解釋</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3N1hpVkRMWXU0WkE/patterns_permissions_patterns2.png" style="max-width:50%">
+> <p style="font-size: 12px">原因明確且必要，預先要求</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eE9IYkVXcU9fLXc/patterns_permissions_patterns4.png" style="max-width:50%">
+> <p style="font-size: 12px">原因明確且非必要，執行前要求</p>
+
+<h2 id="拒絕權限" class="article-heading"><a href="#拒絕權限" class="headerlink" title="拒絕權限"></a>拒絕權限<a class="article-anchor" href="#拒絕權限" aria-hidden="true"></a></h2><p>由於拒絕開放權限會造成某些功能無法正常使用，因此必要時需要提供提示訊息，情境可略分為以下兩種：</p>
+<ul>
+<li>權限背使用者拒絕後</li>
+<li>權限自動拒絕，通常用於使用者曾經點選拒絕，並且勾選”不要再問詢問”時</li>
+</ul>
+<p>為了讓功能即使在被拒絕權限後也可使用，必需要提供回復權限的方式。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3WGxFdDdfR1o4U2M/patterns_permissions_denied1.png" style="max-width:50%">
+> <p style="font-size: 12px">提示目標權限未開，並提供開啟路口</p>
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eDc0Zi1ZTlE5NjA/patterns_permissions_denied2.png" style="max-width:50%">
+> <p style="font-size: 12px">應用因爲權限被關閉而無法繼續使用，則必須告知原因並提供開啟路口</p>
+
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.496Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/material_design/permission.html';
+  var disqus_title = "權限（Permission）";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%9E%E5%9E%8B"><span class="toc-text">類型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E6%B1%82%E6%AC%8A%E9%99%90"><span class="toc-text">要求權限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%92%E7%B5%95%E6%AC%8A%E9%99%90"><span class="toc-text">拒絕權限</span></a></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Bytecode of Lambda | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/10/11/bytecode_of_lambda/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在《How Does Android Support Java 8》中，提到Android目前還沒支援Java8，所以目前在Android中寫的Lambda其實會在編譯時desugar，來將Lambda實作回覆Anonymous inner class (AIC)的作法。 不過，仍然會好奇Java8是如何實作Lambda。Java7時有一個新引入指令碼：invokedynamic，Java8就是用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bytecode of Lambda">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/10/11/bytecode_of_lambda/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在《How Does Android Support Java 8》中，提到Android目前還沒支援Java8，所以目前在Android中寫的Lambda其實會在編譯時desugar，來將Lambda實作回覆Anonymous inner class (AIC)的作法。 不過，仍然會好奇Java8是如何實作Lambda。Java7時有一個新引入指令碼：invokedynamic，Java8就是用">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-10-11T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.202Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Bytecode of Lambda</h1>
+    
+    <a href="/zh-tw/news/2018/10/11/bytecode_of_lambda/" class="article-date"><time datetime="2018-10-11T00:00:00.000Z">2018-10-11</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在《How Does Android Support Java 8》中，提到Android目前還沒支援Java8，所以目前在Android中寫的Lambda其實會在編譯時desugar，來將Lambda實作回覆Anonymous inner class (AIC)的作法。</p>
+<p>不過，仍然會好奇Java8是如何實作Lambda。Java7時有一個新引入指令碼：<strong>invokedynamic</strong>，Java8就是用其來完成bytecode的Lambda實作。</p>
+<p>在介紹invodedynamic前，需要先大概講述一下相關的指令。</p>
+<h3 id="Invoke-instructions" class="article-heading"><a href="#Invoke-instructions" class="headerlink" title="Invoke instructions"></a>Invoke instructions<a class="article-anchor" href="#Invoke-instructions" aria-hidden="true"></a></h3><p>以下是一個簡單的範例，囊括所有舊的invoke instructions：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> <span class="keyword">extends</span> <span class="title">ArrayList</span> <span class="keyword">implements</span> <span class="title">Iterable</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sMethod</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        sMethod(<span class="number">0</span>);</span><br><span class="line">        get(<span class="number">0</span>);</span><br><span class="line">        method(<span class="number">0</span>);</span><br><span class="line">        ((Iterable) <span class="keyword">this</span>).iterator();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下則是相關的bytecode，省略Constant pool和其他不重要的部分：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Classfile ...&#x2F;Sample.class</span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">	...</span><br><span class="line">    public com.example.Sample();</span><br><span class="line">        ...</span><br><span class="line">        Code:</span><br><span class="line">          stack&#x3D;1, locals&#x3D;1, args_size&#x3D;1</span><br><span class="line">             0: aload_0</span><br><span class="line">             1: invokespecial #1                &#x2F;&#x2F; Method java&#x2F;util&#x2F;ArrayList.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">             4: iconst_0</span><br><span class="line">             5: invokestatic  #2                &#x2F;&#x2F; Method sMethod:(I)V</span><br><span class="line">             8: aload_0</span><br><span class="line">             9: iconst_0</span><br><span class="line">            10: invokevirtual #3                &#x2F;&#x2F; Method get:(I)Ljava&#x2F;lang&#x2F;Object;</span><br><span class="line">            13: pop</span><br><span class="line">            14: aload_0</span><br><span class="line">            15: iconst_0</span><br><span class="line">            16: invokespecial #4                &#x2F;&#x2F; Method method:(I)V</span><br><span class="line">            19: aload_0</span><br><span class="line">            20: invokeinterface #5,  1          &#x2F;&#x2F; InterfaceMethod java&#x2F;lang&#x2F;Iterable.iterator:()Ljava&#x2F;util&#x2F;Iterator;</span><br><span class="line">             ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在開始說明之前，先提一下如何看註解的部分，以第一個invokespecial為例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Method java&#x2F;util&#x2F;ArrayList.&quot;&lt;init&gt;&quot;:()V</span><br></pre></td></tr></table></figure>
+
+<p>這一段用於描述當前的invoke instruction要執行的函示，分成三個部分：</p>
+<ul>
+<li><strong>Class name</strong>：java/lang/Object。</li>
+<li><strong>Method name</strong>：”<init>“。</init></li>
+<li><strong>Description</strong>：()V，()內代表傳入的參數，而V是回傳類型，整合起來表示是一個不帶參數且回傳Void的函示。更詳細的符號含義，可以參考官方在解釋Class檔案格式的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html">文件</a>。</li>
+</ul>
+<p>大致了解後，各個invoke instruction的簡介如下：</p>
+<ul>
+<li><strong>invokestatic</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">invokestatic  #2 &#x2F;&#x2F; Method sMethod:(I)V</span><br></pre></td></tr></table></figure>
+
+<p>用於static函示呼叫，特點是在編譯時期就決定好執行的函示，以及使用的類別，可說是所見即所得的指令。</p>
+<ul>
+<li><strong>incokevirtual</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">invokevirtual #3 &#x2F;&#x2F; Method get:(I)Ljava&#x2F;lang&#x2F;Object;</span><br></pre></td></tr></table></figure>
+
+<p>用於一般類別可繼承的函示呼叫，特點是在執行期間，才會決定要使用父類或是當前類別，來呼叫對應的函示。</p>
+<ul>
+<li><strong>invokespecial</strong>：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">invokespecial #3 &#x2F;&#x2F; Method method:(I)V</span><br></pre></td></tr></table></figure>
+
+<p>用於constructor、private和super函示呼叫，特點是在這些情況下，使用的是哪個類別的函示都是已知的，所以也可以當成是invokevirtual的特例。</p>
+<ul>
+<li><strong>invokeinterface</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">invokeinterface #5,  1 &#x2F;&#x2F; InterfaceMethod java&#x2F;lang&#x2F;Iterable.iterator:()Ljava&#x2F;util&#x2F;Iterator;</span><br></pre></td></tr></table></figure>
+
+<p>用於interface函示呼叫。特點是執行時是透過interface，而不是一般類別。</p>
+<p>可以觀察到這四個指令在使用時，都會明確指定使用的函示，輸入的參數及回傳的類型。即使是彈性最大的invokevirtual。</p>
+<p>雖然這四種指令的組合，可以處理如Java此類強型別的語言，但遇到動態語言時，將顯得左右支絀。不過JVM為了    支援動態，還是有其折衷的做法，以Groovy舉例如下：</p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DynamicSample</span> &#123;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="keyword">static</span> add(x, y) &#123; x + y &#125;</span><br><span class="line">    <span class="keyword">def</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">        add(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">        add(<span class="string">&quot;2&quot;</span>, <span class="string">&quot;3&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編譯後的class檔：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicSample</span> <span class="keyword">implements</span> <span class="title">GroovyObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicSample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        CallSite[] var1 = $getCallSiteArray();</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        MetaClass var2 = <span class="keyword">this</span>.$getStaticMetaClass();</span><br><span class="line">        <span class="keyword">this</span>.metaClass = var2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">add</span><span class="params">(Object x, Object y)</span> </span>&#123;</span><br><span class="line">        CallSite[] var2 = $getCallSiteArray();</span><br><span class="line">        <span class="keyword">return</span> var2[<span class="number">0</span>].call(x, y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">        CallSite[] var1 = $getCallSiteArray();</span><br><span class="line">        var1[<span class="number">1</span>].callStatic(DynamicSample.class, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        var1[<span class="number">2</span>].callStatic(DynamicSample.class, &quot;<span class="number">2</span><span class="string">&quot;, &quot;</span><span class="number">3</span><span class="string">&quot;);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>執行過程如下：</p>
+<ul>
+<li><p>透過<code>$getCallSiteArray</code>函示取得CallSiteArray。</p>
+<p>CallSiteArray內含三個CallSite，名稱分別是plus、add、add。由於此時的CallSite是AbstractCallSite，於是還沒指向任何實際操作的部分。而有plus是因為Groovy會把<code>+</code>的操作以plus函示執行。</p>
+</li>
+<li><p>透過取得的AbstractCallSite執行<code>callStatic</code>。</p>
+<p><code>callStatic</code>會在DynamicSample內找尋可以接受兩個int或String的函示並執行，於是呼叫到<code>add</code>。</p>
+</li>
+<li><p><code>add</code>內再透過<code>call</code>執行實際的相加操作。</p>
+</li>
+</ul>
+<p>簡單來說就是，編譯器直接在編譯時加入動態呼叫函示的邏輯。</p>
+<p>可以感覺到加入的內容會因為程式本身，而有不同變化，複雜度相對提高，所以如果要簡化一些重複性的操作，就是在bytecode層面需要做些調整。</p>
+<h3 id="Invokedynamic" class="article-heading"><a href="#Invokedynamic" class="headerlink" title="Invokedynamic"></a>Invokedynamic<a class="article-anchor" href="#Invokedynamic" aria-hidden="true"></a></h3><p>接著，我們在編譯時加上<code>--indy</code>，來看如果使用invokedynamic，編譯後的內容會變成如何：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicSample</span> <span class="keyword">implements</span> <span class="title">GroovyObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DynamicSample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MetaClass var1 = <span class="keyword">this</span>.$getStaticMetaClass();</span><br><span class="line">        <span class="keyword">this</span>.metaClass = var1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">add</span><span class="params">(Object x, Object y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ((Class)x).invoke&lt;invokedynamic&gt;(x, y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">        DynamicSample.class.invoke&lt;invokedynamic&gt;(DynamicSample.class, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        DynamicSample.class.invoke&lt;invokedynamic&gt;(DynamicSample.class, &quot;<span class="number">2</span><span class="string">&quot;, &quot;</span><span class="number">3</span><span class="string">&quot;);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到原本編譯時會加入的<code>$getCallSiteArray</code>，僅剩下<code>$getStaticMetaClass</code>。而原本在<code>main()</code>裡的操作也變得很單一。</p>
+<p>由於<code>add</code>用了新的指令invokedynamic，以下直接與原本的bytecode對照，來看有什麼變化：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// Before invokedynamic</span><br><span class="line">public static java.lang.Object add(java.lang.Object, java.lang.Object);</span><br><span class="line">    descriptor: (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      <span class="comment"># ============================</span></span><br><span class="line">      // Without invokedynamic</span><br><span class="line">      stack=3, locals=3, args_size=2</span><br><span class="line">         0: invokestatic  <span class="comment">#19               // Method $getCallSiteArray:()[Lorg/codehaus/groovy/runtime/callsite/CallSite;</span></span><br><span class="line">         3: astore_2</span><br><span class="line">         4: aload_2</span><br><span class="line">         5: ldc           <span class="comment">#32               // int 0</span></span><br><span class="line">         7: aaload</span><br><span class="line">         8: aload_0</span><br><span class="line">         9: aload_1</span><br><span class="line">        10: invokeinterface <span class="comment">#37,  3         // InterfaceMethod org/codehaus/groovy/runtime/callsite/CallSite.call:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;</span></span><br><span class="line">      <span class="comment"># ============================</span></span><br><span class="line">      <span class="comment"># With invokedynamic</span></span><br><span class="line">      stack=2, locals=2, args_size=2</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: aload_1</span><br><span class="line">         2: invokedynamic <span class="comment">#40,  0           // InvokeDynamic #0:invoke:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;</span></span><br><span class="line">      <span class="comment"># ============================</span></span><br><span class="line">        15: areturn</span><br><span class="line">        16: nop</span><br><span class="line">        17: athrow</span><br></pre></td></tr></table></figure>
+
+<p>快速對照後，原本需要透過invokestatic和invokeinterfac才可完成的操作，縮減為只有invokedynamic。與此相對，BootstrapMethod被加入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">BootstrapMethods:</span><br><span class="line">  0: <span class="comment">#37 invokestatic org/codehaus/groovy/vmplugin/v7/IndyInterface.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;I)Ljava/lang/invoke/CallSite;</span></span><br><span class="line">    Method arguments:</span><br><span class="line">      <span class="comment">#29 plus</span></span><br><span class="line">      <span class="comment">#30 0</span></span><br><span class="line">  1: <span class="comment">#37 invokestatic org/codehaus/groovy/vmplugin/v7/IndyInterface.bootstrap:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;I)Ljava/lang/invoke/CallSite;</span></span><br><span class="line">    Method arguments:</span><br><span class="line">      <span class="comment">#48 add</span></span><br><span class="line">      <span class="comment">#30 0</span></span><br></pre></td></tr></table></figure>
+
+<p>忽略掉<code>IndyInterface.bootstrap</code>的輸入參數，直接看回傳值就是上面曾經提過的CallSite。</p>
+<p>所以新的實現邏輯和原本是類似的：在執行階段走到invokedynamic時，會呼叫BootstrapMethods的操作來取得CallSite，裡面包含要指定的函示然後執行。</p>
+<p>與原本做法的主要差異在於：</p>
+<ul>
+<li><strong>編譯時期由編譯器產生的函示減少。</strong></li>
+<li><strong>編譯後所需要的指令減少。</strong></li>
+<li><strong>將操作介面統一標準化，降低bytecode的複雜度。</strong></li>
+</ul>
+<p>透過invokedynamic，簡化了動態語言在JVM上的實現，但invokedynamic是如何促成Java可使用Lambda取代傳統callback的實作？以下先從原本的callback實作開始講起。</p>
+<h3 id="Anonymous-Inner-Class-AIC" class="article-heading"><a href="#Anonymous-Inner-Class-AIC" class="headerlink" title="Anonymous Inner Class (AIC)"></a>Anonymous Inner Class (AIC)<a class="article-anchor" href="#Anonymous-Inner-Class-AIC" aria-hidden="true"></a></h3><p>首先範例程式如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallbackSample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CallbackSample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable runnable = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非常簡單的Runnable，直接來看看bytecode是如何實作：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> com.example.CallbackSample();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">3</span>, locals=<span class="number">2</span>, args_size=<span class="number">1</span></span><br><span class="line">         <span class="number">0</span>: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: new           #2                  // class com/example/CallbackSample$1</span><br><span class="line">         <span class="number">7</span>: dup</span><br><span class="line">         <span class="number">8</span>: aload_0</span><br><span class="line">         9: invokespecial #3                  // Method com/example/CallbackSample$1.&quot;&lt;init&gt;&quot;:(Lcom/example/CallbackSample;)V</span><br><span class="line">        <span class="number">12</span>: astore_1</span><br><span class="line">        <span class="number">13</span>: <span class="keyword">return</span></span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br><span class="line">SourceFile: <span class="string">&quot;Blur.java&quot;</span></span><br><span class="line">InnerClasses:</span><br><span class="line">     #2; //class com/example/CallbackSample$1</span><br></pre></td></tr></table></figure>
+
+<p>我們看到了一個特別的inner class，<code>CallbackSample$1</code>，這是編譯器在編譯時會自動產生的class檔。此class檔會對應到程式碼中的AIC，有幾個AIC，就會有幾個這樣的class產生出來。</p>
+<h3 id="Lambda-in-Java" class="article-heading"><a href="#Lambda-in-Java" class="headerlink" title="Lambda in Java"></a>Lambda in Java<a class="article-anchor" href="#Lambda-in-Java" aria-hidden="true"></a></h3><p>接著將範例改用Lambda風格：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LambdaSample</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LambdaSample</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Runnable runnable = () -&gt; &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編譯成bytecode則是：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">public</span> com.example.LambdaSample();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">1</span>, locals=<span class="number">2</span>, args_size=<span class="number">1</span></span><br><span class="line">         <span class="number">0</span>: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: invokedynamic #2,  0              // InvokeDynamic #0:run:()Ljava/lang/Runnable;</span><br><span class="line">         <span class="number">9</span>: astore_1</span><br><span class="line">        <span class="number">10</span>: <span class="keyword">return</span></span><br><span class="line">        ...</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> lambda$<span class="keyword">new</span>$<span class="number">0</span>();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=<span class="number">0</span>, locals=<span class="number">0</span>, args_size=<span class="number">0</span></span><br><span class="line">         <span class="number">0</span>: <span class="keyword">return</span></span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line <span class="number">29</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line">SourceFile: <span class="string">&quot;LambdaSample.java&quot;</span></span><br><span class="line">InnerClasses:</span><br><span class="line">     public static final #30= #29 of #33; //Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles</span><br><span class="line">BootstrapMethods:</span><br><span class="line">  0: #14 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;</span><br><span class="line">    Method arguments:</span><br><span class="line">      #15 ()V</span><br><span class="line">      #16 invokestatic com/example/LambdaSample.lambda$new$0:()V</span><br><span class="line">      #15 ()V</span><br></pre></td></tr></table></figure>
+
+<p>這裡我們看到與前面Groovy類似的結構，為了實現動態函示呼叫，Java做了幾個變化：</p>
+<ul>
+<li>新增LambdaMetafactory、CallSite和MethodHandle等新的類別。</li>
+<li>將Lambda實際操作的部分包裝成一個獨立的靜態函示<code>lambda$new$0</code>。</li>
+<li>新增BootstrapMethods區塊給invokedynamic使用。</li>
+</ul>
+<p>整個執行的流程如下：</p>
+<ul>
+<li>invokedynamic呼叫到BootstrapMethods內的LambdaMetafactory。</li>
+<li>將呼叫<code>lambda$new$0</code>的指令<code>invokestatic com/example/LambdaSample.lambda$new$0:()V</code>當成參數傳給LambdaMetafactory，此指令會被包裝成MethodHandle，可當成函示本身。</li>
+<li>MethodHandle會再被包裝進CallSite回傳。</li>
+</ul>
+<h4 id="Generate-class-on-fly" class="article-heading"><a href="#Generate-class-on-fly" class="headerlink" title="Generate class on fly"></a>Generate class on fly<a class="article-anchor" href="#Generate-class-on-fly" aria-hidden="true"></a></h4><p>到這可能會有個疑問，之前編譯AIC會產生的class檔去哪了？在執行時期，<code>LambdaMetafactory.metafactory</code>會同時產生一個如同AIC做法的inner class，樣子大概如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">LambdaSample</span>$$<span class="title">Lambda</span>$1 <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LambdaSample$$Lambda$<span class="number">1</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果有參數時才會產生</span></span><br><span class="line">    <span class="comment">// private static Runnable get$Lambda(String[] var) &#123;</span></span><br><span class="line">    <span class="comment">//    return new LambdaSample$$Lambda$1(var);</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Hidden</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LambdaSample.lambda$main$<span class="number">0</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以前面流程，在進入<code>LambdaMetafactory.metafactory</code>後，應該改成如下：</p>
+<ul>
+<li>產生動態類別<code>LambdaSample$$Lambda$1</code>。</li>
+<li>將呼叫Constructor或<code>get$Lambda()</code>的操作包裝成MethodHandle。</li>
+<li>將此MathodHandle放進CallSite回傳。</li>
+</ul>
+<p>接著就可以透過CallSite，執行MethodHandle取得<code>LambdaSample$$Lambda$1</code>的物件，並指定給範例中的變數<code>runnable</code>。這樣執行<code>run</code>時，就可以呼叫到編譯器替我們產生的靜態函示<code>lambda$main$0()</code>，執行我們原本設計好的操作。想更詳細了解這個過程，可以直接看LambdaMetafactory的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/frohoff/jdk8u-dev-jdk/blob/master/src/share/classes/java/lang/invoke/LambdaMetafactory.java#L291">原始碼</a>。</p>
+<p>另外，可能會令人好奇的是，為何在執行期間才建立class？實際上就算建在檔案中，也可以透過CallSite來使用。原因主要可能有以下兩個：</p>
+<ul>
+<li><strong>在執行期間產生的類別不用依賴實際的class檔，其signature也存在於constant pool，降低記憶體空間。且非檔案就沒有讀檔到建立物件的過程，在效能上也會有提升。</strong></li>
+<li><strong>轉移到執行期間，可降低bytecode與JVM之間的相依性，當JVM日後能直接支援動態函示時，將可無痛的棄用invokedynamic</strong>。</li>
+</ul>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>在開頭提到Android藉由desugar，把Lambda以傳統的callback實作代替，所以在編譯時期會自動建立對應的class。以Android來說，就是如下一般的Lambda類別：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-$<span class="variable">$Lambda</span><span class="variable">$Blur</span><span class="variable">$vkhPi2gkU05Je_</span>-6VHMwbOrEmug;</span><br></pre></td></tr></table></figure>
+
+<p>產生類別本身不是大問題，問題是如果Lambda內的實作都一樣，在編譯後依然是產生不一樣的類別；如果開發者大量使用Lambda，將可能造成多餘的類別產生。</p>
+<p>為了解決此問題，Jack Wharton在2017年的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://jakewharton.com/sinking-your-teeth-into-bytecode/">Driodcon UK</a>有提到，Android新的編譯工具D8中，會將後面那串亂碼，以Lambda實作內容，透過SHA1 Base64的方式產生，並由此來避免重複的Lambda實作。</p>
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://dzone.com/articles/j%CE%BBv%CE%BB-8-a-comprehensive-look">jλvλ-8-a-comprehensive-look</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://dzone.com/articles/how-lambdas-and-anonymous-inner-classesaic-work">How Lambdas And Anonymous Inner Classes Work</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.javacodegeeks.com/2012/02/java-7-complete-invokedynamic-example.html">Java 7: A complete invokedynamic example</a></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/10/11/bytecode_of_lambda/index.html';
+  var disqus_title = "Bytecode of Lambda";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

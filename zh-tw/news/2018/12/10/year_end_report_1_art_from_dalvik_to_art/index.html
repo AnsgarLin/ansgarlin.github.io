@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Year End Report - ART - From Dalvik to ART | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="如果已經看過《About ART - Part 1 - Compilation》的讀者，可將此篇當成前傳來看；還未看過的讀者，可以先看完此篇，再接續前篇的內容。  以下圖片部分出自Google I&#x2F;O 2008，由於年代久遠而重新繪製。  Android Runtime，屬於Android架構的中間層，負責將上層的程式內容轉成可由底層執行的native machine code。在Google推出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Year End Report - ART - From Dalvik to ART">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="如果已經看過《About ART - Part 1 - Compilation》的讀者，可將此篇當成前傳來看；還未看過的讀者，可以先看完此篇，再接續前篇的內容。  以下圖片部分出自Google I&#x2F;O 2008，由於年代久遠而重新繪製。  Android Runtime，屬於Android架構的中間層，負責將上層的程式內容轉成可由底層執行的native machine code。在Google推出">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/simple_arch.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/class_dex.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/cross_references.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/reference_map.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/stack_mechanism.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/register_mechanism.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/dalvik_art.png">
+<meta property="article:published_time" content="2018-12-10T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.205Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/simple_arch.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Year End Report - ART - From Dalvik to ART</h1>
+    
+    <a href="/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/" class="article-date"><time datetime="2018-12-10T00:00:00.000Z">2018-12-10</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p><strong><em>如果已經看過《About ART - Part 1 - Compilation》的讀者，可將此篇當成前傳來看；還未看過的讀者，可以先看完此篇，再接續前篇的內容。</em></strong></p>
+<blockquote>
+<p><em>以下圖片部分出自Google I/O 2008，由於年代久遠而重新繪製。</em></p>
+</blockquote>
+<p>Android Runtime，屬於<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/guide/platform/">Android架構</a>的中間層，負責將上層的程式內容轉成可由底層執行的native machine code。在Google推出Android初期，這部分是由Dalvik負責，並在2014年改由ART取代：</p>
+<p><img src="simple_arch.png" alt="simple_arch"></p>
+<h3 id="Dalvik" class="article-heading"><a href="#Dalvik" class="headerlink" title="Dalvik"></a>Dalvik<a class="article-anchor" href="#Dalvik" aria-hidden="true"></a></h3><p>什麼是Dalvik？Dalvik是Google自行研發的一個VM，用來代替JVM的位置。在Application編譯的過程中，透過[dx](<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Register_machine">register-based architecture</a> )將Java bytecode轉成Dalvik bytecode，再交給Dalvik VM，也稱作DVM。</p>
+<p>所以，雖然用Java開發，但Android並不執行Java bytecode；而是Dalvik bytecode。</p>
+<h4 id="Why-Dalvik" class="article-heading"><a href="#Why-Dalvik" class="headerlink" title="Why Dalvik"></a>Why Dalvik<a class="article-anchor" href="#Why-Dalvik" aria-hidden="true"></a></h4><p>在Android問世的2008年，手機的硬體不論是硬碟或是記憶體容量都非常吃緊，CPU的效能也不如現在。這樣的規格將不足以應付JVM執行，因此Dalvik為此而生。</p>
+<p>Dalvik的主要由兩個方向來分別解決上述問題：檔案結構和指令。</p>
+<h5 id="檔案架構" class="article-heading"><a href="#檔案架構" class="headerlink" title="檔案架構"></a>檔案架構<a class="article-anchor" href="#檔案架構" aria-hidden="true"></a></h5><p><img src="class_dex.png" alt="class_dex"></p>
+<p>相較於class檔彼此的constant pool相互獨立，dex檔是將其依照類型集中在不同的區塊內。<a target="_blank" rel="noopener external nofollow noreferrer" href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4">Constant pool</a>是class檔案結構中最重要的部分，用於提供Java bytecode執行時所需要的參數。</p>
+<p>不同的區塊彼此間的連結是前後跳躍的。例如method_id連到string_id，而string_id連到data來取得函示名稱；field_id連到type_id，再由string_id到data內取得field的類別名稱：</p>
+<p><img src="cross_references.png" alt="cross_references"></p>
+<p>綜合以上，可知在constant pool分類集中的情況下，多個method_id可能會連結到相同的field_id、proto_id。因此多個函式的連結關係圖就會如下：</p>
+<p><img src="reference_map.png" alt="reference_map"></p>
+<p>簡單來說，dex檔就像數個class檔的壓縮檔，減少了許多空間需求，也就解決容量的問題。更詳細的dex檔案結構可以直接參照<a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/devices/tech/dalvik/dex-format#header-item">官方文件</a>。</p>
+<h5 id="VM架構" class="article-heading"><a href="#VM架構" class="headerlink" title="VM架構"></a>VM架構<a class="article-anchor" href="#VM架構" aria-hidden="true"></a></h5><h6 id="Java-VM" class="article-heading"><a href="#Java-VM" class="headerlink" title="Java VM"></a>Java VM<a class="article-anchor" href="#Java-VM" aria-hidden="true"></a></h6><p>JVM是<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Stack_machine">Stack machine</a>，也就是需要在stack上進行數值的運算。</p>
+<p>這裡用一個簡單的加法運算解釋：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+
+<p>編譯後的Java bytecode為：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line">    Code:</span><br><span class="line">       <span class="number">0</span>: iload_1       </span><br><span class="line">       <span class="number">1</span>: iload_2       </span><br><span class="line">       <span class="number">2</span>: iadd          </span><br><span class="line">       <span class="number">3</span>: ireturn  </span><br></pre></td></tr></table></figure>
+
+<p>對照<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Java_bytecode_instruction_listings">Java bytecode指令表</a>，以上步驟在stack上的操作如下：</p>
+<p><img src="stack_mechanism.png" alt="stack_mechanism"></p>
+<p>可以看到在進行資料運算時，一定會需要使用push和pop來操作stack。</p>
+<h6 id="Dalvik-VM" class="article-heading"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM<a class="article-anchor" href="#Dalvik-VM" aria-hidden="true"></a></h6><p>DVM是<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Register_machine">Register machine</a>，也就是不需要stack，資料放在CPU暫存器，操作時直接透過位址存取暫存器的內容。</p>
+<p>針對同一段程式碼，來看轉換成Dalvik bytecode會是如何：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">[<span class="number">00010</span>8] com.ansgar.playgroundk.basic.ten.AddSample.add:(II)I</span><br><span class="line"><span class="number">0000</span>: add-<span class="keyword">int</span> v0, v2, v3</span><br><span class="line"><span class="number">0002</span>: <span class="keyword">return</span> v0</span><br></pre></td></tr></table></figure>
+
+<p>對照<a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/devices/tech/dalvik/dalvik-bytecode">Dalvik bytecode</a>指令表，以上步驟在暫存器上的操作則如下：</p>
+<p><img src="register_mechanism.png" alt="register_mechanism"></p>
+<p>直接透過資料位址存取，就不需要PUSH和POP，相同的程式碼所需要的指令行數就減少許多。於是，Dalvik可以有較高的執行效率。</p>
+<p>使用這樣的架構也提升Dalvik優化的空間，舉例來說：重複性高且結果固定的操作，則可將暫存結果，就不用重複運算。其實還有其他原因，如有興趣可以看這篇報導的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.electronicdesign.com/embedded/operating-environments-emerge-mobile-devices-multiply">ANDROID’S ANSWER</a>的段落。</p>
+<h3 id="Dalvik-to-ART" class="article-heading"><a href="#Dalvik-to-ART" class="headerlink" title="Dalvik to ART"></a>Dalvik to ART<a class="article-anchor" href="#Dalvik-to-ART" aria-hidden="true"></a></h3><p>Google用ART取代Dalvik的原因，在Google I/O 2014的一個<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=EBlTzQsUoOw">session</a>的開頭有特別解釋。簡單來說，就是Dalvik是一個時代下的產物，而在硬體飛速成長的現下，它已經完成其階段性任務。</p>
+<p>不過Android發行已久，很多不同版本的設備仍在流通，因此ART也設計成持續接收Dalvik bytecode，只是執行階段並不是以Dalvik bytecode為主，而是native machine code：</p>
+<p><img src="dalvik_art.png" alt="dalvik_art"></p>
+<h3 id="Summery" class="article-heading"><a href="#Summery" class="headerlink" title="Summery"></a>Summery<a class="article-anchor" href="#Summery" aria-hidden="true"></a></h3><p>更多與ART相關的問題，像是Google是為何要用ART取代Dalvik、有什麼轉變，以及帶來的效益，都可以在<strong>《About ART - Part 1 - Compilation》</strong>得到解答。</p>
+<p>以上就是Android Runtime相關的介紹，接著要來談談Garbage collection：</p>
+<ul>
+<li><strong>《Year End Report - GC - Give me space! (Dalvik)》</strong></li>
+</ul>
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.youtube.com/watch?v=ptjedOZEXPM">Google I/O 2008 - Dalvik Virtual Machine Internals</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://neo.dmcs.pl/podyplomowe_smtm/smob3/Presentation-Of-Dalvik-VM-Internals.pdf">Presentation-Of-Dalvik-VM-Internals</a></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/12/10/year_end_report_1_art_from_dalvik_to_art/index.html';
+  var disqus_title = "Year End Report - ART - From Dalvik to ART";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

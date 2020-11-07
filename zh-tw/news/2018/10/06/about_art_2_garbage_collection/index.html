@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>About ART - Part 2 - Garbage Collection | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="已經看過《Year End Report - GC - Give me space! (Java)》的讀者，可將此篇當成續篇來看；還未看過的讀者，建議可先看完前篇，再接續此篇的內容。   目前更新到2008 - 2018年，以下圖片來自不同年份的Google IO或Android Dev Summit。  前面我們提到ART compiler的演進，接著我們來看從Dalvik到ART，Google">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About ART - Part 2 - Garbage Collection">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="已經看過《Year End Report - GC - Give me space! (Java)》的讀者，可將此篇當成續篇來看；還未看過的讀者，建議可先看完前篇，再接續此篇的內容。   目前更新到2008 - 2018年，以下圖片來自不同年份的Google IO或Android Dev Summit。  前面我們提到ART compiler的演進，接著我們來看從Dalvik到ART，Google">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/dalvik_gc_1.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/dalvik_gc_2.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/dalvik_gc_3.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/art_gc_1.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/art_gc_2.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/art_gc_3.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/concurrent_gc_1.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/concurrent_gc_2.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/concurrent_gc_3.png">
+<meta property="article:published_time" content="2018-10-06T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.179Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/dalvik_gc_1.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">About ART - Part 2 - Garbage Collection</h1>
+    
+    <a href="/zh-tw/news/2018/10/06/about_art_2_garbage_collection/" class="article-date"><time datetime="2018-10-06T00:00:00.000Z">2018-10-06</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p><strong><em>已經看過《Year End Report - GC - Give me space! (Java)》的讀者，可將此篇當成續篇來看；還未看過的讀者，建議可先看完前篇，再接續此篇的內容。</em></strong></p>
+<blockquote>
+<p> <em>目前更新到2008 - 2018年，以下圖片來自不同年份的Google IO或Android Dev Summit。</em></p>
+</blockquote>
+<p>前面我們提到ART compiler的演進，接著我們來看從Dalvik到ART，Google做了哪些調整。不過帶出ART GC之前，必須先提Dalvik GC。</p>
+<h3 id="Dalvik-GC" class="article-heading"><a href="#Dalvik-GC" class="headerlink" title="Dalvik GC"></a>Dalvik GC<a class="article-anchor" href="#Dalvik-GC" aria-hidden="true"></a></h3><h4 id="The-GC-flow" class="article-heading"><a href="#The-GC-flow" class="headerlink" title="The GC flow"></a>The GC flow<a class="article-anchor" href="#The-GC-flow" aria-hidden="true"></a></h4><p><img src="dalvik_gc_1.png" alt="dalvik_gc_1"></p>
+<p>圖中是Dalvik GC的標準運作流程：</p>
+<ul>
+<li>產生物件並放入。</li>
+<li>建立初始標記。</li>
+<li>從初始標記延伸標記其他物件。</li>
+<li>刪除未使用的物件。</li>
+</ul>
+<p>在這幾個步驟內，會強制停止所有thread的步驟是與標記有關的階段，以下圖為例：</p>
+<p><img src="dalvik_gc_2.png" alt="dalvik_gc_2"></p>
+<ul>
+<li>第一個pause：在標記初始階段，需要找出所有使用中的物件，以此來建立標記的基準。因此得強制lock所有thread，避免查詢過程中，又有狀態改變的情況。標記完後lock會打開，GC會與程式同時運行，並由前面建立的標記為起點，繼續延伸做標記。</li>
+<li>第二個pause：透過前面步驟，所有使用中的物件已被標記，但還是需要做一次確認，確保沒有已標記物件的狀態在這過程中又被改變，所以又再次lock所有thread。確認完後進入刪除的階段，此階段與使用中的物件無關，因此可以與程式並行處理。</li>
+</ul>
+<p>一般來說，<a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/devices/graphics/implement-vsync">VSYNC</a>會伴隨畫面繪製(深綠色區塊)，但因為GC會lock所有thread，所以看到在第二次pause時，繪製無法順利執行，就產生掉frame的狀況。</p>
+<h4 id="GCs-back-to-back" class="article-heading"><a href="#GCs-back-to-back" class="headerlink" title="GCs back to back"></a>GCs back to back<a class="article-anchor" href="#GCs-back-to-back" aria-hidden="true"></a></h4><p>Dalvik GC為了有效使用記憶體空間，會彈性的逐步增加記憶體可佔用的空間範圍，直到系統預設的最大值。這些設定存於system內的build.prop，設定的前綴是dalvik.vm。</p>
+<p>但這無法避免記憶體過度零散(heap fragmentation)的問題，原因如下：</p>
+<ul>
+<li><strong>物件佔用記憶體後，就會一直在固定位置；所以歷經GC後，物件之間會有些許未使用片段。</strong></li>
+</ul>
+<p>這使得記憶體屆滿的情況下，大型物件就容易找不到適合的位置放置，就會不斷觸發清除的動作，也就是前面提過先標記後刪除的過程。在畫面呈現上，就會產生長時間的停頓：</p>
+<p><img src="dalvik_gc_3.png" alt="dalvik_gc_3"></p>
+<p>到此，我們總結Dlavik GC面臨的幾個問題：</p>
+<ul>
+<li>每次pause都會lock所有thread。</li>
+<li>物件存放後不會再移動，產生記憶體過度零散的狀況。</li>
+<li>大型物件在記憶體零散或吃緊時，會不斷觸發GC，造成長時間延遲。</li>
+</ul>
+<p>接著來看ART GC如何來解決這樣的情況。</p>
+<h3 id="ART-GC" class="article-heading"><a href="#ART-GC" class="headerlink" title="ART GC"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.com/devices/tech/dalvik/gc-debug#art_gc_overview">ART GC</a><a class="article-anchor" href="#ART-GC" aria-hidden="true"></a></h3><p><img src="art_gc_1.png" alt="art_gc_1"></p>
+<ul>
+<li>第一個pause：ART GC轉由Application自行標記物件，就不需要lock所有thread，省去pause並達到與原本Dalvik GC第一個pause相同的效果。且就官方說法此步驟非常短暫，Application執行完馬上就會繼續其他工作，不會造成有感的延遲。接著會和Dalvik一樣進行延伸標記。</li>
+<li>第二個pause：原本在Dalvik GC，這邊需要處理已標記物件的狀態又改變的狀況，但ART將此工作移到pause之前，此方法稱作<a target="_blank" rel="noopener external nofollow noreferrer" href="https://plumbr.io/handbook/garbage-collection-algorithms-implementations/concurrent-mark-and-sweep">Concurrent Card Precleaning</a>，所以這邊pause時間長度也降低許多。</li>
+</ul>
+<h4 id="GCs-back-to-back-1" class="article-heading"><a href="#GCs-back-to-back-1" class="headerlink" title="GCs back to back"></a>GCs back to back<a class="article-anchor" href="#GCs-back-to-back-1" aria-hidden="true"></a></h4><p>ART使用LOS(Large Object Heap)，從記憶體切出一個獨立的區塊，只存放大物件，避免大物件不斷的觸發GC。而餘下的記憶體區塊中存放小物件，就可以有效避免記憶體過度零散。</p>
+<p>一般來說，大物件會是圖片(bitmap)，此類並不會引用到其他物件的物件。所以可以合理將其分開存放：</p>
+<p><img src="art_gc_2.png" alt="art_gc_2"></p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>以上提到的改變，已經從根本上解決Dalvik GC的問題。但Google在ART引入了自訂的allocator和不同類型的GC，更加的極大化ART GC所帶來的效益。</p>
+<h4 id="Allocator" class="article-heading"><a href="#Allocator" class="headerlink" title="Allocator"></a>Allocator<a class="article-anchor" href="#Allocator" aria-hidden="true"></a></h4><p>近年內，Google不斷對allocator進行調整，依照順序介紹如下：</p>
+<h5 id="Rosalloc-2014-2017" class="article-heading"><a href="#Rosalloc-2014-2017" class="headerlink" title="Rosalloc (2014 - 2017)"></a>Rosalloc (2014 - 2017)<a class="article-anchor" href="#Rosalloc-2014-2017" aria-hidden="true"></a></h5><p>基於Doug Lea的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://g.oswego.edu/dl/html/malloc.html">allocator</a>(dlmalloc)，Google自己作了一個allocator，來更有效的分配記憶體。簡單來說，Rosalloc會各別劃分大小物件所能使用的記憶體區塊：小物件在thread local，又稱Thread-Local Allocation Buffers（TLABs），大物件則在共用的區塊內。</p>
+<h5 id="Thread-Local-Allocation-Buffers-2014-present" class="article-heading"><a href="#Thread-Local-Allocation-Buffers-2014-present" class="headerlink" title="Thread-Local Allocation Buffers (2014 - present)"></a>Thread-Local Allocation Buffers (2014 - present)<a class="article-anchor" href="#Thread-Local-Allocation-Buffers-2014-present" aria-hidden="true"></a></h5><p>在初始化時，thread會直接被分配各自的記憶體，由於其他thread沒辦法使用，所以不用lock也可以直接存取。而前面提到的大物件則是各自有自己的lock。這兩者搭配起來就能進行同步分配的操作，提升整理效率。</p>
+<p><img src="art_gc_3.png" alt="art_gc_3"></p>
+<h5 id="Bump-the-pointer-allocator-2017-present" class="article-heading"><a href="#Bump-the-pointer-allocator-2017-present" class="headerlink" title="Bump-the-pointer allocator (2017 - present)"></a>Bump-the-pointer allocator (2017 - present)<a class="article-anchor" href="#Bump-the-pointer-allocator-2017-present" aria-hidden="true"></a></h5><p>Rosalloc的資料結構是<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Free_list">free-list</a>，特色是在宣告或是刪除記憶體時很快，缺點是每個區塊的大小是固定的，如果物件的大小不符，則可能會需要較多的搜尋成本。可以預期的，list的結構多少依然會使得記憶體零散。</p>
+<p>Google在2017年使用Bump-the-pointer取代free-list，原因以下兩點，皆出自<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.oracle.com/technetwork/java/javase/memorymanagement-whitepaper-150215.pdf">Oracle文檔</a>：</p>
+<ul>
+<li>Bump-the-pointer只紀錄未被佔用的記憶體區塊的頭尾，這建立在記憶體零散程度很低的前提上。在2017年導入的Concurrent GC，在程式執行過程中就集中記憶體，完成這個前提。</li>
+<li>Bump-the-pointer面臨的問題是無法被使用在多執行緒上，但可以搭配TLABs解決，這TLABs已經有實作在Rosalloc，因此可以順利轉換。</li>
+</ul>
+<h4 id="Multiple-types-of-GC" class="article-heading"><a href="#Multiple-types-of-GC" class="headerlink" title="Multiple types of GC"></a>Multiple types of GC<a class="article-anchor" href="#Multiple-types-of-GC" aria-hidden="true"></a></h4><p>除了改變GC的行為外，Google也在ART引入各種不同的GC，依照功能分成Non-moving GC和Moving GC：</p>
+<h5 id="Non-moving-GC" class="article-heading"><a href="#Non-moving-GC" class="headerlink" title="Non-moving GC"></a>Non-moving GC<a class="article-anchor" href="#Non-moving-GC" aria-hidden="true"></a></h5><p>此種GC還可以細分成以下三種類型，並有各自負責的範圍：</p>
+<ul>
+<li><strong>Concurrent mark sweep</strong>：簡稱CMS，負責所有記憶體區塊，包含Zygote和Application的記憶體區塊。</li>
+<li><strong>Concurrent partial mark sweep</strong>：負責Application的記憶體區塊。</li>
+<li><strong>Concurrent sticky mark sweep</strong>：負責前一次沒有被GC的記憶體區塊。</li>
+</ul>
+<p>實務上，Google刻意讓Sticky GC執行的頻率高於Partial GC和CMS，因為根據<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.memorymanagement.org/glossary/g.html#term-generational-hypothesis">generational hypothesis</a>，越新佔用的的記憶體，越有可能在下一次GC時回收。而在官方實測後，的確如預期得到更高的效率，但效果不打折。</p>
+<h5 id="Moving-GC" class="article-heading"><a href="#Moving-GC" class="headerlink" title="Moving GC"></a>Moving GC<a class="article-anchor" href="#Moving-GC" aria-hidden="true"></a></h5><p>用於集中記憶體區塊，降低記憶體區塊零散的問題，同時代表原本零散區塊間的記憶體可以被有效利用。不過直接移動記憶體區塊，勢必會影響Application的效率。所以依照是否與程式同步又可細分成Concurrent和Non-Concurrent。</p>
+<h6 id="Concurrent" class="article-heading"><a href="#Concurrent" class="headerlink" title="Concurrent"></a>Concurrent<a class="article-anchor" href="#Concurrent" aria-hidden="true"></a></h6><ul>
+<li><p><strong>Concurrent copy</strong></p>
+<p>2017年加入，與其他Moving GC一樣是搬移記憶體，分成幾個步驟如下：</p>
+<p><strong>Pause phase</strong></p>
+<p><img src="concurrent_gc_1.png" alt="concurrent_gc_1">如同其他Moving GC，一開始會先將所有thread停住(<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Tracing_garbage_collection#Stop-the-world_vs._incremental_vs._concurrent">Stop the world</a>)，進行標記的動作，並將記憶體依照一定的大小，做區塊的切分，並分成allocated region和unused region。</p>
+<p><strong>Coping &amp; reclaim phase</strong></p>
+<p><img src="concurrent_gc_2.png" alt="concurrent_gc_2"><br>切分區塊後，接著決定需要調動的region，這邊選用中間兩個當成source region，在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://youtu.be/iFE2Utbv1Oo?t=409">talk</a>內是說因為他們零散程度大於20%。</p>
+<p>Concurrent GC會搬移裡面的記憶體到新的region，然後重新進行指標的連結：例如bar的位置被搬移了，所以foo.x將從原本在source region的位置，改為指向dest region內的bar。</p>
+<p>與其他Moving GC不同的是：因為是與程式執行過程同步，所以在此過程中會攔截讀取的動作，並同時完成搬移和指標轉移。</p>
+<p>結束這環節之後，就不會有任何指標會指向source region，就可以將此段記憶體回收。</p>
+<p><img src="concurrent_gc_3.png" alt="concurrent_gc_3"></p>
+</li>
+</ul>
+<h6 id="Nonconcurrent" class="article-heading"><a href="#Nonconcurrent" class="headerlink" title="Nonconcurrent"></a>Nonconcurrent<a class="article-anchor" href="#Nonconcurrent" aria-hidden="true"></a></h6><ul>
+<li><strong>Semi space</strong>：劃出新的記憶體空間，直接將要集中的記憶體區塊搬過去。</li>
+<li>**<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Mark-compact_algorithm">Mark Compact</a>**：直接在原地將記憶體區塊集中。</li>
+</ul>
+<p>非同步的Moving GC會盡量在不影響使用者的狀況下執行，官方說明是有各種方式判定執行時機，舉例如下：</p>
+<ul>
+<li>Zygote啟動時。</li>
+<li>Application進入背景時。</li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/10/06/about_art_2_garbage_collection/index.html';
+  var disqus_title = "About ART - Part 2 - Garbage Collection";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

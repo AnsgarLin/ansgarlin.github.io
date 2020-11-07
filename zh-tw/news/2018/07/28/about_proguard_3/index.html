@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>About Proguard - Part 3 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/07/28/about_proguard_3/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="了解ProGuard的基本運作後，不免讓人想要理解，其背後是怎樣設計，才可以處理並分析各種不同風格的程式碼，甚至不用擔心整個流程會因為目標程式過於巨大而無法順利執行。 至少，對我來說是如此，所以餘下章節將焦點在其程式碼的流程，至於能不能在其中發現任何模式，讓我們可以借鏡來使用於日常專案，就等看完後才會知道。 要講完所有部分篇幅很多，所以Part3只是一個起頭，並且建議先閱讀Part1，才可以理解之">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About Proguard - Part 3">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/07/28/about_proguard_3/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="了解ProGuard的基本運作後，不免讓人想要理解，其背後是怎樣設計，才可以處理並分析各種不同風格的程式碼，甚至不用擔心整個流程會因為目標程式過於巨大而無法順利執行。 至少，對我來說是如此，所以餘下章節將焦點在其程式碼的流程，至於能不能在其中發現任何模式，讓我們可以借鏡來使用於日常專案，就等看完後才會知道。 要講完所有部分篇幅很多，所以Part3只是一個起頭，並且建議先閱讀Part1，才可以理解之">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-07-28T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.130Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">About Proguard - Part 3</h1>
+    
+    <a href="/zh-tw/news/2018/07/28/about_proguard_3/" class="article-date"><time datetime="2018-07-28T00:00:00.000Z">2018-07-28</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>了解ProGuard的基本運作後，不免讓人想要理解，其背後是怎樣設計，才可以處理並分析各種不同風格的程式碼，甚至不用擔心整個流程會因為目標程式過於巨大而無法順利執行。</p>
+<p>至少，對我來說是如此，所以餘下章節將焦點在其程式碼的流程，至於能不能在其中發現任何模式，讓我們可以借鏡來使用於日常專案，就等看完後才會知道。</p>
+<p>要講完所有部分篇幅很多，所以Part3只是一個起頭，並且建議先閱讀Part1，才可以理解之後章節內的一些用語。</p>
+<h3 id="Where-to-start" class="article-heading"><a href="#Where-to-start" class="headerlink" title="Where to start"></a>Where to start<a class="article-anchor" href="#Where-to-start" aria-hidden="true"></a></h3><h4 id="Source-code" class="article-heading"><a href="#Source-code" class="headerlink" title="Source code"></a>Source code<a class="article-anchor" href="#Source-code" aria-hidden="true"></a></h4><p>工欲善其事，必先利其器。首先必須要從<a target="_blank" rel="noopener external nofollow noreferrer" href="https://sourceforge.net/projects/proguard/files/proguard/6.0/proguard6.0.3.zip/download">官網</a>下載原始碼，以下使用的內容都基於版號6.0.3。</p>
+<h4 id="Start-point" class="article-heading"><a href="#Start-point" class="headerlink" title="Start point"></a>Start point<a class="article-anchor" href="#Start-point" aria-hidden="true"></a></h4><p>由於我們想要看的是跟Android相關的流程，所以直接看到<code>gradle</code>目錄底下的ProGuardTask。</p>
+<p>要設計Gradle的Task，除了要繼承DefaultTask，還要在要當成進入點的函示加上<code>@TaskAction</code>；類似Java的<code>main()</code>，要開始執行Task則是呼叫<code>execute()</code>。細節可以看Gradle官網的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://docs.gradle.org/current/userguide/custom_tasks.html">介紹</a>。</p>
+<p>所以，ProGuardTask的進入點是<code>proguard()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuardTask</span></span><br><span class="line"><span class="meta">@TaskAction</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">proguard</span><span class="params">()</span> <span class="keyword">throws</span> ParseException, IOException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="comment">// Run ProGuard with the collected configuration.</span></span><br><span class="line">    <span class="keyword">new</span> ProGuard(getConfiguration()).execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就如我們前面Part1提到的，ProGuard第一步是讀取ProGuard設定。</p>
+<h3 id="Read-Configuration" class="article-heading"><a href="#Read-Configuration" class="headerlink" title="Read Configuration"></a>Read Configuration<a class="article-anchor" href="#Read-Configuration" aria-hidden="true"></a></h3><p>首先看到<code>getConfiguration()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuardTask</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Configuration <span class="title">getConfiguration</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ParseException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Lazily apply the external configuration files.</span></span><br><span class="line">    ConfigurableFileCollection fileCollection =</span><br><span class="line">        getProject().files(configurationFiles);</span><br><span class="line"></span><br><span class="line">    Iterator&lt;File&gt; files = fileCollection.iterator();</span><br><span class="line">    <span class="keyword">while</span> (files.hasNext()) &#123;</span><br><span class="line">        ConfigurationParser parser =</span><br><span class="line">            <span class="keyword">new</span> ConfigurationParser(files.next(), System.getProperties());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            parser.parse(configuration);</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> configuration;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前半段省略的是將Program和Library class部分的jar檔加入<code>configuration</code>，不過在這部分不重要，直接跳過。留下來的是所有設定檔會依序透過<code>ConfigurationParse.parse()</code>來將檔案內的設定存入<code>configuration</code>中。</p>
+<p>於是重點就是ConfigurationParser：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConfigurationParser</span><span class="params">(File file, Properties properties)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="keyword">new</span> FileWordReader(file), properties);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConfigurationParser</span><span class="params">(WordReader reader,</span></span></span><br><span class="line"><span class="function"><span class="params">                               Properties properties)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.reader     = reader;</span><br><span class="line">    <span class="keyword">this</span>.properties = properties;</span><br><span class="line">    readNextWord();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ConfigurationParser使用FileWordReader來讀檔：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In FileWordReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">FileWordReader</span><span class="params">(File file)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="keyword">new</span> LineNumberReader(<span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(file))), ...);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這不詳述其中功能，總之會用來逐行讀取檔案內容。</p>
+<p>回頭再看到<code>readNextWord()</code> ：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readNextWord</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    readNextWord(<span class="keyword">false</span>, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readNextWord</span><span class="params">(<span class="keyword">boolean</span> isFileName, <span class="keyword">boolean</span> expectSingleFile)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    nextWord = reader.nextWord(isFileName, expectSingleFile);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以在ConfigurationParser建立後就會馬上透過傳入的Reader來讀取檔案，這裡的FileReader沒有實作<code>nextWord()</code>，所以是使用父類WorkReader的<code>nextWord()</code>。</p>
+<p>為了不中斷分析的過程，此函式詳述在<a href="#Appdendix">Appendix</a>。簡言之，此函式目的為：<strong>逐行讀取設定內容回傳，並以空白、括號、逗號或冒號做分隔。</strong>於是，目前的<code>nextWord</code>是<code>-keep</code>。</p>
+<p>到此，ConfigurationParser已經順利產生出來，接著呼叫<code>parse()</code>，並將<code>configuration</code>傳入來承接結果。為了接下來解說有個依據，這邊用常見的keep規則作為範例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-keep <span class="class"><span class="keyword">class</span> * <span class="title">extend</span> <span class="title">com</span>.<span class="title">example</span>.<span class="title">classname</span> </span>&#123; *; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊列出<code>parse()</code>內範例會用到的部分，不過其他部分是大同小異：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationConstants</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEEP_OPTION = <span class="string">&quot;-keep&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse</span><span class="params">(Configuration configuration)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (nextWord != <span class="keyword">null</span>) &#123;</span><br><span class="line">    	...</span><br><span class="line">    	<span class="keyword">if</span> (ConfigurationConstants.KEEP_OPTION.startsWith(nextWord)) </span><br><span class="line">    		configuration.keep = parseKeepClassSpecificationArguments(configuration.keep, </span><br><span class="line">                                    							<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">null</span>);</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由於此時<code>nextWord</code>是<code>-keep</code>，所以進入迴圈後會走到<code>KEEP_OPTION</code>所在的片段，這裡會用到<code>configuration.keep</code>，負責存放需要被keep的類別、函示和變數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Configuration</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A list of &#123;<span class="doctag">@link</span> KeepClassSpecification&#125; instances, whose class names and</span></span><br><span class="line"><span class="comment"> * class member names are to be kept from shrinking, optimization, and/or</span></span><br><span class="line"><span class="comment"> * obfuscation.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> List      keep;</span><br></pre></td></tr></table></figure>
+
+<p>在這直接假設<code>configuration.keep</code>不是null，再看到<code>parseKeepClassSpecificationArguments()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List <span class="title">parseKeepClassSpecificationArguments</span><span class="params">(List keepClassSpecifications,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  <span class="keyword">boolean</span> markClasses,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  <span class="keyword">boolean</span> markConditionally,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  <span class="keyword">boolean</span> allowShrinking,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  ClassSpecification condition)</span></span></span><br><span class="line"><span class="function">                                                  <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">    <span class="comment">// Read and add the keep configuration.</span></span><br><span class="line">    keepClassSpecifications.add(parseKeepClassSpecificationArguments(markClasses,</span><br><span class="line">                                                                     markConditionally,</span><br><span class="line">                                                                     allowShrinking,</span><br><span class="line">                                                                     condition));</span><br><span class="line">    <span class="keyword">return</span> keepClassSpecifications;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據前面的輸入，先記下只有<code>markClasses</code>是true，其他不是false就是null。這邊再往下呼叫到同名的另一個<code>parseKeepClassSpecificationArguments()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationConstants</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ARGUMENT_SEPARATOR_KEYWORD = <span class="string">&quot;,&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> KeepClassSpecification <span class="title">parseKeepClassSpecificationArguments</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="keyword">boolean</span> markClasses, <span class="keyword">boolean</span> markConditionally, <span class="keyword">boolean</span> allowShrinking,</span></span></span><br><span class="line"><span class="function"><span class="params">    ClassSpecification condition)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">boolean</span> markDescriptorClasses = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> markCodeAttributes    = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> allowOptimization     = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> allowObfuscation      = <span class="keyword">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Read the keep modifiers.</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        readNextWord(...);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!ConfigurationConstants.ARGUMENT_SEPARATOR_KEYWORD.equals(nextWord)) &#123;</span><br><span class="line">            <span class="comment">// Not a comma. Stop parsing the keep modifiers.</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Read the class configuration.</span></span><br><span class="line">    ClassSpecification classSpecification = parseClassSpecificationArguments();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Create and return the keep configuration.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> KeepClassSpecification(markClasses, ..., classSpecification);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此函示一開始會先判斷是否有修飾keep的設定，如<code>allowshrinking</code>此類，有就會更改函示開頭的變數值。</p>
+<p>不過根據範例，這邊的<code>readNextWord()</code>得到字串會是<code>class</code>，因此下一個判斷時會直接break跳出迴圈，進到讀取類別的部分：<code>parseClassSpecificationArguments()</code>，此函式在此次範例會執行到的地方比較多，以下將分段說明：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ClassSpecification <span class="title">parseClassSpecificationArguments</span><span class="params">()</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Parse the class annotations and access modifiers until the class keyword.</span></span><br><span class="line">    <span class="keyword">while</span> (!ConfigurationConstants.CLASS_KEYWORD.equals(nextWord))</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="comment">// Parse the class name part.</span></span><br><span class="line">    String externalClassName =       </span><br><span class="line">        ListUtil.commaSeparatedString(parseCommaSeparatedList(...);</span><br></pre></td></tr></table></figure>
+
+<p>現在的<code>nextWord</code>值是<code>class</code>，就直接跳過while迴圈走到<code>parseCommaSeparatedList</code>。</p>
+<p>此函示一樣較為複雜，詳細可參考<a href="#Appdendix">Appendix</a>。簡言之，此函示目的是：</p>
+<ul>
+<li><strong>將一串以逗號為分隔的字串重組成一個List，直到沒有看到逗號為止，並在回傳前讀取下一個字</strong>。</li>
+</ul>
+<p>取得List後，呼叫<code>commaSeparatedString</code>將List重組回字串，這樣一來一往可以去掉字串間不必要的字元，如註解之類。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// For backward compatibility, allow a single &quot;*&quot; wildcard to match any</span></span><br><span class="line"><span class="comment">// class.</span></span><br><span class="line">String className = ConfigurationConstants.ANY_CLASS_KEYWORD.equals(externalClassName)?</span><br><span class="line">    <span class="keyword">null</span> : ClassUtil.internalClassName(externalClassName);</span><br></pre></td></tr></table></figure>
+
+<p>搭配範例，<code>parseCommaSeparatedList()</code>能取到的只有星號，因此<code>className</code>設為null，而<code>nextWord</code>是星號的下一個字<code>extend</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Clear the annotation type and the class name of the extends part.</span></span><br><span class="line">String extendsAnnotationType = <span class="keyword">null</span>;</span><br><span class="line">String extendsClassName      = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!configurationEnd())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Parse &#x27;implements ...&#x27; or &#x27;extends ...&#x27; part, if any.</span></span><br><span class="line">    <span class="keyword">if</span> (ConfigurationConstants.IMPLEMENTS_KEYWORD.equals(nextWord) ||</span><br><span class="line">        ConfigurationConstants.EXTENDS_KEYWORD.equals(nextWord))</span><br><span class="line">    &#123;</span><br><span class="line">        readNextWord(<span class="string">&quot;class name or interface name&quot;</span>, ...);</span><br><span class="line">        ...</span><br><span class="line">        String externalExtendsClassName = </span><br><span class="line">            ListUtil.commaSeparatedString(</span><br><span class="line">            	parseCommaSeparatedList(<span class="string">&quot;class name or interface name&quot;</span>, ...));</span><br><span class="line"></span><br><span class="line">        extendsClassName = ConfigurationConstants.ANY_CLASS_KEYWORD.equals(externalExtendsClassName) ?</span><br><span class="line">            <span class="keyword">null</span> :</span><br><span class="line">            ClassUtil.internalClassName(externalExtendsClassName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>nextWord</code>是<code>extend</code>，所以<code>configurationEnd()</code>是false。再次呼叫<code>readNextWord()</code>來得到範例下一段字串：<code>com.example.classname</code>。</p>
+<p>接著如前面一樣使用<code>parseCommaSeparatedList</code>取出逗號分隔的字串，不過只會得到相同的結果。所以此時的<code>externalExtendsClassName</code>是<code>com.example.classname</code>、<code>nextWord</code>是<code>&#123;</code>。</p>
+<p>最後，透過<code>ClassUtil.internalClassName()</code>將分隔類別名稱的<code>.</code>換成<code>/</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassUtil</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">internalClassName</span><span class="params">(String externalClassName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> externalClassName.replace(JavaConstants.PACKAGE_SEPARATOR,</span><br><span class="line">                                     ClassConstants.PACKAGE_SEPARATOR);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到這就算是取得完整的類別名稱，接著就是建立一個ClassSpecification。ClassSpecification是一個存放Class資訊的model，記錄包含類別名稱以外，還有函示、變數等類別相關的資訊：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Create the basic class specification.</span></span><br><span class="line">ClassSpecification classSpecification = <span class="keyword">new</span> ClassSpecification(lastComments,</span><br><span class="line">															requiredSetClassAccessFlags,</span><br><span class="line">								                            requiredUnsetClassAccessFlags,</span><br><span class="line">                           	                            	annotationType,</span><br><span class="line">                           	                            	className,</span><br><span class="line">                           	                            	extendsAnnotationType,</span><br><span class="line">                           	                            	extendsClassName);</span><br></pre></td></tr></table></figure>
+
+<p>回到<code>parseClassSpecificationArguments()</code>，接著還有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Now add any class members to this class specification.</span></span><br><span class="line"><span class="keyword">if</span> (!configurationEnd()) &#123;</span><br><span class="line">    <span class="comment">// Check the class member opening part.</span></span><br><span class="line">    <span class="keyword">if</span> (!ConfigurationConstants.OPEN_KEYWORD.equals(nextWord)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ParseException(<span class="string">&quot;Expecting opening &#x27;&quot;</span> +</span><br><span class="line">                                 ConfigurationConstants.OPEN_KEYWORD +</span><br><span class="line">                                     <span class="string">&quot;&#x27; at &quot;</span> + reader.locationDescription());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後的最後，<code>configurationEnd()</code>依然是false，而<code>nextWord</code>為<code>&#123;</code>，等於<code>OPEN_KEYWORD</code>所以直接往下到while迴圈。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">        <span class="comment">// Parse all class members.</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            readNextWord(<span class="string">&quot;class member description or closing &#x27;&#125;&#x27;&quot;</span>, ...);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nextWord.equals(ConfigurationConstants.CLOSE_KEYWORD)) &#123;</span><br><span class="line">                <span class="comment">// The closing brace. Stop parsing the class members.</span></span><br><span class="line">                readNextWord();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            parseMemberSpecificationArguments(externalClassName,</span><br><span class="line">                                              classSpecification);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> classSpecification;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>迴圈內的<code>readNextWord()</code>會取到星號，並透過<code>parseMemberSpecificationArguments()</code>繼續分析，再將結果塞回去<code>classSpecification</code>。</p>
+<p>在讀到<code>&#125;</code>，也就是<code>CLOSE_KEYWORD</code>，則執行最後一次<code>readNextWord()</code>，此時<code>nextWord</code>會因為讀到行底而為null，退出迴圈，完成一條keep規則的解析。</p>
+<p>這邊產生的<code>classSpecification</code>，會回傳到<code>parseKeepClassSpecificationArguments()</code>。並加入List，<code>keepClassSpecifications</code>，也就是外部傳入的<code>configuration.keep</code>。</p>
+<p>再往回傳就回到<code>parse</code>準備進入下一個迴圈，此時<code>nextWord</code>是null，導致迴圈終止，並從<code>parse()</code>退出，完成了整個檔案的設定分析。</p>
+<h3 id="Appendix" class="article-heading"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix<a class="article-anchor" href="#Appendix" aria-hidden="true"></a></h3><p>此部分用於介紹內容較多的函示，避免前面的分析內容過於零散。為了與前面分析做連結，會使用到前面的範例。</p>
+<h4 id="readNextWord" class="article-heading"><a href="#readNextWord" class="headerlink" title="readNextWord()"></a>readNextWord()<a class="article-anchor" href="#readNextWord" aria-hidden="true"></a></h4><p>由於這method包含很多操作，於是這邊省略掉前面解析不會使用到的部分，或是留下註解節省篇幅：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In WordReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">nextWord</span><span class="params">(<span class="keyword">boolean</span> isFileName, <span class="keyword">boolean</span> expectSingleFile)</span> <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    currentWord = <span class="keyword">null</span>;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Get a word from this reader.</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 1 ==============================</span></span><br><span class="line">    <span class="comment">// Skip any whitespace and comments left on the current line.</span></span><br><span class="line">    <span class="keyword">if</span> (currentLine != <span class="keyword">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// Skip any leading whitespace.</span></span><br><span class="line">        ...</span><br><span class="line">        currentIndex++;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// Skip any comments.</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 2 ==============================</span></span><br><span class="line">    <span class="comment">// Make sure we have a non-blank line.</span></span><br><span class="line">    <span class="keyword">while</span> (currentLine == <span class="keyword">null</span> || currentIndex == currentLineLength)</span><br><span class="line">    &#123;</span><br><span class="line">        currentLine = nextLine();</span><br><span class="line">        <span class="keyword">if</span> (currentLine == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        currentLineLength = currentLine.length();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Skip any leading whitespace.</span></span><br><span class="line">        currentIndex = <span class="number">0</span>;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// Skip the comments.</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 3 ==============================</span></span><br><span class="line">    <span class="comment">// Find the word starting at the current index.</span></span><br><span class="line">    <span class="keyword">int</span> startIndex = currentIndex;</span><br><span class="line">    <span class="keyword">int</span> endIndex;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> startChar = currentLine.charAt(startIndex);</span><br><span class="line">    <span class="keyword">if</span> (isQuote(startChar)) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isFileName &amp;&amp; !isOption(startChar)) &#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDelimiter(startChar)) &#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// The next word is a simple character string.</span></span><br><span class="line">        <span class="comment">// Find the end of the line, the first delimiter, or the first</span></span><br><span class="line">        <span class="comment">// white space.</span></span><br><span class="line">        <span class="keyword">while</span> (currentIndex &lt; currentLineLength)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">char</span> currentCharacter = currentLine.charAt(currentIndex);</span><br><span class="line">            <span class="keyword">if</span> (isNonStartDelimiter(currentCharacter)    ||</span><br><span class="line">            	Character.isWhitespace(currentCharacter) ||   </span><br><span class="line">            	isComment(currentCharacter)) &#123;</span><br><span class="line">                	<span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            currentIndex++;</span><br><span class="line">        &#125;</span><br><span class="line">        endIndex = currentIndex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Remember and return the parsed word.</span></span><br><span class="line">    currentWord = currentLine.substring(startIndex, endIndex);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> currentWord;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此函示的運作方式，有分成<strong>初次呼叫</strong>、<strong>再次呼叫</strong>、<strong>檔案終止</strong>三種階段。</p>
+<h5 id="初次呼叫" class="article-heading"><a href="#初次呼叫" class="headerlink" title="初次呼叫"></a>初次呼叫<a class="article-anchor" href="#初次呼叫" aria-hidden="true"></a></h5><p>首先一開始<code>currentLine</code>會是空的，所以會直接跳到第二段，透過<code>nextLine()</code>來取得第一行內容。</p>
+<p>這邊<code>nextLine()</code>就是由不同的Reader來實作，在這直接看到FileWordReader。不過FileWordReader其實是繼承LineNumberReader，就是讀取檔案內的一行不包含換行的字串。</p>
+<p>回頭<code>nextWord</code>，取得字串後先將長度暫存，這是用來判斷是否此行已經分析完畢的終止條件。接著就是找尋設定內容的起點位置，所以要跳過空白和註解。</p>
+<p>找到後直接取出第一個字詞，然後進入第三部分的一整串判斷。一般來說都會進入最後的<code>else</code>，然後一路讀取到出現空白為止或是井字號，來當作結束位置。</p>
+<p>透過起始和結束位置，就可以從目前的一行字串內，取出部分的字串。</p>
+<h5 id="再次呼叫" class="article-heading"><a href="#再次呼叫" class="headerlink" title="再次呼叫"></a>再次呼叫<a class="article-anchor" href="#再次呼叫" aria-hidden="true"></a></h5><p>由於Reader會在整個分析過程中一直存在，所以前面有設值的<code>currentLine</code>、<code>currentLineLength</code>和最後得到的<code>currentWord</code>並不會被刪除；下一次再進入此函式時，就會進入第一部分，一樣先跳過空白和註解，找到下一個設定內容的起點，然後進入第三部分得到下一個片段。</p>
+<h5 id="檔案終止" class="article-heading"><a href="#檔案終止" class="headerlink" title="檔案終止"></a>檔案終止<a class="article-anchor" href="#檔案終止" aria-hidden="true"></a></h5><p><code>currentIndex</code>如果在第一部分已經被遞增到與<code>currentLineLength</code>相同，就代表此行已經處理完畢。就進入第二部分，先讀取下一行至<code>currentLine</code>，這是一個重置動作，以免之後的呼叫都在終止狀態循環。然後直接回傳null，給外部呼叫知道目前已到行末。</p>
+<p>總結來說，此函示作用是：</p>
+<ul>
+<li><strong>逐行讀取設定內容回傳，並以空白、括號、逗號或冒號做分隔。</strong></li>
+</ul>
+<h4 id="parseCommaSeparatedList" class="article-heading"><a href="#parseCommaSeparatedList" class="headerlink" title="parseCommaSeparatedList()"></a>parseCommaSeparatedList()<a class="article-anchor" href="#parseCommaSeparatedList" aria-hidden="true"></a></h4><p>和<code>readNexrWord()</code>一樣，這邊僅留下前面分析會使用到的部分：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationParser</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Reads a comma-separated list of java identifiers or of file names.</span></span><br><span class="line"><span class="comment">  * Examples of invocation arguments:</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  *   expected          read   allow  expect  is     check  allow   replace replac</span></span><br><span class="line"><span class="comment">  *   description       First  empty  Closing File   Java   Generic System  Extern  </span></span><br><span class="line"><span class="comment">  *                     Word   List   Paren   Name   Id             Prop    Class  </span></span><br><span class="line"><span class="comment">  *   ---------------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">  *   ...</span></span><br><span class="line"><span class="comment">  *   (&quot;class name &quot;,   true,  false, false,  false, true,  false,  false,  false, ...)</span></span><br><span class="line"><span class="comment">  *   ...</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List <span class="title">parseCommaSeparatedList</span><span class="params">(String  expectedDescription,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> readFirstWord,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> allowEmptyList,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> expectClosingParenthesis,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> isFileName,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> checkJavaIdentifiers,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> allowGenerics,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> replaceSystemProperties,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> replaceExternalClassNames,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">boolean</span> replaceExternalTypes,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     List    list)</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>此函式為通用函式，專門用來將以逗號為分隔的字串，重組成一個List。在本篇範例是用來取得類別名稱。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (list == <span class="keyword">null</span>) &#123;</span><br><span class="line">    list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (readFirstWord) &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="comment">// Read the first list entry.</span></span><br><span class="line">    readNextWord(expectedDescription, ...);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此函式一開始先用<code>readNextWord()</code>，以本文的範例來看，前面分析走到這函示時，取到的<code>nextWord</code>是星號。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (checkJavaIdentifiers) &#123;</span><br><span class="line">        checkJavaIdentifier(<span class="string">&quot;java type&quot;</span>, allowGenerics);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    list.add(nextWord);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Read a comma (or a different word).</span></span><br><span class="line">        readNextWord();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>不論取到的是什麼，接著會被加入List，然後再次使用<code>readNextWord()</code>讀入下一個字串，以範例來說就是<code>extend</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">        <span class="keyword">if</span> (!ConfigurationConstants.ARGUMENT_SEPARATOR_KEYWORD.equals(nextWord)) &#123;</span><br><span class="line">            <span class="keyword">return</span> list;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Read the next list entry.</span></span><br><span class="line">        readNextWord(expectedDescription, ...);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由於<code>nextWord</code>是<code>extend</code>，並不是逗號，所以直接回傳帶有星號的List。如果是逗號，則會再取出下一個字串，進入下一個迴圈。</p>
+<p>簡言之，此函式作用是：</p>
+<ul>
+<li><strong>將一串以逗號為分隔的字串重組成一個List，直到沒有看到逗號為止，並在回傳前讀取下一個字。</strong></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/07/28/about_proguard_3/index.html';
+  var disqus_title = "About Proguard - Part 3";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

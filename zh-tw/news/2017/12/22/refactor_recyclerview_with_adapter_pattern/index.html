@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>運用Delegate Pattern進行RecyclerView重構 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="感謝Benjamin Cheng想出此解法並在文章撰寫過程中給予協助。 以下內容取自公司專案，任何相關的程式碼都已經過刪減，純粹用於表示概念而不是可執行的程式片段。  一直以來，公司App首頁充滿著各種不同的View，而不同的View依賴於不同的資料來源，可以預料到背後的邏輯勢必會非常複雜。 首頁用到Android元件主要是：Fragment、RecyclerView。如果依照Android官方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="運用Delegate Pattern進行RecyclerView重構">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="感謝Benjamin Cheng想出此解法並在文章撰寫過程中給予協助。 以下內容取自公司專案，任何相關的程式碼都已經過刪減，純粹用於表示概念而不是可執行的程式片段。  一直以來，公司App首頁充滿著各種不同的View，而不同的View依賴於不同的資料來源，可以預料到背後的邏輯勢必會非常複雜。 首頁用到Android元件主要是：Fragment、RecyclerView。如果依照Android官方">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-12-22T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.093Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">運用Delegate Pattern進行RecyclerView重構</h1>
+    
+    <a href="/zh-tw/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/" class="article-date"><time datetime="2017-12-22T00:00:00.000Z">2017-12-22</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <blockquote>
+<p><em>感謝<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/benjamin-cheng">Benjamin Cheng</a>想出此解法並在文章撰寫過程中給予協助。</em></p>
+<p><em>以下內容取自公司專案，任何相關的程式碼都已經過刪減，純粹用於表示概念而不是可執行的程式片段</em>。</p>
+</blockquote>
+<p>一直以來，公司App首頁充滿著各種不同的View，而不同的View依賴於不同的資料來源，可以預料到背後的邏輯勢必會非常複雜。</p>
+<p>首頁用到Android元件主要是：Fragment、RecyclerView。如果依照Android官方範本的實作方式，不同View的邏輯會放置在同一個Adapter裡面，且需要在各個callback內使用switch機制，但過多的switch會複雜化新增或是刪除其中一個項目時的步驟。</p>
+<p>就算不以switch舉例，Adapter內一定會有一些自訂函示，是每個View都會使用到，但處理方式上又有些微不同。如此就必須依賴if-else來實作，則就會遇到相同的問題。</p>
+<p>以Adapter來說以上情形主要會發生在以下幾個callback：<code>getItemViewType</code>、<code>onCreateViewHolder</code>、<code>onBindViewHolder</code>和在這些callback內呼叫的函示。</p>
+<p>直覺的解法就是將邏輯個別拆開，在這我們選用Hannes Dorfmann的所提出的方法。</p>
+<p>Hannes Dorfmann的解法是Delegate Pattern的一種運用，以下將從介紹Delegate Pattern開始。</p>
+<h3 id="Delegate-Pattern" class="article-heading"><a href="#Delegate-Pattern" class="headerlink" title="Delegate Pattern"></a>Delegate Pattern<a class="article-anchor" href="#Delegate-Pattern" aria-hidden="true"></a></h3><p>根據<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Delegation_pattern">Wiki</a>上的定義：</p>
+<blockquote>
+<p><strong>Delegation</strong> is a way to make composition as powerful for reuse as inheritance [Lie86, JZ91]. In delegation, <em>two</em> objects are involved in handling a request: a receiving object delegates operations to its <strong>delegate</strong>. This is analogous to subclasses deferring requests to parent classes. But with inheritance, an inherited operation can always refer to the receiving object through the <code>this</code> member variable in C++ and <code>self</code> in Smalltalk. To achieve the same effect with delegation, the receiver passes itself to the delegate to let the delegated operation refer to the receiver.[<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Delegation_pattern#cite_note-2">2]</a></p>
+</blockquote>
+<p>簡言之，就是一個函式被呼叫時，會由外部傳入的物件來呼叫相同名稱的函示，進行一個換手的動作。</p>
+<h3 id="Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" class="article-heading"><a href="#Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" class="headerlink" title="Hannes Dorfmann’s JOE’S GREAT ADAPTER HELL ESCAPE"></a>Hannes Dorfmann’s <a target="_blank" rel="noopener external nofollow noreferrer" href="http://hannesdorfmann.com/android/adapter-delegates">JOE’S GREAT ADAPTER HELL ESCAPE</a><a class="article-anchor" href="#Hannes-Dorfmann’s-JOE’S-GREAT-ADAPTER-HELL-ESCAPE" aria-hidden="true"></a></h3><p>在Hannes Dorfmann的文章內所提到的問題如下：</p>
+<blockquote>
+<p>一開始的Adapter只有一個View。在需要新的View時，作法則是用一個新的Adapter來繼承舊的。如此當業務邏輯調整時，會產生以下幾個情形：</p>
+<ul>
+<li>需要只呈現其中一種View時，因為Adapter是繼承而來，會造成不需要的View的邏輯也會參雜進來。</li>
+<li>需要在不同的Adapter上呈現相同的View時，會造成相同的邏輯重複出現。</li>
+</ul>
+</blockquote>
+<p>上述的情境我們遇到的情境有些不同，但問題點都是不同View的邏輯互相參雜，不容易進行更動。</p>
+<p>文章內的解法是套用Delegate Pattern，先節錄主要的兩個interface：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdapterDelegate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isForViewType</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position)</span></span>;</span><br><span class="line">  <span class="meta">@NonNull</span> <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent)</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position, <span class="meta">@NonNull</span> RecyclerView.ViewHolder holder)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AdapterDelegate用來封裝不同的View的邏輯</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdapterDelegatesManager</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> AdapterDelegatesManager&lt;T&gt; <span class="title">addDelegate</span><span class="params">(<span class="meta">@NonNull</span> AdapterDelegate&lt;T&gt; delegate)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(<span class="meta">@NonNull</span> T items, <span class="keyword">int</span> position, <span class="meta">@NonNull</span> RecyclerView.ViewHolder viewHolder)</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AdapterDelegatesManager用來存放不同View的AdapterDelegate，然後在<code>onCreaterViewHolder</code>和<code>onBindViewHolder</code>時，針對view type來呼叫對應的<code>AdapterDelegate.onCreaterViewHolder</code>和<code>onBindViewHolder</code></p>
+<h3 id="After-refactor" class="article-heading"><a href="#After-refactor" class="headerlink" title="After refactor"></a>After refactor<a class="article-anchor" href="#After-refactor" aria-hidden="true"></a></h3><p>為了將AdapterDelegatesManager當成一般的Adapter使用，我們做了一些調整，加上實作如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AdapterDelegate</span> </span>&#123;</span><br><span class="line">    <span class="meta">@NonNull</span> <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, Item data)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdapterDelegatesManager</span> <span class="keyword">extends</span> <span class="title">Adapter</span>&lt;<span class="title">ViewHolder</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Integer, AdapterDelegate&gt; adapterDelegates = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="keyword">private</span> List&lt;ItemData&gt; mItemDatas = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> AdapterDelegatesManager <span class="title">addDelegate</span><span class="params">(<span class="keyword">int</span> viewType, <span class="meta">@NonNull</span> AdapterDelegate&lt;T&gt; delegate)</span> </span>&#123;</span><br><span class="line">    adapterDelegates.put(viewType, delegate);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setItemData</span><span class="params">(List&lt;ItemData&gt; itemDatas)</span> </span>&#123;</span><br><span class="line">    mItemDatas = itemDatas;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    mItemDatas.get(position).getViewType()</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> adapterDelegates.get(viewType).onCreateViewHolder(parent);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    adapterDelegates.get(getItemViewType(position)).onBindViewHolder(holder, mItemDatas.get(position));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊用到的一個特殊類別ItemData，除了存放呈現View需要的資料，也用於提供對應的view type：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ItemData</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> viewType = R.layout.viewId;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewType</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> viewType; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>整體程式執行流程如下：</p>
+<ol>
+<li>透過<code>addDelegate()</code>將自訂的AdapterDelegate和對應的view type加入Map。</li>
+<li>透過<code>setItemData()</code>可以將用來呈現View的ItemData傳入Adapter。</li>
+<li>透過<code>getItemViewType()</code>來從<code>mItemDatas</code>內的ItemData取得view type。</li>
+<li>透過<code>onCreateViewHolder()</code>來從<code>adapterDelegates</code>取得對應的AdapterDelegate，並執行<code>AdapterDelegate.onCreateViewHolder()</code>取得ViewHolder。</li>
+<li>透過<code>onBindViewHolder()</code>來從<code>adapterDelegates</code>和<code>mItemDatas</code>取得對應的AdapterDelegate和ItemData，並執行<code>AdapterDelegate.onBindViewHolder()</code>來將ViewHolder與ItemData綁定。</li>
+</ol>
+<p>用什麼來當成Map的key值並沒有絕對，只要能拿來找到正確的AdapterDelegate即可。</p>
+<h3 id="Concludsion" class="article-heading"><a href="#Concludsion" class="headerlink" title="Concludsion"></a>Concludsion<a class="article-anchor" href="#Concludsion" aria-hidden="true"></a></h3><p>經過這樣的調整，我們就可以將不同View所需要的邏輯，拆分至不同的AdapterDelegate內，從而解決我們一開始遇到的問題。</p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>以下將另外介紹我們用相同方式所解決的問題。</p>
+<h4 id="ItemDecoration" class="article-heading"><a href="#ItemDecoration" class="headerlink" title="ItemDecoration"></a>ItemDecoration<a class="article-anchor" href="#ItemDecoration" aria-hidden="true"></a></h4><p>RecyclerView用ItemDecoration來提供給外部設定View之間的間距。透過覆寫ItemDecoration的<code>getItemOffsets()</code>，我們可以在VIew原本的Layout佈局上，加上額外的間隔。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, View view, RecyclerView recyclerView, RecyclerView.State state)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在執行階段，在繪製每個View的過程中都會呼叫這個函式。所以如果只提供一個ItemDecoration，針對每個View的設定就會混雜在一起，就跟文章開頭遇到的問題相同。</p>
+<p>你可以說那就拆到不同的ItemDecoration，然後一個個加進去RecyclerView。但ItemDecoration其實並不能根據View來找到對應的ItemDecoraion，你還是得在<code>getItemOffsets</code>做判斷。如此拆成不同的ItemDecoration的效益就不大，如果又用繼承的方式實作，則又掉入Hannes Dorfmann所提到的問題中。</p>
+<p>由於問題點跟前面的問題相同，那何不嘗試相同的解法？因此我們設計了新的ItemDecoration：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Decoration</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ItemDecoration</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Class, CompositeDecoSpace&gt; mSpacingMap;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Decoration</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  	mSpacingMap.put(ItemData.class, <span class="keyword">new</span> CompositeDecoSpace(<span class="number">16</span>, <span class="number">0</span>, <span class="number">16</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getItemOffsets</span><span class="params">(Rect outRect, View view, RecyclerView recyclerView, RecyclerView.State state)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> position = recyclerView.getChildAdapterPosition(view);</span><br><span class="line">    Class itemDataClass = recyclerView.getAdapter().getItemData(position).getClass();</span><br><span class="line">    </span><br><span class="line">    CompositeDecoSpace compositeDecoSpace = mSpacingMap.get(itemDataClass);</span><br><span class="line">    compositeDecoSpace.fetchSpanInfo(recyclerView, position);</span><br><span class="line">    </span><br><span class="line">    outRect.left = compositeDecoSpace.left();</span><br><span class="line">    outRect.top = compositeDecoSpace.top();</span><br><span class="line">    outRect.right = compositeDecoSpace.right();</span><br><span class="line">    outRect.bottom = compositeDecoSpace.bottom();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>你可能會好奇為什麼key是用ItemData的類別而不是ViewHolder。這是因為看起來相同的View，可能資料類別會是不同的情況。通常會發生在不同資料來源要用相同樣式呈現的時候，所以為了保持彈性，在這就不繼續用畫面相關的值當key。和AdapterDelegate一樣，key的選用並沒有絕對，能找到正確的CompositeDecoSpace即可。</p>
+<p>在控制View的間隔部分，我們設計了一個類別CompositeDecoSpace來處理。除了可以記錄View的預設間隔外，另外也用Locate來標記對應的View在畫面上的位置：全版面、靠左、靠右或是中間。如此就可以程式執行時，進一步依照位置來調整：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">CompositeDecoSpace</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> left;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> top;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> right;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> bottom;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> middle;</span><br><span class="line">  <span class="keyword">private</span> Locate locate;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">enum</span> <span class="title">Locate</span> </span>&#123;</span><br><span class="line">    FULL, LEFT, MIDDLE, RIGHT;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CompositeDecoSpace</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom, <span class="keyword">int</span> middle)</span> </span>&#123;</span><br><span class="line">    locate = Locate.FULL;</span><br><span class="line">    <span class="keyword">this</span>.left = left;</span><br><span class="line">    <span class="keyword">this</span>.top = top;  </span><br><span class="line">    <span class="keyword">this</span>.right = right; </span><br><span class="line">    <span class="keyword">this</span>.bottom = bottom;    </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">left</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (locate == Locate.RIGHT || locate == Locate.MIDDLE) &#123;</span><br><span class="line">      <span class="keyword">return</span> middle / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> top;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">right</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (locate == Locate.LEFT || locate == Locate.MIDDLE) &#123;</span><br><span class="line">      <span class="keyword">return</span> middle / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">bottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bottom;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">middle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> middle;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fetchSpanInfo</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isLeft()) &#123;</span><br><span class="line">      locate = Locate.LEFT;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isRight()) &#123;</span><br><span class="line">      locate = Locate.RIGHT;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isMiddle()) &#123;</span><br><span class="line">      locate = Locate.MIDDLE;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      locate = Locate.FULL;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>整個執行使用的過程如下：</p>
+<ol>
+<li>透過Decoration的constructor來先建立View的資料類別和CompositeDecoSpace的Map。</li>
+<li>透過<code>getItemOffsets</code>傳入的參數取得呈現View的ItemData，並取得其類別來從Map找出對應的CompositeDecoSpace。</li>
+<li>透過CompositeDecoSpace的<code>fetchSpanInfo</code>來計算View在畫面上實際的位置。</li>
+<li>透過CompositeDecoSpace的<code>left</code>、<code>top</code>、<code>right</code>、<code>bottom</code>和<code>Locate</code>來取得實際需要的間隔。</li>
+</ol>
+<p>最後，我們不只解決了邏輯混雜的問題，一開始就可以把每個View的間隔設定寫在一起，也提高編排時的彈性和降低複雜度。</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2017/12/22/refactor_recyclerview_with_adapter_pattern/index.html';
+  var disqus_title = "運用Delegate Pattern進行RecyclerView重構";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

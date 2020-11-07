@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Room (Android Interface Definition Language) | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/android/room.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/android/room.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/android/room.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Room是Android原生的API，官方敘述如下：  Room provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.  其功能在於提供開發者一個抽象的介面，使開發的過程可以更加流暢並保留SQLite的效能。 Room的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Room (Android Interface Definition Language)">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/android/room.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Room是Android原生的API，官方敘述如下：  Room provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.  其功能在於提供開發者一個抽象的介面，使開發的過程可以更加流暢並保留SQLite的效能。 Room的">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://developer.android.com/images/training/data-storage/room_architecture.png">
+<meta property="article:published_time" content="2020-11-07T10:14:05.274Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.274Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.android.com/images/training/data-storage/room_architecture.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="android/room.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Room (Android Interface Definition Language)</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>Room是Android原生的API，官方敘述如下：</p>
+<blockquote>
+<p>Room provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite.</p>
+</blockquote>
+<p>其功能在於提供開發者一個抽象的介面，使開發的過程可以更加流暢並保留SQLite的效能。</p>
+<p>Room的機制包含了三個部分：Database、DAO和Entity：</p>
+<ul>
+<li>Database：持有底層資料庫並提供DAO。</li>
+<li>DAO：定義與資料庫溝通的函式。</li>
+<li>Entity：資料庫內的table。</li>
+</ul>
+<p>彼此關係可用下圖表示：</p>
+<img src="https://developer.android.com/images/training/data-storage/room_architecture.png" style="max-width:50%">
+
+<p>整個執行過程如下：</p>
+<ul>
+<li>透過RoomDatabase取得DAO。</li>
+<li>呼叫DAO內的函式存入或取得Entity。</li>
+<li>針對Entity修改內容。</li>
+</ul>
+<h3 id="Setup" class="article-heading"><a href="#Setup" class="headerlink" title="Setup"></a>Setup<a class="article-anchor" href="#Setup" aria-hidden="true"></a></h3><p>在使用Room之前，必須要先引入相關的dependency：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        google()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">	&#x2F;&#x2F; Room (use 1.1.0-rc1 for latest version)</span><br><span class="line">    implementation &quot;android.arch.persistence.room:runtime:1.0.0&quot;</span><br><span class="line">    annotationProcessor &quot;android.arch.persistence.room:compiler:1.0.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他設定可以參考<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/topic/libraries/architecture/adding-components">官方文件</a>。</p>
+<p>接著來依照設定的順序介紹每個部位的設定方式。每一部分的第一段程式碼都是可以直接使用的範例。</p>
+<h4 id="Entity" class="article-heading"><a href="#Entity" class="headerlink" title="Entity"></a>Entity<a class="article-anchor" href="#Entity" aria-hidden="true"></a></h4><p>作為Entity必須要符合以下幾個條件：</p>
+<ul>
+<li>使用<code>@Entity</code>標記。</li>
+<li>使用<code>@PrimaryKey</code>標記變數。</li>
+</ul>
+<p>指定primary key時，有以下兩個情形要注意：</p>
+<ul>
+<li>注意變數的值是否一定唯一，不然會產生conflict狀況。</li>
+<li>如果預設值會是null的類別，如String，需要加上<code>@NonNull</code>。</li>
+</ul>
+<p>除了以上兩種Annotation是強制要設定的，Entity中還可以設定以下幾種：</p>
+<ul>
+<li><code>@tableName</code>：預設表單名稱是Entity類別名，透過此Annotation可以另外指定。</li>
+<li><code>@ColumnInfo</code>：預設欄位名稱是變數名，透過此Annotation可以另外指定。</li>
+<li><code>@Index</code>：用於標記特定欄位來加快查詢速度，如有特定組合是不希望重複的，可以再加上<code>unique</code>。</li>
+</ul>
+<ul>
+<li><code>@Ignore</code>：用於不想被存入資料庫的變數。</li>
+<li><code>@ForeignKey</code>：用於設定外部關聯。</li>
+<li><code>@Embedded</code>：用於加入另一個Entity或POJO的變數。</li>
+</ul>
+<p>完整用到所有的Annotation的範例如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity(tableName = &quot;user&quot;,</span></span><br><span class="line"><span class="meta">        indices = &#123;@Index(value = &#123;&quot;first_name&quot;, &quot;last_name&quot;&#125;, unique = true)&#125;,</span></span><br><span class="line"><span class="meta">        foreignKeys = @ForeignKey(entity = Address.class, </span></span><br><span class="line"><span class="meta">                                  parentColumns = &quot;id&quot;, childColumns = &quot;uid&quot;, </span></span><br><span class="line"><span class="meta">                                  onDelete = ForeignKey.CASCADE))</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@PrimaryKey</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> uid;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ColumnInfo(name = &quot;first_name&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ColumnInfo(name = &quot;last_name&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Embedded(prefix = &quot;order_&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Order order;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Ignore</span></span><br><span class="line">    <span class="keyword">private</span> Address address;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Ignore get/set</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ignore get/set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="More-about-Entity" class="article-heading"><a href="#More-about-Entity" class="headerlink" title="More about Entity"></a>More about Entity<a class="article-anchor" href="#More-about-Entity" aria-hidden="true"></a></h5><p><strong><em>Constructor</em></strong></p>
+<p>Entity可以擁有second constructor，但輸入的參數名稱必須要和Entity內的變數名稱相同。</p>
+<p><strong><em>Table name</em></strong></p>
+<p>表單名稱在SQLite裡面沒有大小寫之分。</p>
+<p><strong><em>Foreign key Callbacks</em></strong></p>
+<p>設定foreign key之後，可以使用<code>onDelete</code>或<code>onUpdate</code>來設定外部資料變動時所要進行的操作：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity(foreignKeys = @ForeignKey(entity = Address.class,</span></span><br><span class="line"><span class="meta">                                  parentColumns = &quot;id&quot;, childColumns = &quot;uid&quot;, </span></span><br><span class="line"><span class="meta">                                  onDelete = ForeignKey.CASCADE))</span></span><br></pre></td></tr></table></figure>
+
+<p>要存取有foreign key的    Entity時，必須確保資料庫已經存有指定的Entity，否則會產生錯誤訊息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FOREIGN KEY constraint failed </span><br></pre></td></tr></table></figure>
+
+
+<p>相關參數可以看官方文件<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/arch/persistence/room/ForeignKey.html">ForeignKey</a>。</p>
+<p><strong><em>Multiple Embedded</em></strong></p>
+<p>如果Embedded類別所含的變數名稱相同，可以透過<code>prefix</code>來加入前綴字，避免資料欄位重複產生錯誤：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Embedded(prefix = &quot;prefix_&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Special Rule</em></strong></p>
+<ul>
+<li><code>@ColumnInfo</code>、<code>@Embedded</code>和<code>@Relation</code>不能同時使用在同一個變數。</li>
+</ul>
+<h4 id="DAO" class="article-heading"><a href="#DAO" class="headerlink" title="DAO"></a>DAO<a class="article-anchor" href="#DAO" aria-hidden="true"></a></h4><p>要作為DAO的類別必須要符合以下幾個條件：</p>
+<ul>
+<li>使用<code>@Dao</code>標記。</li>
+<li>用<code>@Query</code>、<code>@Insert</code>、<code>@Update</code>、<code>@Delete</code>或<code>@Transaction</code>標記函示。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Query(&quot;SELECT * FROM user&quot;)</span></span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">getAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Query(&quot;SELECT * FROM user WHERE uid IN (:userIds)&quot;)</span></span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">loadAllByIds</span><span class="params">(<span class="keyword">int</span>[] userIds)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Query(&quot;SELECT * FROM user WHERE first_name LIKE :first AND &quot;</span></span><br><span class="line"><span class="meta">            + &quot;last_name LIKE :last LIMIT 1&quot;)</span></span><br><span class="line">    <span class="function">User <span class="title">findByName</span><span class="params">(String first, String last)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Query(&quot;SELECT * FROM user WHERE uid = :userId&quot;)</span></span><br><span class="line">    <span class="function">UserAddress <span class="title">getUserOrder</span><span class="params">(<span class="keyword">int</span> userId)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Insert(onConflict = OnConflictStrategy.REPLACE)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insertAddress</span><span class="params">(Address... addressess)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert(onConflict = OnConflictStrategy.REPLACE)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insertAll</span><span class="params">(List&lt;User&gt; users)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert(onConflict = OnConflictStrategy.REPLACE)</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insertAll</span><span class="params">(User... users)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Delete</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">(User user)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下分別介紹這幾個Annotation：</p>
+<h5 id="Query" class="article-heading"><a href="#Query" class="headerlink" title="@Query"></a>@Query<a class="article-anchor" href="#Query" aria-hidden="true"></a></h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Query(&quot;SELECT * FROM user&quot;)</span></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">getAll</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>用於執行給予的資料庫操作指令：</p>
+<p><strong><em>Query with collection</em></strong></p>
+<p>如果參數是一個集合，只要再加上括號，Room就會自動將其內容分批執行然後回傳：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Query(&quot;SELECT * FROM user WHERE uid IN (:userIds)&quot;)</span></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">loadAllByIds</span><span class="params">(<span class="keyword">int</span>[] userIds)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Query with parameters</em></strong></p>
+<p>有時我們需要給與參數來進行篩選，可以將參數名稱加入指令內，並在前面加冒號：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Query(&quot;SELECT * FROM user WHERE first_name LIKE :first AND &quot; + &quot;last_name LIKE :last LIMIT 1&quot;)</span></span><br><span class="line"><span class="function">User <span class="title">findByName</span><span class="params">(String first, String last)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Query through tables</em></strong></p>
+<p>有時我們也需要由不同的資料表來篩選想要的結果，這時就可以在指令內進行整合資料表的規則：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SampleDao</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Query(&quot;SELECT * FROM book &quot;</span></span><br><span class="line"><span class="meta">         + &quot;INNER JOIN loan ON loan.book_id = book.id &quot;</span></span><br><span class="line"><span class="meta">         + &quot;INNER JOIN user ON user.id = loan.user_id &quot;</span></span><br><span class="line"><span class="meta">         + &quot;WHERE user.name LIKE :userName&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">findBooksBorrowedByNameSync</span><span class="params">(String userName)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Query relation data</em></strong></p>
+<p>有時我們需要進行多表查詢，則可以建立一個POJO，並用<code>@Relation</code>設定變數：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserAddress</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Embedded</span></span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Relation(parentColumn = &quot;uid&quot;, entityColumn = &quot;id&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Address&gt; address;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ignore get/set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>@Relation</code>指定的變數必須要是List或Set，並透過<code>parentColumn</code>指定變數所在類別對應到的欄位，而<code>entityColumn</code>則是變數類型內對應到的欄位。</p>
+<p>如果變數類型和要聯查的類型不同，可以用<code>entity</code>另外指定：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Relation(parentColumn = &quot;uid&quot;, entityColumn = &quot;id&quot;, entity = Address.class)</span>    </span><br><span class="line"><span class="keyword">private</span> List&lt;ShortAddress&gt; address;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ShortAddress</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">public</span> String street;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Ignore get/set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果只是要特定<code>Entity</code>的特定欄位，可以設定<code>projectiton</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Relation(parentColumn = &quot;uid&quot;, entityColumn = &quot;id&quot;, entity = Address.class, projection = &#123;&quot;city&quot;&#125;)</span></span><br><span class="line"><span class="keyword">private</span> List&lt;String&gt; city;</span><br></pre></td></tr></table></figure>
+
+<p>不知為何，Primitive type的物件類型如Boolean、Long無法使用，會產生以下錯誤訊息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:Entities and Pojos must have a usable public constructor.</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="Insert" class="article-heading"><a href="#Insert" class="headerlink" title="@Insert"></a>@Insert<a class="article-anchor" href="#Insert" aria-hidden="true"></a></h5><p>用於標記將資料加入資料庫的函示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertUsers</span><span class="params">(User... users)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Insert</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertAll</span><span class="params">(List&lt;User&gt; users)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Insert</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertBothUsers</span><span class="params">(User user1, User user2)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>插入方式可以是單數、複數的陣列或Collection。</p>
+<p>定義<code>@Insert</code>函示的時候，建議設定好資料重複時的處理方式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert(onConflict = OnConflictStrategy.REPLACE)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertUsers</span><span class="params">(User... users)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>否則如<code>@PrimaryKey</code>重複時，就會產生以下錯誤：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">UNIQUE constraint failed</span><br></pre></td></tr></table></figure>
+
+<p>詳細參數可以看官方文件<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/arch/persistence/room/Insert.html">Insert</a>，而Conflict的規則，可以查看SQL官方文件<a target="_blank" rel="noopener external nofollow noreferrer" href="https://sqlite.org/lang_conflict.html">ON CONFLICT clause</a>。</p>
+<p><strong><em>Get the row IDs</em></strong></p>
+<p>除了回傳void，標記為<code>@Insert</code>的函示也可以回傳當前資料在表單內的<code>rowid</code>。如果輸入的參數為集合類，則回傳long[]，反之則是long：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Insert</span></span><br><span class="line"><span class="keyword">long</span>[] insertUsers(User... users);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Insert</span></span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="title">insertBothUsers</span><span class="params">(User user1, User user2)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Update" class="article-heading"><a href="#Update" class="headerlink" title="@Update"></a>@Update<a class="article-anchor" href="#Update" aria-hidden="true"></a></h5><p>用primary key來搜尋資料，並更新資料內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Update</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">updateUsers</span><span class="params">(User... users)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>可以將回傳參數改成int來取得成功更新的資料筆數。</p>
+<h5 id="Delete" class="article-heading"><a href="#Delete" class="headerlink" title="@Delete"></a>@Delete<a class="article-anchor" href="#Delete" aria-hidden="true"></a></h5><p>用primary key來搜尋資料後刪除：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Delete</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteUsers</span><span class="params">(User... users)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>與<code>@Update</code>類似，可將回傳參數改成int來取得成功刪除的資料筆數。</p>
+<h5 id="Transaction" class="article-heading"><a href="#Transaction" class="headerlink" title="@Transaction"></a>@Transaction<a class="article-anchor" href="#Transaction" aria-hidden="true"></a></h5><p>用來將DAO操作組合，並確保所有操作會在一個transaction內完成：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">UserAddressDao</span> <span class="keyword">implements</span> <span class="title">UserDao</span></span>&#123;</span><br><span class="line">    <span class="meta">@Transaction</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">compose</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        insertAddress(address);</span><br><span class="line">        insertAll(users);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是組合<code>@Query</code>操作，則可以確保在以下兩種狀況，資料不會出錯：</p>
+<ul>
+<li>回傳結果超過<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/database/CursorWindow?authuser=4">CursorWindow</a>一次能容納的量。</li>
+</ul>
+<ul>
+<li>回傳結果是POJO類型，則其中的變數將是分開查詢。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Transaction</span> <span class="meta">@Query(&quot;SELECT * FROM user&quot;)</span></span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">getAll</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Transaction</span> <span class="meta">@Query(&quot;SELECT * FROM user WHERE uid = :userId&quot;)</span></span><br><span class="line">    <span class="function">UserAddress <span class="title">getUserOrder</span><span class="params">(<span class="keyword">int</span> userId)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="More-about-DAO" class="article-heading"><a href="#More-about-DAO" class="headerlink" title="More about DAO"></a>More about DAO<a class="article-anchor" href="#More-about-DAO" aria-hidden="true"></a></h5><p><strong><em>Returning subsets of columns</em></strong></p>
+<p>給予一個POJO，可以在取得資料的同時，將結果轉成較為精簡的資料類別：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameTuple</span> </span>&#123;</span><br><span class="line">  <span class="meta">@ColumnInfo(name=&quot;first_name&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> String firstName;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ColumnInfo(name=&quot;last_name&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> String lastName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後，函式的回傳值可修改如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Query(&quot;SELECT first_name, last_name FROM user&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> List&lt;NameTuple&gt; <span class="title">loadFullName</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Returning a LiveData or Flowable</em></strong></p>
+<p>由於Room是操作資料庫的單一路口，等同於資料來源，所以內建提供可以與LifeData和RxJava整合：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Query(&quot;SELECT first_name, last_name FROM user WHERE region IN (:regions)&quot;)</span></span><br><span class="line">  <span class="keyword">public</span> LiveData&lt;List&lt;User&gt;&gt; loadUsersFromRegionsSync(List&lt;String&gt; regions);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Query(&quot;SELECT * from user where id = :id LIMIT 1&quot;)</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Flowable&lt;User&gt; <span class="title">loadUserById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>搭配RxJava後，可以在資料改變時收到通知，但無法確定收到的資料是不是重複，因為Room不會知道是什麼造成變動，所以建議加上<code>distinctUntilChanged()</code>。</p>
+<p>使用LifeData和Flowable皆需要新增dependency，已不在本文介紹範圍中。如需知道詳細內容，請前往以下連結：</p>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/arch/lifecycle/LiveData.html">LifeData</a></li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://medium.com/google-developers/room-rxjava-acb0cd4f3757">Room and RxJava</a></li>
+</ul>
+<h4 id="Database" class="article-heading"><a href="#Database" class="headerlink" title="Database"></a>Database<a class="article-anchor" href="#Database" aria-hidden="true"></a></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Database(entities = &#123;User.class&#125;, version = 1)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> <span class="keyword">extends</span> <span class="title">RoomDatabase</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> UserDao <span class="title">getUserDao</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RoomDatabase必須滿足以下幾個條件：</p>
+<ul>
+<li>必須是一個抽象類別並繼承RoomDatabse。</li>
+<li>使用@Database標記，並給予會用到的Entity類別，和資料庫版本。</li>
+<li>設定一個抽象並且沒有接受參數的函示來取得Dao。</li>
+</ul>
+<h3 id="Usage" class="article-heading"><a href="#Usage" class="headerlink" title="Usage"></a>Usage<a class="article-anchor" href="#Usage" aria-hidden="true"></a></h3><h4 id="Create-Database" class="article-heading"><a href="#Create-Database" class="headerlink" title="Create Database"></a>Create Database<a class="article-anchor" href="#Create-Database" aria-hidden="true"></a></h4><p>要取得RoomDatabase，必須要透過靜態函示<code>databaseBuilder</code>。在呼叫的同時要給予有<code>@Databse</code>標記的類別和想要的資料庫名稱。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AppDatabase db = Room.databaseBuilder(</span><br><span class="line">  getApplicationContext(), </span><br><span class="line">  AppDatabase.class, </span><br><span class="line">  <span class="string">&quot;database-name&quot;</span>)</span><br><span class="line">  .build();</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Allow quering on the main thread</em></strong></p>
+<p>在預設的情況下，存取資料庫的行為都強制在背景處理，否則會有以下錯誤訊息：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI <span class="keyword">for</span> a <span class="keyword">long</span> period of time.</span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們的操作是需要在main thread執行，就可以使用<code>allowMainThreadQueries()</code>來避免在main thread存取資料庫時產生錯誤：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AppDatabase db = Room.databaseBuilder(</span><br><span class="line">  getApplicationContext(), </span><br><span class="line">  AppDatabase.class, </span><br><span class="line">  <span class="string">&quot;database-name&quot;</span>)</span><br><span class="line">  .allowMainThreadQueries()</span><br><span class="line">  .build();</span><br></pre></td></tr></table></figure>
+
+<h4 id="Migration" class="article-heading"><a href="#Migration" class="headerlink" title="Migration"></a>Migration<a class="article-anchor" href="#Migration" aria-hidden="true"></a></h4><p>不同版本的資料庫可以進行相互整合，整合方式就是在產生RoomDatabase時加入Migration：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, <span class="string">&quot;database-name&quot;</span>).addMigrations(MIGRATION_1_2).build();</span><br><span class="line">  </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Migration MIGRATION_1_2 = <span class="keyword">new</span> Migration(<span class="number">1</span>, <span class="number">2</span>) &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate</span><span class="params">(SupportSQLiteDatabase database)</span> </span>&#123;</span><br><span class="line">    database.execSQL(<span class="string">&quot;CREATE TABLE `Fruit` (`id` INTEGER, &quot;</span> + <span class="string">&quot;`name` TEXT, PRIMARY KEY(`id`))&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是，再透過Migration進行版本整合時，需要自行建立新的表單。然後才可以將資料重新塞入，塞入的方式可以分為以下兩種：</p>
+<p><strong><em>Execute SQL command</em></strong></p>
+<p>單純執行所熟悉的SQL指令：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">database.execSQL(<span class="string">&quot;INSERT INTO `Fruit` VALUES (&quot;</span> + <span class="number">1</span> + <span class="string">&quot;, `Harry`)&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Use ContentValues</em></strong></p>
+<p>如不想打指令也可以透過Android內建的ContentValues：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">database.beginTransaction();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">  values.put(<span class="string">&quot;id&quot;</span>, <span class="number">1</span>);</span><br><span class="line">  values.put(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Harry&quot;</span>);</span><br><span class="line">  database.insert(<span class="string">&quot;Fruit&quot;</span>, SQLiteDatabase.CONFLICT_REPLACE, values);</span><br><span class="line">  database.setTransactionSuccessful();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  database.endTransaction();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要注意的是使用前後必須使用<code>beginTransaction()</code>、<code>setTransactionSuccessful()</code>和<code>endTransaction()</code>來通知資料庫目前狀態。</p>
+<h3 id="Test" class="article-heading"><a href="#Test" class="headerlink" title="Test"></a>Test<a class="article-anchor" href="#Test" aria-hidden="true"></a></h3><p>測試進行開發很重要的一環，以下將從Room開發時比較重要的兩部分進行測試相關的介紹：</p>
+<h4 id="Database-amp-DAO" class="article-heading"><a href="#Database-amp-DAO" class="headerlink" title="Database &amp; DAO"></a>Database &amp; DAO<a class="article-anchor" href="#Database-amp-DAO" aria-hidden="true"></a></h4><p>要測試Database的基本功能，可以分成以下三個步驟來完成：</p>
+<h5 id="Before" class="article-heading"><a href="#Before" class="headerlink" title="@Before"></a>@Before<a class="article-anchor" href="#Before" aria-hidden="true"></a></h5><p>在測試前，透過<code>Room.inMemoryDatabaseBuilder()</code>來產生RoomDatabase，並呼叫<code>getUserDao()</code>來取得DAO。</p>
+<h5 id="Test-1" class="article-heading"><a href="#Test-1" class="headerlink" title="@Test"></a>@Test<a class="article-anchor" href="#Test-1" aria-hidden="true"></a></h5><p>產生假資料，透過DAO來加入資料庫。再透過DAO將資料取回並驗證。</p>
+<h5 id="After" class="article-heading"><a href="#After" class="headerlink" title="@After"></a>@After<a class="article-anchor" href="#After" aria-hidden="true"></a></h5><p>在測試完成後，執行<code>close()</code>關閉資料庫。</p>
+<p>以下是一個完整的範例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RunWith(AndroidJUnit4.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleEntityReadWriteTest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> UserDao mUserDao;</span><br><span class="line">  <span class="keyword">private</span> TestDatabase mDb;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Before</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createDb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Context context = InstrumentationRegistry.getTargetContext();</span><br><span class="line">    mDb = Room.inMemoryDatabaseBuilder(context, TestDatabase.class).build();</span><br><span class="line">    mUserDao = mDb.getUserDao();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@After</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeDb</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    mDb.close();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeUserAndReadInList</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    User user = TestUtil.createUser(<span class="number">3</span>);</span><br><span class="line">    user.setName(<span class="string">&quot;george&quot;</span>);</span><br><span class="line">    mUserDao.insert(user);</span><br><span class="line">    List&lt;User&gt; byName = mUserDao.findUsersByName(<span class="string">&quot;george&quot;</span>);</span><br><span class="line">    assertThat(byName.get(<span class="number">0</span>), equalTo(user));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Migration-1" class="article-heading"><a href="#Migration-1" class="headerlink" title="Migration"></a>Migration<a class="article-anchor" href="#Migration-1" aria-hidden="true"></a></h4><p>要測試migration需要有一些前置作業：</p>
+<p><strong><em>Export schemas</em></strong></p>
+<p>為了讓Room可以在測試migration時直接建立資料表單，必須要將資料庫結構儲存下來。因此需要在<code>build.gradle</code>指定好schema檔案發佈的位置：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        javaCompileOptions &#123;</span><br><span class="line">            annotationProcessorOptions &#123;</span><br><span class="line">                arguments = [<span class="string">&quot;room.schemaLocation&quot;</span>:<span class="string">&quot;$projectDir/schemas&quot;</span>.toString()]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Add test dependency</em></strong></p>
+<p>另外也要加入測試相關的dependency：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">android.arch.persistence.room:testing</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>Add into asset directories</em></strong></p>
+<p>最後，將schema的位置加入asset的路徑中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    ...</span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        androidTest.assets.srcDirs += files(<span class="string">&quot;$projectDir/schemas&quot;</span>.toString())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成設定後，要在撰寫測試時有以下幾個要點：</p>
+<ul>
+<li>在測試前，建立MigrationTestHelper這個類別的物件，並用<code>@Rule</code>標記。</li>
+<li>在測試時，先用MigrationTestHelper產生測試用的資料庫。用前面介紹過的方式插入資料，不能透過DAO。</li>
+<li>執行<code>runMigrationsAndValidate()</code>來執行migration操作。</li>
+<li>透過DAO取出資料進行驗證。</li>
+</ul>
+<p>以下是完整範例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MigrationTest</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TEST_DB = <span class="string">&quot;migration-test&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Rule</span></span><br><span class="line">  <span class="keyword">public</span> MigrationTestHelper helper;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">MigrationTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    helper = <span class="keyword">new</span> MigrationTestHelper(InstrumentationRegistry.getInstrumentation(),</span><br><span class="line">                                     TargetDb.class.getCanonicalName(),</span><br><span class="line">                                     <span class="keyword">new</span> FrameworkSQLiteOpenHelperFactory());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate1To2</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    SupportSQLiteDatabase db = helper.createDatabase(TEST_DB, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// db has schema version 1. insert some data using SQL queries.</span></span><br><span class="line">    <span class="comment">// You cannot use DAO classes because they expect the latest schema.</span></span><br><span class="line">    ContentValues values = <span class="keyword">new</span> ContentValues();</span><br><span class="line">    values.put(&lt;KEY&gt;, &lt;VALUE&gt;);</span><br><span class="line">    db.insert(&lt;TABLE_NAME&gt;, SQLiteDatabase.CONFLICT_REPLACE, values);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Prepare for the next version.</span></span><br><span class="line">    db.close();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Re-open the database with version 2 and provide</span></span><br><span class="line">    <span class="comment">// MIGRATION_1_2 as the migration process.</span></span><br><span class="line">    helper.runMigrationsAndValidate(TEST_DB, <span class="number">2</span>, <span class="keyword">true</span>, MIGRATION_1_2);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MigrationTestHelper automatically verifies the schema changes,</span></span><br><span class="line">    <span class="comment">// but you need to validate that the data was migrated properly.</span></span><br><span class="line">    TargetDB targetDb = Room.databaseBuilder(InstrumentationRegistry.getTargetContext(),</span><br><span class="line">                                             TargetDb.class, TEST_DB).build();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="More-about-Test" class="article-heading"><a href="#More-about-Test" class="headerlink" title="More about Test"></a>More about Test<a class="article-anchor" href="#More-about-Test" aria-hidden="true"></a></h4><p>資料庫使用後要關閉，為了方便，MigrationTestHelper另外提供了<code>closeWhenFinished()</code>來讓測試結束時會自動關閉指定的資料庫：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">helper.closeWhenFinished(database);</span><br></pre></td></tr></table></figure>
+
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><h4 id="TypeConverters-amp-TypeConverter" class="article-heading"><a href="#TypeConverters-amp-TypeConverter" class="headerlink" title="@TypeConverters &amp; @TypeConverter"></a>@TypeConverters &amp; @TypeConverter<a class="article-anchor" href="#TypeConverters-amp-TypeConverter" aria-hidden="true"></a></h4><p>在少數情況下，會需要儲存Room無法支援的類別，但在加入前都要進行轉型會產生多餘的程式碼，所以Room提供了兩個annotation，<code>@TypeConverters</code>和<code>@TypeConverter</code>，來讓使用者可以提供Room相對應的轉換函示。</p>
+<p>首先需要先實作轉換用的函示，這裡節錄<a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/arch/persistence/room/TypeConverter">官網範例</a>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Converters</span> </span>&#123;</span><br><span class="line">    <span class="meta">@TypeConverter</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Date <span class="title">fromTimestamp</span><span class="params">(Long value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value == <span class="keyword">null</span> ? <span class="keyword">null</span> : <span class="keyword">new</span> Date(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TypeConverter</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Long <span class="title">dateToTimestamp</span><span class="params">(Date date)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> date == <span class="keyword">null</span> ? <span class="keyword">null</span> : date.getTime();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如範例，要成為一個轉換用的函式需要有以下幾個條件：</p>
+<ul>
+<li>要用<code>@TypeConverter</code>標記</li>
+<li>轉換的函示的輸入參數須為想轉換的類別，轉出的類別則為Room可支援的類別。</li>
+<li>一個轉換的函示，要對應到一個還原的函示。</li>
+</ul>
+<p>接著要在DB類別告知Room有哪些額外的TypeConverter可以使用：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Database(entities = &#123;User.class&#125;, version = 1)</span></span><br><span class="line"><span class="meta">@TypeConverters(&#123;Converters.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> <span class="keyword">extends</span> <span class="title">RoomDatabase</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> UserDao <span class="title">userDao</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就完成了TypeConverter的建立與連結。當這DB執行時遇到Date，就會自動使用對應的函示進行轉換：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In UserDao_Impl</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">UserDao_Impl</span><span class="params">(RoomDatabase __db)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.__db = __db;</span><br><span class="line">    <span class="keyword">this</span>.__insertionAdapterOfUser = <span class="keyword">new</span> EntityInsertionAdapter&lt;User&gt;(__db) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bind</span><span class="params">(SupportSQLiteStatement stmt, User value)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">final</span> Long _tmp_1;</span><br><span class="line">            _tmp_1 = Converters.dateToTimestamp(value.date);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1">7 Pro-tips for Room</a></li>
+</ul>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.274Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="workmanager.html" class="article-footer-prev" title="WorkManager"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="context.html" class="article-footer-next" title="Context"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/android/room.html';
+  var disqus_title = "Room (Android Interface Definition Language)";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Setup"><span class="toc-text">Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Entity"><span class="toc-text">Entity</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#More-about-Entity"><span class="toc-text">More about Entity</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DAO"><span class="toc-text">DAO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Query"><span class="toc-text">@Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Insert"><span class="toc-text">@Insert</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Update"><span class="toc-text">@Update</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Delete"><span class="toc-text">@Delete</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transaction"><span class="toc-text">@Transaction</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#More-about-DAO"><span class="toc-text">More about DAO</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Database"><span class="toc-text">Database</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Usage"><span class="toc-text">Usage</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-Database"><span class="toc-text">Create Database</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Migration"><span class="toc-text">Migration</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test"><span class="toc-text">Test</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Database-amp-DAO"><span class="toc-text">Database &amp; DAO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Before"><span class="toc-text">@Before</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Test-1"><span class="toc-text">@Test</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#After"><span class="toc-text">@After</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Migration-1"><span class="toc-text">Migration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#More-about-Test"><span class="toc-text">More about Test</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#What%E2%80%99s-more"><span class="toc-text">What’s more</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TypeConverters-amp-TypeConverter"><span class="toc-text">@TypeConverters &amp; @TypeConverter</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">架構元件</strong><a href="workmanager.html" class="sidebar-link">WorkManager</a><a href="room.html" class="sidebar-link current">Room</a><strong class="sidebar-title">元件</strong><a href="context.html" class="sidebar-link">Context</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="activity.html" class="sidebar-link">Activity</a><a href="executor.html" class="sidebar-link">Executor</a><a href="fragment.html" class="sidebar-link">Fragment</a><a href="intentservice.html" class="sidebar-link">IntentService</a><a href="lrucache.html" class="sidebar-link">LruCache</a><a href="recyclerview.html" class="sidebar-link">RecyclerView</a><a href="service.html" class="sidebar-link">Service</a><a href="view.html" class="sidebar-link">View</a><a href="viewpager.html" class="sidebar-link">ViewPager</a><a href="path.html" class="sidebar-link">Path</a><a href="paint.html" class="sidebar-link">Paint</a><strong class="sidebar-title">系統</strong><a href="asynctask.html" class="sidebar-link">AsyncTask</a><a href="handler.html" class="sidebar-link">Handler</a><strong class="sidebar-title">通信</strong><a href="aidl.html" class="sidebar-link">AIDL</a><strong class="sidebar-title">其他</strong><a href="intdef.html" class="sidebar-link">IntDef</a><a href="parcelable.html" class="sidebar-link">Parcelable</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="proguard.html" class="sidebar-link">ProGuard</a><a href="gradle.html" class="sidebar-link">Gradle</a><strong class="sidebar-title">心得</strong><a href="efficientandroidthreading.html" class="sidebar-link">Android高效能多執行緒</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">架構元件</strong><a href="workmanager.html" class="mobile-nav-link">WorkManager</a><a href="room.html" class="mobile-nav-link current">Room</a><strong class="mobile-nav-title">元件</strong><a href="context.html" class="mobile-nav-link">Context</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="activity.html" class="mobile-nav-link">Activity</a><a href="executor.html" class="mobile-nav-link">Executor</a><a href="fragment.html" class="mobile-nav-link">Fragment</a><a href="intentservice.html" class="mobile-nav-link">IntentService</a><a href="lrucache.html" class="mobile-nav-link">LruCache</a><a href="recyclerview.html" class="mobile-nav-link">RecyclerView</a><a href="service.html" class="mobile-nav-link">Service</a><a href="view.html" class="mobile-nav-link">View</a><a href="viewpager.html" class="mobile-nav-link">ViewPager</a><a href="path.html" class="mobile-nav-link">Path</a><a href="paint.html" class="mobile-nav-link">Paint</a><strong class="mobile-nav-title">系統</strong><a href="asynctask.html" class="mobile-nav-link">AsyncTask</a><a href="handler.html" class="mobile-nav-link">Handler</a><strong class="mobile-nav-title">通信</strong><a href="aidl.html" class="mobile-nav-link">AIDL</a><strong class="mobile-nav-title">其他</strong><a href="intdef.html" class="mobile-nav-link">IntDef</a><a href="parcelable.html" class="mobile-nav-link">Parcelable</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="proguard.html" class="mobile-nav-link">ProGuard</a><a href="gradle.html" class="mobile-nav-link">Gradle</a><strong class="mobile-nav-title">心得</strong><a href="efficientandroidthreading.html" class="mobile-nav-link">Android高效能多執行緒</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="android/room.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

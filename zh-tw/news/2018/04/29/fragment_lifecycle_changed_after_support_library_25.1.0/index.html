@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Fragment Lifecycle Changed After Support Library 25.1.0 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/04/29/fragment_lifecycle_changed_after_support_library_25.1.0/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在公司的專案內，我們使用了大量的Fragment來達到頁面切換的效果。為了呈現designer設計好的操作流程，我們會在不同的lifecycle callback裡面做相關的設定。由於預期lifecycle callback的順序是固定的，所以這些設定彼此之間有前後關係。 What happened升級support library版本至25.1.0後，很多頁面呈現時出現不少錯誤，經過研究後發現是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fragment Lifecycle Changed After Support Library 25.1.0">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/04/29/fragment_lifecycle_changed_after_support_library_25.1.0/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在公司的專案內，我們使用了大量的Fragment來達到頁面切換的效果。為了呈現designer設計好的操作流程，我們會在不同的lifecycle callback裡面做相關的設定。由於預期lifecycle callback的順序是固定的，所以這些設定彼此之間有前後關係。 What happened升級support library版本至25.1.0後，很多頁面呈現時出現不少錯誤，經過研究後發現是">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-04-29T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.118Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Fragment Lifecycle Changed After Support Library 25.1.0</h1>
+    
+    <a href="/zh-tw/news/2018/04/29/fragment_lifecycle_changed_after_support_library_25.1.0/" class="article-date"><time datetime="2018-04-29T00:00:00.000Z">2018-04-29</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在公司的專案內，我們使用了大量的Fragment來達到頁面切換的效果。為了呈現designer設計好的操作流程，我們會在不同的lifecycle callback裡面做相關的設定。由於預期lifecycle callback的順序是固定的，所以這些設定彼此之間有前後關係。</p>
+<h3 id="What-happened" class="article-heading"><a href="#What-happened" class="headerlink" title="What happened"></a>What happened<a class="article-anchor" href="#What-happened" aria-hidden="true"></a></h3><p>升級support library版本至25.1.0後，很多頁面呈現時出現不少錯誤，經過研究後發現是lifecycle callback的順序已經改變，導致設定的順序顛倒。</p>
+<p>這影響的範圍有兩個地方：</p>
+<ul>
+<li><code>FragmentTransaction.replace()</code></li>
+<li><code>FragmentManager.popBackStack()</code></li>
+</ul>
+<h4 id="replace" class="article-heading"><a href="#replace" class="headerlink" title="replace()"></a>replace()<a class="article-anchor" href="#replace" aria-hidden="true"></a></h4><p>為了減少層次，讓使用者可以更方便的退回首頁，我們使用<code>FragmentTransaction.replace()</code>替換Fragment，在25.1.0以前，lifecycle callback順序如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FragmentA.onPause()</span><br><span class="line">FragmentA.onStop()</span><br><span class="line">FragmentB.onStart()</span><br><span class="line">FragmentB.onResume()</span><br></pre></td></tr></table></figure>
+
+<p>而25.1.0則是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FragmentB.onStart()</span><br><span class="line">FragmentB.onResume()</span><br><span class="line">FragmentA.onPause()</span><br><span class="line">FragmentA.onStop()</span><br></pre></td></tr></table></figure>
+
+<h4 id="popBackStack" class="article-heading"><a href="#popBackStack" class="headerlink" title="popBackStack()"></a>popBackStack()<a class="article-anchor" href="#popBackStack" aria-hidden="true"></a></h4><p>用<code>popBackStack()</code>可以方便的將最上層的Fragment退出。</p>
+<p>在25.1.0以前，lifecycle callback順序如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Fragment B: onStop()</span><br><span class="line">Fragment A: onStart()</span><br></pre></td></tr></table></figure>
+
+<p>而25.1.0則是：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Fragment A: onStart()</span><br><span class="line">Fragment B: onStop()</span><br></pre></td></tr></table></figure>
+
+<h4 id="Summary" class="article-heading"><a href="#Summary" class="headerlink" title="Summary"></a>Summary<a class="article-anchor" href="#Summary" aria-hidden="true"></a></h4><p>退一步來看，可以發現其實前後版本是在不同的大前提下</p>
+<ul>
+<li>25.1.0以前：先退出前一個Fragment。</li>
+<li>25.1.0以後：先加入後一個Fragment。</li>
+</ul>
+<h3 id="Why" class="article-heading"><a href="#Why" class="headerlink" title="Why"></a>Why<a class="article-anchor" href="#Why" aria-hidden="true"></a></h3><p>依照<a target="_blank" rel="noopener external nofollow noreferrer" href="https://issuetracker.google.com/issues/37130220#comment4">官方說法</a>，順序變動是預期中的更動，為了效能上的優化。</p>
+<h3 id="Solution" class="article-heading"><a href="#Solution" class="headerlink" title="Solution"></a>Solution<a class="article-anchor" href="#Solution" aria-hidden="true"></a></h3><p>官方在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://issuetracker.google.com/issues/37130220">Issue 37130220</a>、<a target="_blank" rel="noopener external nofollow noreferrer" href="https://issuetracker.google.com/issues/37130329">37130329</a>提出解法，不過依照討論內容，可知不同的版本有些不同，詳列如下：</p>
+<h4 id="25-1-0" class="article-heading"><a href="#25-1-0" class="headerlink" title="25.1.0"></a>25.1.0<a class="article-anchor" href="#25-1-0" aria-hidden="true"></a></h4><p>由於效能優化預設是打開，為保持彈性，可以透過<code>FragmentTransaction.setAllowOptimization(false)</code>關閉。如此<code>replace()</code>的lifecycle callback順序就會和以前相同，但<code>popBackStack()</code>依然無法還原。</p>
+<h4 id="25-1-1" class="article-heading"><a href="#25-1-1" class="headerlink" title="25.1.1"></a>25.1.1<a class="article-anchor" href="#25-1-1" aria-hidden="true"></a></h4><p>這版開始，優化功能預設更改為關閉，所有行為皆還原到25.1.0之前。不過依然可以透過<code>FragmentTransaction.setAllowOptimization(false)</code>打開。</p>
+<h4 id="25-2-0" class="article-heading"><a href="#25-2-0" class="headerlink" title="25.2.0"></a>25.2.0<a class="article-anchor" href="#25-2-0" aria-hidden="true"></a></h4><p>在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://issuetracker.google.com/issues/37130220">Issue 37130220</a>中有人提到相同錯誤又再次出現，所以如果有疑慮應該要跳過此版。</p>
+<h4 id="25-3-0" class="article-heading"><a href="#25-3-0" class="headerlink" title="25.3.0"></a>25.3.0<a class="article-anchor" href="#25-3-0" aria-hidden="true"></a></h4><p>此版應是穩定版本，在此版release之後就沒有人留言發現問題。</p>
+<h4 id="26-1-0" class="article-heading"><a href="#26-1-0" class="headerlink" title="26.1.0"></a>26.1.0<a class="article-anchor" href="#26-1-0" aria-hidden="true"></a></h4><p>此版將<code>setAllowOptimization()</code>更名成<code>setReorderingAllowed()</code>。</p>
+<h3 id="Summary-1" class="article-heading"><a href="#Summary-1" class="headerlink" title="Summary"></a>Summary<a class="article-anchor" href="#Summary-1" aria-hidden="true"></a></h3><p>要不直接升級26.1.0，使用<code>setReorderingAllowed()</code>將lifecycle callback順序返回舊版順序，不然就停在25.1.0之前。</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/04/29/fragment_lifecycle_changed_after_support_library_25.1.0/index.html';
+  var disqus_title = "Fragment Lifecycle Changed After Support Library 25.1.0";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Executor | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/android/executor.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/android/executor.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/android/executor.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="協助控制thread開關的框架，搭配線城池和任務佇列的使用，可以確保任務的起始，並且在需要時取得執行結果。 ThreadPoolExecutorThreadPoolExecutor -&gt; ExecutorService -&gt; Executor 預設有分成三種類型：固定執行緒、動態執行緒和單執行緒。固定執行緒代表在建立時可以指定最多幾條執行緒，並且使用的是上限為Integer.MAX容量">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Executor">
+<meta property="og:url" content="https://ansgarlin.github.io/android/executor.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="協助控制thread開關的框架，搭配線城池和任務佇列的使用，可以確保任務的起始，並且在需要時取得執行結果。 ThreadPoolExecutorThreadPoolExecutor -&gt; ExecutorService -&gt; Executor 預設有分成三種類型：固定執行緒、動態執行緒和單執行緒。固定執行緒代表在建立時可以指定最多幾條執行緒，並且使用的是上限為Integer.MAX容量">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-07T10:14:05.241Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.241Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="android/executor.html">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Executor</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>協助控制thread開關的框架，搭配線城池和任務佇列的使用，可以確保任務的起始，並且在需要時取得執行結果。</p>
+<h1 id="ThreadPoolExecutor" class="article-heading"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor<a class="article-anchor" href="#ThreadPoolExecutor" aria-hidden="true"></a></h1><p>ThreadPoolExecutor -&gt; ExecutorService -&gt; Executor</p>
+<h2 id="預設" class="article-heading"><a href="#預設" class="headerlink" title="預設"></a>預設<a class="article-anchor" href="#預設" aria-hidden="true"></a></h2><p>有分成三種類型：固定執行緒、動態執行緒和單執行緒。固定執行緒代表在建立時可以指定最多幾條執行緒，並且使用的是上限為Integer.MAX容量的佇列；動態執行緒代表所有執行緒都是短期的，在等待60秒沒有新任務，閒置的執行緒就會被銷毀。</p>
+<h2 id="建立" class="article-heading"><a href="#建立" class="headerlink" title="建立"></a>建立<a class="article-anchor" href="#建立" aria-hidden="true"></a></h2><p>可以設定的參數主要有以下六種：核心執行緒數量、最大執行緒數量、最大閒置時間、任務佇列類型、ThreadFactory和RejectExecutionHandler。<br>核心執行緒數量會決定Thread Pool內執行緒數量的下限。如果在任務加入時執行緒數量小於核心數，就會新增執行緒；反之則會等到任務佇列滿了才新增。<br>最大執行緒數量會決定Thread Pool內執行緒數量的上限。<br>最大閒置時間會決定除了核心執行緒外，其他執行緒閒置多久就將被停止並回收；如果設成0，則執行緒會與thread pool一起回收<br>任務佇列類型可以決定是否是有限數量的BlockingQueue。<br>ThreadFactory可以在新增執行緒時，做一些額外的設定。<br>RejectExecutionHandler則是在任務因為Thread Pool被關閉或是佇列滿時，將被拒絕送入佇列的任務做最後處理。</p>
+<h2 id="自訂" class="article-heading"><a href="#自訂" class="headerlink" title="自訂"></a>自訂<a class="article-anchor" href="#自訂" aria-hidden="true"></a></h2><p>繼承ThreadPoolExecutor，可以透過beforeExecute、afterExecute和terminated來在thread pool處於各種狀態時做額外處置。</p>
+<h2 id="關閉" class="article-heading"><a href="#關閉" class="headerlink" title="關閉"></a>關閉<a class="article-anchor" href="#關閉" aria-hidden="true"></a></h2><p>可透過使用shutdown和shutdownNow關閉thread pool，shutdown會拒絕新任務，並將剩下的任務處理完畢；shutdownNow不只拒絕任務，且會停止所有目前的任務，並回傳一個任務清單，讓這些任務有機會轉到其他的thread上。</p>
+<h2 id="執行緒數量" class="article-heading"><a href="#執行緒數量" class="headerlink" title="執行緒數量"></a>執行緒數量<a class="article-anchor" href="#執行緒數量" aria-hidden="true"></a></h2><p>應依照CPU核心數為基準做決定，如果核心數為N，則最佳的執行緒上限則為N+1或是2N。</p>
+<h2 id="使用陷阱" class="article-heading"><a href="#使用陷阱" class="headerlink" title="使用陷阱"></a>使用陷阱<a class="article-anchor" href="#使用陷阱" aria-hidden="true"></a></h2><ol>
+<li>使用allowCoreThreadTimeOut<br>會使得核心執行緒也可以回收，導致核心執行緒可能會處於一直新增的狀態，造成不必要的效能浪費。</li>
+<li>預載在佇列中的任務無法執行<br>由於thread pool預設是在新增任務時才新增執行緒，所以預載的任務將無法自動執行，可以透過使用prestartAllCoreThread或是prestartCoreThread來開啟核心執行緒執行預設的任務。</li>
+<li>零核心執行緒<br>核心執行緒設置成0，基於核心執行緒在大於等於設定值，則需要等佇列滿才會新增執行緒的規則，可能會使得任務將不會被啟動而閒置到佇列滿為止。</li>
+</ol>
+<h2 id="任務提交" class="article-heading"><a href="#任務提交" class="headerlink" title="任務提交"></a>任務提交<a class="article-anchor" href="#任務提交" aria-hidden="true"></a></h2><p>任務可以分成Runnable或是Callable兩種，差別在於Runnable沒有回傳直，而Callable有。<br>提交分為個別提交和群發兩種，提交後可以得到Future類的參數回傳，可以透過此參數取得結果或是取消任務，Runnable的任務取得結果會永遠是unll<br>個別提交的話可透過submit，而群發又可以分成invokeAll和invokeAny兩種。<br>invokeAll非阻塞的呼叫，會得到一個Future類的清單，可以透過Future.get依序進行組塞式呼叫來取得結果。<br>invokeAny為阻塞的呼叫，其內透過使用ExecutorCompletionService，可以將做完的任務存放在佇列中等待取用。利用無線迴圈，在發出下一個任務同時也確認是否也任何一個任務完成後，如果有則直接回傳結果，並用cancel結束其他任務。</p>
+<h2 id="SUMMARY" class="article-heading"><a href="#SUMMARY" class="headerlink" title="SUMMARY"></a>SUMMARY<a class="article-anchor" href="#SUMMARY" aria-hidden="true"></a></h2><p>ThreadPoolExecutor預設提供固定執行緒、動態執行緒和單執行緒，固定執行緒需要在建立時提供數量，則在使用過程中會永遠保持固定量的執行緒，動態執行緒則是會在執行緒閒置60秒後自動回收。<br>透過參數可以建立不同類型的ThreadPoolExecutor：核心執行緒可以決定thread pool在執行過程中的最小執行緒數量，最大執行緒數量可以限制執行緒在固定數量內，最大閒置時間可以決定在執行緒閒置多久時會被回收，<br>任務佇列類型可以決定是否需要有限數量的類型，ThreadFactory可以在thread被建立時另外修改thread的設定，RejectExecutionHandler可以在任務被拒絕加入佇列時進行額外的處置。<br>繼承ThreadPoolExecutor可以進一步的在thread執行的前後和thread pool被回收前做額外處置。<br>關閉thread pool可以透過shutdown和shutdownNow完成，兩者皆會開始拒絕任務加入，差別在shutdown會繼續完成剩下的任務，而shutdownNow則是中斷所有任務。<br>Thread pool接受的任務類型有分成Callable和Runnable，Callable可以有回傳值，反之Runnable則永遠都回傳null。<br>任務提交的方式有單發和群發：單發是使用submit，而群發則是用invokeAll和invokeAny，submit和invokeAll，都會取得Future類型的回傳，可以呼叫get阻塞程序來等帶回傳值；<br>invokeAny則是透過使用ExecutorCompletionService，讓任務完成時會把結果存放在結果佇列中。透過使用迴圈，在發出下一任務同時也會確認是否已經有結果存在於結果佇列，有的話會直接取出回傳，並將其他的已經啟動的任務cancel。</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.241Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                <a href="activity.html" class="article-footer-prev" title="Activity"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="fragment.html" class="article-footer-next" title="Fragment"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/android/executor.html';
+  var disqus_title = "Executor";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ThreadPoolExecutor"><span class="toc-text">ThreadPoolExecutor</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A0%90%E8%A8%AD"><span class="toc-text">預設</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B"><span class="toc-text">建立</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E8%A8%82"><span class="toc-text">自訂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%9C%E9%96%89"><span class="toc-text">關閉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B7%E8%A1%8C%E7%B7%92%E6%95%B8%E9%87%8F"><span class="toc-text">執行緒數量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%99%B7%E9%98%B1"><span class="toc-text">使用陷阱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E5%8B%99%E6%8F%90%E4%BA%A4"><span class="toc-text">任務提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SUMMARY"><span class="toc-text">SUMMARY</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Introduction</strong><a href="index.html" class="sidebar-link">Overview</a><strong class="sidebar-title">Architecture Components</strong><a href="workmanager.html" class="sidebar-link">WorkManager</a><a href="room.html" class="sidebar-link">Room</a><strong class="sidebar-title">Components</strong><a href="context.html" class="sidebar-link">Context</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="activity.html" class="sidebar-link">Activity</a><a href="executor.html" class="sidebar-link current">Executor</a><a href="fragment.html" class="sidebar-link">Fragment</a><a href="intentservice.html" class="sidebar-link">IntentService</a><a href="lrucache.html" class="sidebar-link">LruCache</a><a href="recyclerview.html" class="sidebar-link">RecyclerView</a><a href="service.html" class="sidebar-link">Service</a><a href="view.html" class="sidebar-link">View</a><a href="viewpager.html" class="sidebar-link">ViewPager</a><a href="path.html" class="sidebar-link">Path</a><a href="paint.html" class="sidebar-link">Paint</a><strong class="sidebar-title">OS</strong><a href="asynctask.html" class="sidebar-link">AsyncTask</a><a href="handler.html" class="sidebar-link">Handler</a><strong class="sidebar-title">Communication</strong><a href="aidl.html" class="sidebar-link">AIDL</a><strong class="sidebar-title">Others</strong><a href="intdef.html" class="sidebar-link">IntDef</a><a href="parcelable.html" class="sidebar-link">Parcelable</a><a href="contentprovider.html" class="sidebar-link">ContentProvider</a><a href="proguard.html" class="sidebar-link">ProGuard</a><a href="gradle.html" class="sidebar-link">Gradle</a><strong class="sidebar-title">Reviews</strong><a href="efficientandroidthreading.html" class="sidebar-link">Efficient Android Threading</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Introduction</strong><a href="index.html" class="mobile-nav-link">Overview</a><strong class="mobile-nav-title">Architecture Components</strong><a href="workmanager.html" class="mobile-nav-link">WorkManager</a><a href="room.html" class="mobile-nav-link">Room</a><strong class="mobile-nav-title">Components</strong><a href="context.html" class="mobile-nav-link">Context</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="activity.html" class="mobile-nav-link">Activity</a><a href="executor.html" class="mobile-nav-link current">Executor</a><a href="fragment.html" class="mobile-nav-link">Fragment</a><a href="intentservice.html" class="mobile-nav-link">IntentService</a><a href="lrucache.html" class="mobile-nav-link">LruCache</a><a href="recyclerview.html" class="mobile-nav-link">RecyclerView</a><a href="service.html" class="mobile-nav-link">Service</a><a href="view.html" class="mobile-nav-link">View</a><a href="viewpager.html" class="mobile-nav-link">ViewPager</a><a href="path.html" class="mobile-nav-link">Path</a><a href="paint.html" class="mobile-nav-link">Paint</a><strong class="mobile-nav-title">OS</strong><a href="asynctask.html" class="mobile-nav-link">AsyncTask</a><a href="handler.html" class="mobile-nav-link">Handler</a><strong class="mobile-nav-title">Communication</strong><a href="aidl.html" class="mobile-nav-link">AIDL</a><strong class="mobile-nav-title">Others</strong><a href="intdef.html" class="mobile-nav-link">IntDef</a><a href="parcelable.html" class="mobile-nav-link">Parcelable</a><a href="contentprovider.html" class="mobile-nav-link">ContentProvider</a><a href="proguard.html" class="mobile-nav-link">ProGuard</a><a href="gradle.html" class="mobile-nav-link">Gradle</a><strong class="mobile-nav-title">Reviews</strong><a href="efficientandroidthreading.html" class="mobile-nav-link">Efficient Android Threading</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="android/executor.html">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

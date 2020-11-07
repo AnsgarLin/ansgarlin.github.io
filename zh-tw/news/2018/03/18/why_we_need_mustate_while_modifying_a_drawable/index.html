@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Why We Need mutate() while Modifying A Drawable? | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在操作物件背景的過程中，任何Android的開發者應該都會面臨過一個問題：  來自相同來源的Drawable，被指定給數個物件後，只要對一個物件內的Drawable進行參數調整，就會影響到所有的Drawable。  舉例來說，現在畫面上有兩個自帶背景的ImageView，以下簡稱為Image1和Image2：  接著給Image1設定背景，稱作Drawable1：  目前為止如預期顯示，直到我們將">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why We Need mutate() while Modifying A Drawable?">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在操作物件背景的過程中，任何Android的開發者應該都會面臨過一個問題：  來自相同來源的Drawable，被指定給數個物件後，只要對一個物件內的Drawable進行參數調整，就會影響到所有的Drawable。  舉例來說，現在畫面上有兩個自帶背景的ImageView，以下簡稱為Image1和Image2：  接著給Image1設定背景，稱作Drawable1：  目前為止如預期顯示，直到我們將">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_not_set.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_left_camera.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_left_right_camera.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_separate.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_alpha.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_mutate.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_mutate.png">
+<meta property="article:published_time" content="2018-03-18T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.104Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/drawable_not_set.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Why We Need mutate() while Modifying A Drawable?</h1>
+    
+    <a href="/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/" class="article-date"><time datetime="2018-03-18T00:00:00.000Z">2018-03-18</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在操作物件背景的過程中，任何Android的開發者應該都會面臨過一個問題：</p>
+<ul>
+<li><strong>來自相同來源的Drawable，被指定給數個物件後，只要對一個物件內的Drawable進行參數調整，就會影響到所有的Drawable。</strong></li>
+</ul>
+<p>舉例來說，現在畫面上有兩個自帶背景的ImageView，以下簡稱為Image1和Image2：</p>
+<p><img src="drawable_not_set.png"></p>
+<p>接著給Image1設定背景，稱作Drawable1：</p>
+<p><img src="drawable_left_camera.png"></p>
+<p>目前為止如預期顯示，直到我們將Drawalbe1設定給右邊的Image2時：</p>
+<p><img src="drawable_left_right_camera.png"></p>
+<p>由於是用同一個Drawable1，所以在Image2改變Drawalbe1的形狀時，可以預期Image1的顯示結果會受到影響。</p>
+<p>接著我們再新增一個Drawable2，並設定給Image2：</p>
+<p><img src="drawable_separate.png"></p>
+<p>看起來是如預期的顯示了，接著我們調整Drawable2的alpha值到0.4：</p>
+<p><img src="drawable_alpha.png"></p>
+<p>結果依然是同步改變，代表就算使用不同Drawable，只要使用相同的來源就會互相影響。</p>
+<p>最終的解法是在設定Drawable2之前，先使用<code>mutate()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Drawable2 = Drawable1.mutate()</span><br></pre></td></tr></table></figure>
+
+<p>結果如下，兩個Drawable終於有各自的大小和alpha值：</p>
+<p><img src="drawable_mutate.png"></p>
+<p>在整個過程中，可以看到以下幾個問題：</p>
+<ul>
+<li><strong>為何不同的Drawable會相互影響？</strong></li>
+<li><strong>為何<code>mutate()</code>可以阻斷相互影響？</strong></li>
+</ul>
+<h3 id="Something-about-Drawable" class="article-heading"><a href="#Something-about-Drawable" class="headerlink" title="Something about Drawable"></a>Something about Drawable<a class="article-anchor" href="#Something-about-Drawable" aria-hidden="true"></a></h3><p>再深入找尋這些問題的解答前，我們需要先了解Drawable產生的過程。一般我們會使用<code>getDrawable()</code>來取得Drawable：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Context</span></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Drawable <span class="title">getDrawable</span><span class="params">(<span class="meta">@DrawableRes</span> <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> getResources().getDrawable(id, getTheme());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一路會經過Resources：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Resources</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Drawable <span class="title">getDrawable</span><span class="params">(<span class="meta">@DrawableRes</span> <span class="keyword">int</span> id, <span class="meta">@Nullable</span> Theme theme)</span> <span class="keyword">throws</span> NotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getDrawableForDensity(id, <span class="number">0</span>, theme);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Drawable <span class="title">getDrawableForDensity</span><span class="params">(<span class="meta">@DrawableRes</span> <span class="keyword">int</span> id, <span class="keyword">int</span> density, <span class="meta">@Nullable</span> Theme theme)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> TypedValue value = obtainTempTypedValue();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> ResourcesImpl impl = mResourcesImpl;</span><br><span class="line">        impl.getValueForDensity(id, density, value, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> impl.loadDrawable(<span class="keyword">this</span>, value, id, density, theme);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        releaseTempTypedValue(value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著會走到<code>loadDrawable()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Resourcesimpl</span></span><br><span class="line"><span class="meta">@Nullable</span></span><br><span class="line"><span class="function">Drawable <span class="title">loadDrawable</span><span class="params">(<span class="meta">@NonNull</span> Resources wrapper, <span class="meta">@NonNull</span> TypedValue value, <span class="keyword">int</span> id, <span class="keyword">int</span> density, <span class="meta">@Nullable</span> Resources.Theme theme)</span> <span class="keyword">throws</span> NotFoundException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">	<span class="keyword">final</span> <span class="keyword">boolean</span> isColorDrawable;</span><br><span class="line">    <span class="keyword">final</span> DrawableCache caches;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> key;</span><br><span class="line">    <span class="keyword">if</span> (value.type &gt;= TypedValue.TYPE_FIRST_COLOR_INT &amp;&amp; value.type &lt;= TypedValue.TYPE_LAST_COLOR_INT) &#123;</span><br><span class="line">        isColorDrawable = <span class="keyword">true</span>;</span><br><span class="line">        caches = mColorDrawableCache;</span><br><span class="line">        key = value.data;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        isColorDrawable = <span class="keyword">false</span>;</span><br><span class="line">        caches = mDrawableCache;</span><br><span class="line">        key = (((<span class="keyword">long</span>) value.assetCookie) &lt;&lt; <span class="number">32</span>) | value.data;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">final</span> Drawable.ConstantState cs;</span><br><span class="line">    <span class="keyword">if</span> (isColorDrawable) &#123;</span><br><span class="line">        cs = sPreloadedColorDrawables.get(key);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cs = sPreloadedDrawables[mConfiguration.getLayoutDirection()].get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Drawable dr;</span><br><span class="line">    <span class="keyword">boolean</span> needsNewDrawableAfterCache = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (cs != <span class="keyword">null</span>) &#123;</span><br><span class="line">        dr = cs.newDrawable(wrapper);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isColorDrawable) &#123;</span><br><span class="line">        dr = <span class="keyword">new</span> ColorDrawable(value.data);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        dr = loadDrawableForCookie(wrapper, value, id, density, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (dr != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">        cacheDrawable(value, isColorDrawable, caches, theme, canApplyTheme, key, dr);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> dr;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在這將省略優化cache的步驟，並著重在一開始初始化的過程。進入<code>loadDrawable()</code>後的操作，可以簡化成兩個步驟：</p>
+<ul>
+<li><strong>取得Drawable專屬的key值。</strong></li>
+<li><strong>使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。</strong></li>
+</ul>
+<h4 id="取得Drawable專屬的key值" class="article-heading"><a href="#取得Drawable專屬的key值" class="headerlink" title="取得Drawable專屬的key值"></a>取得Drawable專屬的key值<a class="article-anchor" href="#取得Drawable專屬的key值" aria-hidden="true"></a></h4><p>由程式碼可以看出key是<code>value</code>得來，再往前回看可以看到<code>value</code>在一開始內容是空的，並應是在<code>getValueForDensity</code>呼叫時取得內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ResourcesImpl</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getValueForDensity</span><span class="params">(<span class="meta">@AnyRes</span> <span class="keyword">int</span> id, <span class="keyword">int</span> density, TypedValue outValue, <span class="keyword">boolean</span> resolveRefs)</span> <span class="keyword">throws</span> NotFoundException </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> found = mAssets.getResourceValue(id, density, outValue, resolveRefs);</span><br><span class="line">    <span class="keyword">if</span> (found) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NotFoundException(<span class="string">&quot;Resource ID #0x&quot;</span> + Integer.toHexString(id));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊和以下的<code>outValue</code>都等於是前面提到的<code>value</code>，為了辨別以下將用<code>outValue</code>代替。</p>
+<p>然後走到<code>getResourceValue()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In AssetManager</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">getResourceValue</span><span class="params">(<span class="meta">@AnyRes</span> <span class="keyword">int</span> resId, <span class="keyword">int</span> densityDpi, <span class="meta">@NonNull</span> TypedValue outValue, <span class="keyword">boolean</span> resolveRefs)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">	<span class="keyword">final</span> <span class="keyword">int</span> block = loadResourceValue(resId, (<span class="keyword">short</span>) densityDpi, outValue, resolveRefs);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">loadResourceValue</span><span class="params">(<span class="keyword">int</span> ident, <span class="keyword">short</span> density, TypedValue outValue,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">boolean</span> resolve)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>最後是走到native的API，AssetManager對應的C++檔為<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/jni/android_util_AssetManager.cpp">android_util_AssetManager.cpp</a>。其中取得<code>outValue</code>的過程簡化如下：</p>
+<ul>
+<li><p>取得ResTable。</p>
+<blockquote>
+<p>ResTable對應的C++檔為<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/aosp-mirror/platform_frameworks_base/blob/master/libs/androidfw/ResourceTypes.cpp">ResouceTypes.cpp</a>。</p>
+</blockquote>
+</li>
+<li><p>使用傳入的Id，呼叫<code>ResTable.getResource()</code>取得對應的data，並存入<code>outValue</code>。</p>
+</li>
+<li><p>呼叫<code>ResTable.resolveReference()</code>來確認拿到的data是否只是另一個Id。如果是則再次呼叫<code>getResource()</code>，這會形成一個迴圈，直到取得真正的data為止。</p>
+</li>
+<li><p>最後將data複製到<code>outValue</code>，如此我們在Java層的<code>value</code>就擁有實際的data。</p>
+</li>
+</ul>
+<h4 id="使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。" class="article-heading"><a href="#使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。" class="headerlink" title="使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。"></a>使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。<a class="article-anchor" href="#使用ConstantState建立一個新的Drawable，或是從頭建立一個新的。" aria-hidden="true"></a></h4><p>取得<code>value</code>後，就可以算出對應的key，並嘗試取得之前已經建立的ConstantState。在這會切分成以下兩個狀況來取得Drawable：</p>
+<ul>
+<li><p><strong>沒找到對應的ConstantState</strong></p>
+</li>
+<li><p><strong>有找到對應的ConstantState</strong></p>
+</li>
+</ul>
+<h5 id="沒找到對應的ConstantState" class="article-heading"><a href="#沒找到對應的ConstantState" class="headerlink" title="沒找到對應的ConstantState"></a>沒找到對應的ConstantState<a class="article-anchor" href="#沒找到對應的ConstantState" aria-hidden="true"></a></h5><p>在App啟動的初期，可以預期將無法取得任何已存在的ContantState。於是會呼叫<code>loadDrawableForCookie()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ResourcesImpl</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Drawable <span class="title">loadDrawableForCookie</span><span class="params">(<span class="meta">@NonNull</span> Resources wrapper, <span class="meta">@NonNull</span> TypedValue value, <span class="keyword">int</span> id, <span class="keyword">int</span> density, <span class="meta">@Nullable</span> Resources.Theme theme)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">final</span> Drawable dr;</span><br><span class="line">    Trace.traceBegin(Trace.TRACE_TAG_RESOURCES, file);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (file.endsWith(<span class="string">&quot;.xml&quot;</span>)) &#123;</span><br><span class="line">            <span class="keyword">final</span> XmlResourceParser rp = loadXmlResourceParser(</span><br><span class="line">                file, id, value.assetCookie, <span class="string">&quot;drawable&quot;</span>);</span><br><span class="line">            dr = Drawable.createFromXmlForDensity(wrapper, rp, density, theme);</span><br><span class="line">            rp.close();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> InputStream is = mAssets.openNonAsset(</span><br><span class="line">                value.assetCookie, file, AssetManager.ACCESS_STREAMING);</span><br><span class="line">            dr = Drawable.createFromResourceStream(wrapper, value, is, file, <span class="keyword">null</span>);</span><br><span class="line">            is.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    ...</span><br><span class="line">	Trace.traceEnd(Trace.TRACE_TAG_RESOURCES);</span><br><span class="line">    <span class="keyword">return</span> dr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最終依照副檔名，選擇解析Xml檔或是建立資料串流來建立Drawable。</p>
+<h5 id="有找到對應的ConstantState" class="article-heading"><a href="#有找到對應的ConstantState" class="headerlink" title="有找到對應的ConstantState"></a>有找到對應的ConstantState<a class="article-anchor" href="#有找到對應的ConstantState" aria-hidden="true"></a></h5><p>在有找到對應ConstantState，代表已經進行過檔案解析並產生Drawable的過程。於是直接呼叫<code>ConstantState.newDrawable()</code>，由於ConstantState為抽象類，在這我們就已最長使用到BitmapDrawable的BitmapConstant為例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BitmapDrawable.BitmapConstant</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Drawable <span class="title">newDrawable</span><span class="params">(Resources res)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BitmapDrawable(<span class="keyword">this</span>, res);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In BitmapDrawable</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">BitmapDrawable</span><span class="params">(BitmapState state, Resources res)</span> </span>&#123;</span><br><span class="line">    mBitmapState = state;</span><br><span class="line">    updateLocalState(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以新舊的BitmapDrawable都會用到同一份BitmapState。</p>
+<p>分析到此，可以看出對於Drawable的產生過程，重要的不是Drawable本身，而是ConstantState。要建立新的Drawable，需要透過ConstantState。要做cache，也是針對ConstantState，而不是Drawable。</p>
+<h3 id="What-is-ConstantState" class="article-heading"><a href="#What-is-ConstantState" class="headerlink" title="What is ConstantState"></a>What is ConstantState<a class="article-anchor" href="#What-is-ConstantState" aria-hidden="true"></a></h3><p>這裡使用BitmapState舉例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BitmapDrawable.BitmapConstant</span></span><br><span class="line">BitmapState(BitmapState bitmapState) &#123;</span><br><span class="line">    mBitmap = bitmapState.mBitmap;</span><br><span class="line">    mTint = bitmapState.mTint;</span><br><span class="line">    mTintMode = bitmapState.mTintMode;</span><br><span class="line">    mThemeAttrs = bitmapState.mThemeAttrs;</span><br><span class="line">    mChangingConfigurations = bitmapState.mChangingConfigurations;</span><br><span class="line">    mGravity = bitmapState.mGravity;</span><br><span class="line">    mTileModeX = bitmapState.mTileModeX;</span><br><span class="line">    mTileModeY = bitmapState.mTileModeY;</span><br><span class="line">    mSrcDensityOverride = bitmapState.mSrcDensityOverride;</span><br><span class="line">    mTargetDensity = bitmapState.mTargetDensity;</span><br><span class="line">    mBaseAlpha = bitmapState.mBaseAlpha;</span><br><span class="line">    mPaint = <span class="keyword">new</span> Paint(bitmapState.mPaint);</span><br><span class="line">    mRebuildShader = bitmapState.mRebuildShader;</span><br><span class="line">    mAutoMirrored = bitmapState.mAutoMirrored;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果把其中參數與<code>BitmapDrawable.draw()</code>的內容或是其他函示內容相對照，可看到BitmapState記錄著所有會使用到的參數。所以搭配前面的分析，我們得到以下結論，並給出了前面第一個問題的答案：</p>
+<ul>
+<li><strong>因為cache機制，Resource和ConstantState是一對一。給予不同的Drawable相同的Resource，等於共用一個ConstantState。而ConstantState用於繪製，所以調整Drawable參數，就等於對ConstantState進行調整，就會影響到所有Drawable最後呈現的結果。</strong></li>
+</ul>
+<p>而如果想要不同的Drawable可以用不同的ConstantState，合理的解法就是在建立新的Drawable時，給予新的ConstantState。所以我們接著不使用<code>getDrawable()</code>，而是自己透過Builder，如BitmapFractoy來建立一個Drawable，如此可以繞過cache機制，最後結果如下：</p>
+<p><img src="drawable_mutate.png"></p>
+<p>因此我們確定這樣的做法可以讓擁有相同Resource的Drawable，可以分開操作。</p>
+<h3 id="What-mutate-does" class="article-heading"><a href="#What-mutate-does" class="headerlink" title="What mutate() does"></a>What mutate() does<a class="article-anchor" href="#What-mutate-does" aria-hidden="true"></a></h3><p>根據呈現的結果，可以預期<code>mutate()</code>做的事情應該和上述的解法相同：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BitmapDrawable</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Drawable <span class="title">mutate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mMutated &amp;&amp; <span class="keyword">super</span>.mutate() == <span class="keyword">this</span>) &#123;</span><br><span class="line">        mBitmapState = <span class="keyword">new</span> BitmapState(mBitmapState);</span><br><span class="line">        mMutated = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>依照程式碼的內容來看的確沒錯，<code>mutate()</code>也是為當前的Drawable建立新的ConstantState，從此斷開與另一個Drawable的關係。而且一個Drawable限定只能執行一次<code>mutate()</code>，如此可以避免多餘的ConstantState產生，將低memory leak的機會。</p>
+<p>綜合以上，我們也得到另一個結論：</p>
+<ul>
+<li><strong><code>mutate()</code>被設計用來分離相同Resource的Drawable行為，要達到相同效果，使用<code>mutate()</code>將比起直接建立Drawable方便。</strong></li>
+</ul>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>還有一個問題是在一開始範例演示過程中會產生的：</p>
+<ul>
+<li><strong>不同Drawable無法避免alpha的同步，但大小卻可以？</strong></li>
+</ul>
+<p>這可以從兩個地方解釋：</p>
+<ul>
+<li><strong>BitmapConstant</strong></li>
+<li><strong>BitmapDrawable.updateDstRectAndInsetsIfDirty()</strong></li>
+</ul>
+<h5 id="BitmapConstant" class="article-heading"><a href="#BitmapConstant" class="headerlink" title="BitmapConstant"></a>BitmapConstant<a class="article-anchor" href="#BitmapConstant" aria-hidden="true"></a></h5><p>我們知道要決定Drawable繪製範圍，必須要指定Bound。不過BitmapState並沒有直接存放Bound的訊息。</p>
+<h5 id="BitmapDrawable-updateDstRectAndInsetsIfDirty" class="article-heading"><a href="#BitmapDrawable-updateDstRectAndInsetsIfDirty" class="headerlink" title="BitmapDrawable.updateDstRectAndInsetsIfDirty()"></a>BitmapDrawable.updateDstRectAndInsetsIfDirty()<a class="article-anchor" href="#BitmapDrawable-updateDstRectAndInsetsIfDirty" aria-hidden="true"></a></h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In BitmapDrawable</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateDstRectAndInsetsIfDirty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    copyBounds(mDstRect);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>BitmapDrawable.draw()</code>，會呼叫到<code>updateDstRectAndInsetsIfDirty()</code>，並在此呼叫<code>copyBound()</code>來取得Bound並用在後續的<code>canvas.draw()</code>。</p>
+<p>由於<code>copyBounds()</code>屬於父類Drawable的函示，在BitmapDrawable中並無覆寫，並且<code>mDstRect</code>也沒有存於BitmapState中，可以判斷範圍是由Drawable決定而不是BitmapState，所以只有屬於BitmapState參數的alpha值可以同時影響。</p>
+<p>此點可以透過ImageView驗證：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ImageView</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">configureBounds</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (dwidth &lt;= <span class="number">0</span> || dheight &lt;= <span class="number">0</span> || ScaleType.FIT_XY == mScaleType) &#123;</span><br><span class="line">        ...</span><br><span class="line">        mDrawable.setBounds(<span class="number">0</span>, <span class="number">0</span>, vwidth, vheight);</span><br><span class="line">        ...</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        mDrawable.setBounds(<span class="number">0</span>, <span class="number">0</span>, dwidth, dheight);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In Drawable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBounds</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</span><br><span class="line">    Rect oldBounds = mBounds;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (oldBounds.left != left || oldBounds.top != top ||</span><br><span class="line">        oldBounds.right != right || oldBounds.bottom != bottom) &#123;</span><br><span class="line">        ...</span><br><span class="line">        mBounds.set(left, top, right, bottom);</span><br><span class="line">        onBoundsChange(mBounds);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In BitmapDrawable</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onBoundsChange</span><span class="params">(Rect bounds)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">final</span> Bitmap bitmap = mBitmapState.mBitmap;</span><br><span class="line">    <span class="keyword">final</span> Shader shader = mBitmapState.mPaint.getShader();</span><br><span class="line">    <span class="keyword">if</span> (bitmap != <span class="keyword">null</span> &amp;&amp; shader != <span class="keyword">null</span>) &#123;</span><br><span class="line">        updateShaderMatrix(bitmap, mBitmapState.mPaint, shader, needMirroring());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ImageView在改變尺寸後，會一路從<code>configureBounds()</code>呼叫到<code>BitmapDrawable.onBoundsChange()</code>，而bound被影響的範圍只到Drawable為止，傳到BitmapDrawable只是為了要調整Shader，但這並不會影響BitmapDrawable的繪製範圍。</p>
+<h3 id="Reference" class="article-heading"><a href="#Reference" class="headerlink" title="Reference"></a>Reference<a class="article-anchor" href="#Reference" aria-hidden="true"></a></h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://android-developers.googleblog.com/2009/05/drawable-mutations.html">Drawable mutations</a></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/03/18/why_we_need_mustate_while_modifying_a_drawable/index.html';
+  var disqus_title = "Why We Need mutate() while Modifying A Drawable?";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

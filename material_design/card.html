@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Card | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/material_design/card.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/card.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/card.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="卡片是一個有紙張意義的物件，上面同時具有多種不同類型的物件，例如影像、字串、連結等，但不能擁有可滾動的元件。 使用時機 為一個容器，包含許多不同的物件和動作      不需要比較內容     可支援較長的文字內容    不應使用時機 列表    &gt; 以卡片切割會影響使用者快速遊覽列表   不需要過多文字描述的圖片    組成一個卡片可能最多會有以下幾個組成：  1. 標頭2. 標題3. 多媒體4.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Card">
+<meta property="og:url" content="https://ansgarlin.github.io/material_design/card.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="卡片是一個有紙張意義的物件，上面同時具有多種不同類型的物件，例如影像、字串、連結等，但不能擁有可滾動的元件。 使用時機 為一個容器，包含許多不同的物件和動作      不需要比較內容     可支援較長的文字內容    不應使用時機 列表    &gt; 以卡片切割會影響使用者快速遊覽列表   不需要過多文字描述的圖片    組成一個卡片可能最多會有以下幾個組成：  1. 標頭2. 標題3. 多媒體4.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3WFBLZjBNNGpnQzg/components_cards1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3am9VWWFlbHVJNDg/components_cards3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Y1lRbzJERTJIa28/components_cards2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZGZTVVJIWW4zZWs/components_cards8.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsN2F1Y2RWNzQ0R1U/components_cards10.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3MHh2ZlhHVUMyQlk/components_cards17.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZWNWWDZVek41S1U/components_cards_content2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cXVadmtJa19wT3M/components_cards_content1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NGo3QkpVWTNBZzA/components_cards_content3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dU9ETE9PUDExMUU/components_cards_behavior1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dnROYlN6b1hsTmM/components_cards_behavior2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3aHp5aGtIT0dwQ28/components_cards19.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OXdMTGNiaG9MVXc/components_cards_action1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cXJ0OTI1MXJUV0U/components_cards_action5.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dnROYlN6b1hsTmM/components_cards_behavior2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q3BSMEZNOVNOWU0/components_cards_behavior7.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B_udO5B8pzrzSG9CdkJzMEJCODQ/components_cards6.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bG0tNkIyNDhJZEU/components_cards28.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dmZtRndUeWtpMUk/components_cards30.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3MXJBM2FCcDVscjg/components_cards34.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3c29HUjIwc19JQlU/components_cards24.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eXpkdFhrZk9oM1k/components_cards25.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OTNwYzRRZ0o2dGM/components_cards41.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ajNVOVJyV2VmcXM/components_cards36.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3US1pR2N0OTNIaFE/components_cards37.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.476Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.476Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3WFBLZjBNNGpnQzg/components_cards1.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Card</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>卡片是一個有紙張意義的物件，上面同時具有多種不同類型的物件，例如影像、字串、連結等，但不能擁有可滾動的元件。</p>
+<h2 id="使用時機" class="article-heading"><a href="#使用時機" class="headerlink" title="使用時機"></a>使用時機<a class="article-anchor" href="#使用時機" aria-hidden="true"></a></h2><ul>
+<li>為一個容器，包含許多不同的物件和動作  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3WFBLZjBNNGpnQzg/components_cards1.png"></p>
+<ul>
+<li>不需要比較內容</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3am9VWWFlbHVJNDg/components_cards3.png" style="max-width:50%">
+
+<ul>
+<li>可支援較長的文字內容</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Y1lRbzJERTJIa28/components_cards2.png" style="max-width:50%">
+
+<h2 id="不應使用時機" class="article-heading"><a href="#不應使用時機" class="headerlink" title="不應使用時機"></a>不應使用時機<a class="article-anchor" href="#不應使用時機" aria-hidden="true"></a></h2><ul>
+<li>列表 </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZGZTVVJIWW4zZWs/components_cards8.png" style="max-width:50%">
+> <p style="font-size: 12px">以卡片切割會影響使用者快速遊覽列表</p>
+
+<ul>
+<li>不需要過多文字描述的圖片</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsN2F1Y2RWNzQ0R1U/components_cards10.png" style="max-width:50%">
+
+<h2 id="組成" class="article-heading"><a href="#組成" class="headerlink" title="組成"></a>組成<a class="article-anchor" href="#組成" aria-hidden="true"></a></h2><p>一個卡片可能最多會有以下幾個組成：<br><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3MHh2ZlhHVUMyQlk/components_cards17.png"></p>
+<blockquote>
+<p style="font-size: 12px">1. 標頭<br>2. 標題<br>3. 多媒體<br>4. 內文<br>5. 操作</p>
+</blockquote>
+<p>組成排列方式可以有很多種，相同的是卡片提供一個可以獲得更多資訊的入口，不要在卡片上放置過多的訊息和操作。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsZWNWWDZVek41S1U/components_cards_content2.png" style="max-width:50%">
+> <p style="font-size: 12px">每個卡片可以有不同物件和擺置</p>
+
+<p>卡片組成在排列時需要盡量凸顯重點，例如以下兩個方法：</p>
+<ul>
+<li>圖片</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cXVadmtJa19wT3M/components_cards_content1.png" style="max-width:50%">
+> <p style="font-size: 12px">圖片可讓使用者快速區別彼此差別，同時也要注意不要讓圖片影響文字的清晰程度</p>
+
+<ul>
+<li>字體</li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3NGo3QkpVWTNBZzA/components_cards_content3.png" style="max-width:50%">
+> <p style="font-size: 12px">放大標題可以直接看出每個卡片的內容主旨</p>
+
+<h2 id="主要操作" class="article-heading"><a href="#主要操作" class="headerlink" title="主要操作"></a>主要操作<a class="article-anchor" href="#主要操作" aria-hidden="true"></a></h2><p>卡片的主要操作對象為其本身，有以下幾種：</p>
+<ul>
+<li>排序  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dU9ETE9PUDExMUU/components_cards_behavior1.png"></p>
+<blockquote>
+<p style="font-size: 12px">使用拖拉的方式可以重新排列卡片順序，預設卡片排列方向為由左至右，由上至下</p>
+</blockquote>
+<ul>
+<li>滾動  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dnROYlN6b1hsTmM/components_cards_behavior2.png" style="max-width:50%">
+> <p style="font-size: 12px">卡片只能垂直方向滾動</p>
+
+<h2 id="附屬操作" class="article-heading"><a href="#附屬操作" class="headerlink" title="附屬操作"></a>附屬操作<a class="article-anchor" href="#附屬操作" aria-hidden="true"></a></h2><p>放置在卡片下方，可依照需求增加附屬操作，附屬操作可為以下兩種：</p>
+<ul>
+<li>按鈕  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3aHp5aGtIT0dwQ28/components_cards19.png"></p>
+<ul>
+<li>控件</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OXdMTGNiaG9MVXc/components_cards_action1.png"></p>
+<blockquote>
+<p style="font-size: 12px">除了評分，也可以是日期選擇器</p>
+</blockquote>
+<p>如果附屬操作過多，可以在卡片右上方增加一個選單按鈕，但也不要在此選單增加過多選項。</p>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3cXJ0OTI1MXJUV0U/components_cards_action5.png"></p>
+<p>當卡片內容超過卡片最高高度時，由於卡片不能具有可滾動元件，所以有以下兩個方式處理：</p>
+<ul>
+<li>截斷內容  </li>
+</ul>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dnROYlN6b1hsTmM/components_cards_behavior2.png" style="max-width:50%">
+
+<ul>
+<li>使用附屬按鈕，讓卡片可進行暫時性延展</li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q3BSMEZNOVNOWU0/components_cards_behavior7.png"></p>
+<h2 id="狀態" class="article-heading"><a href="#狀態" class="headerlink" title="狀態"></a>狀態<a class="article-anchor" href="#狀態" aria-hidden="true"></a></h2><h2 id="設計規範" class="article-heading"><a href="#設計規範" class="headerlink" title="設計規範"></a>設計規範<a class="article-anchor" href="#設計規範" aria-hidden="true"></a></h2><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B_udO5B8pzrzSG9CdkJzMEJCODQ/components_cards6.png" style="max-width:50%">
+> <p style="font-size: 12px">卡片四周圓角：2dp<br>卡片與容器上下左右間距：8dp<br>卡片間間距：8 dp</p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3bG0tNkIyNDhJZEU/components_cards28.png"></p>
+<blockquote>
+<p style="font-size: 12px">標頭<br>圖片高：36 dp<br>圖片寬：36 dp<br>標題字體：14 sp<br>副標字體：14 sp<br>內容上下左右間距：16 dp<br></p>
+<p style="font-size: 12px">多媒體<br>高：與寬比為 9：16 或 1：1（建議）<br>寬：同螢幕寬<br></p>
+<p style="font-size: 12px">標題<br>標題字體：24 sp<br>副標字體：14 sp<br>上間距：24 dp<br>下間距：24 dp（下方無其他組成），16 dp（下方為內文或操作）高：依內容而定</p>
+<p style="font-size: 12px">內文<br>字體：14 sp<br>上間距：16 dp<br>下間距：24 dp（下方無其他組成），16 dp (下方為內文或操作）小點左間距：16 dp</p>
+<p style="font-size: 12px">操作（通用）<br>高：52 dp
+</p></blockquote>
+<p></p>
+> <p style="font-size: 12px">操作（圖示）<br>上下間距：垂直置中左右間距：16 dp<br>圖示間間距：8dp
+</p>
+> <p style="font-size: 12px">操作（按鈕）<br>
+同按鈕的[設計規範](button.html#設計規範)<br>
+按鈕間間距：8 dp（橫向），4 dp（縱向）
+
+</p><p>以下顯示各種不同的組合，並提供上圖沒有的數值：<br><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3dmZtRndUeWtpMUk/components_cards30.png"></p>
+<blockquote>
+<p style="font-size: 12px">標頭<br>
+高：72 dp
+</p></blockquote>
+<p></p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3MXJBM2FCcDVscjg/components_cards34.png"></p>
+<blockquote>
+<p style="font-size: 12px">標題<br>
+行間空白：8 dp（官方為 12 dp）
+</p></blockquote>
+<p></p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3c29HUjIwc19JQlU/components_cards24.png"><br><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3eXpkdFhrZk9oM1k/components_cards25.png"></p>
+<blockquote>
+<p style="font-size: 12px">標題被圖片和操作覆蓋<br>
+圖片寬：80 dp（小圖），112 dp（大圖）<br>
+圖片高：80 dp（小圖），112 dp（大圖）
+</p></blockquote>
+<p></p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3OTNwYzRRZ0o2dGM/components_cards41.png"></p>
+<blockquote>
+<p style="font-size: 12px">標題被圖片和操作覆蓋<br>
+圖片寬：240 dp<br>
+圖片高：240 dp<br>
+操作圖示右間距：28 dp
+</p></blockquote>
+<p></p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3ajNVOVJyV2VmcXM/components_cards36.png"></p>
+<blockquote>
+<p style="font-size: 12px">圖示被標題和操作覆蓋
+</p></blockquote>
+<p></p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3US1pR2N0OTNIaFE/components_cards37.png"></p>
+<blockquote>
+<p style="font-size: 12px">圖示被標題和操作覆蓋
+</p></blockquote>
+<p></p>
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.476Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/material_design/card.html';
+  var disqus_title = "Card";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%99%82%E6%A9%9F"><span class="toc-text">使用時機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E6%87%89%E4%BD%BF%E7%94%A8%E6%99%82%E6%A9%9F"><span class="toc-text">不應使用時機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%84%E6%88%90"><span class="toc-text">組成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C"><span class="toc-text">主要操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%E5%B1%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">附屬操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8B%80%E6%85%8B"><span class="toc-text">狀態</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%AD%E8%A8%88%E8%A6%8F%E7%AF%84"><span class="toc-text">設計規範</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

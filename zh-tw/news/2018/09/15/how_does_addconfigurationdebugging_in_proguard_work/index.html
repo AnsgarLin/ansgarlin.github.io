@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>How does "-addconfigurationdebugging" in ProGuard work | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="在ProGuard manual中，有個有趣的設定：-addconfigurationdebugging。這設定雖然不算新，但也很少看到其在專案中實際被應用。 -addconfigurationdebugging是ProGuard專用於debug的功能之一，官方介紹如下： Specifies to instrument the processed code with debugging state">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How does &quot;-addconfigurationdebugging&quot; in ProGuard work">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="在ProGuard manual中，有個有趣的設定：-addconfigurationdebugging。這設定雖然不算新，但也很少看到其在專案中實際被應用。 -addconfigurationdebugging是ProGuard專用於debug的功能之一，官方介紹如下： Specifies to instrument the processed code with debugging state">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/addconfigurationdebugging_1.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/addconfigurationdebugging_2.png">
+<meta property="og:image" content="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/addconfigurationdebugging_3.png">
+<meta property="article:published_time" content="2018-09-15T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.132Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/addconfigurationdebugging_1.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">How does "-addconfigurationdebugging" in ProGuard work</h1>
+    
+    <a href="/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/" class="article-date"><time datetime="2018-09-15T00:00:00.000Z">2018-09-15</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.guardsquare.com/en/products/proguard/manual/usage">ProGuard manual</a>中，有個有趣的設定：<code>-addconfigurationdebugging</code>。這設定雖然不算新，但也很少看到其在專案中實際被應用。</p>
+<p><code>-addconfigurationdebugging</code>是ProGuard專用於debug的功能之一，官方介紹如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Specifies to instrument the processed code with debugging statements that print out suggestions for missing ProGuard configuration. This can be very useful to get practical hints at runtime, if your processed code crashes because it still lacks some configuration for reflection.</span><br></pre></td></tr></table></figure>
+
+<p>簡單來說就是，他在程式執行到一半crash時，如果是ProGuard處理後可能會造成的錯誤，ProGuard會給予提示，請你在ProGuard中增加相對的設定。</p>
+<p>假設現在有一段程式碼如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class c = Class.forName(<span class="string">&quot;com.exmaple.NoneExistClass&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在我的測試專案中並沒有<code>com.example.NoneExistClass</code>這個類別，所以在執行時這一段必然會出錯，然候丟出ClassNotFoundExeception的錯誤。</p>
+<p>此時，不論有沒有透過ProGuard處理，在Logcat上看到的應該只有<code>printStackTrace()</code>印出的stacktrace。但有加入<code>-addconfigurationdebugging</code>在ProGuard設定中的話。此時會多了以下內容：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">W/ProGuard: The <span class="class"><span class="keyword">class</span> &#x27;<span class="title">com</span>.<span class="title">example</span>.<span class="title">SampleActivity</span>&#x27; <span class="title">is</span> <span class="title">calling</span> <span class="title">Class</span>.<span class="title">forName</span> <span class="title">to</span> <span class="title">retrieve</span></span></span><br><span class="line"><span class="class">    <span class="title">the</span> <span class="title">class</span> &#x27;<span class="title">com</span>.<span class="title">exmaple</span>.<span class="title">NoneExistClass</span>&#x27;, <span class="title">but</span> <span class="title">the</span> <span class="title">latter</span> <span class="title">could</span> <span class="title">not</span> <span class="title">be</span> <span class="title">found</span>.</span></span><br><span class="line"><span class="class">    <span class="title">It</span> <span class="title">may</span> <span class="title">have</span> <span class="title">been</span> <span class="title">obfuscated</span> <span class="title">or</span> <span class="title">shrunk</span>.</span></span><br><span class="line"><span class="class">    <span class="title">You</span> <span class="title">should</span> <span class="title">consider</span> <span class="title">preserving</span> <span class="title">the</span> <span class="title">class</span> <span class="title">with</span> <span class="title">its</span> <span class="title">original</span> <span class="title">name</span>,</span></span><br><span class="line">    with a setting like:</span><br><span class="line">     </span><br><span class="line">    -keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">exmaple</span>.<span class="title">NoneExistClass</span></span></span><br><span class="line"><span class="class">     </span></span><br><span class="line">W/System.err: java.lang.ClassNotFoundException: com.exmaple.NoneExistClass at </span><br><span class="line">	java.lang.Class.classForName(Native Method)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>透過提示訊息，我們就可以知道該加入什麼設定，而不用在不知所謂的錯誤訊息中嘗試找到正確規則。</p>
+<p>不過這邊可以注意的不只是ProGuard給的提示，還有這提示訊息出現的位置，是在<code>printStackTrace()</code>之前。而在使用breakpoint測試後也證實，這提示訊息是在<code>Class.forName()</code>執行後印出。</p>
+<p>換句話說，就是此提示訊息憑空出現在<code>Class.forName()</code>和<code>printStackTrace()</code>之間，而從程式碼看不出中間有任何會額外輸出提示的片段。所以可以直接猜測，是ProGuard在處理時做了一些動作。</p>
+<h3 id="Code-injection" class="article-heading"><a href="#Code-injection" class="headerlink" title="Code injection"></a>Code injection<a class="article-anchor" href="#Code-injection" aria-hidden="true"></a></h3><p>既然是程式執行時的輸出，代表程式碼可能有被更動過，所以直接透過Android Studio來查看APK內容：</p>
+<p><img src="addconfigurationdebugging_1.png"></p>
+<p>看來前面的猜想沒錯，ProGuard主動塞了一些類別進入專案中，畢竟我們不會特別去寫<code>proguard</code>相關的類別。</p>
+<p>接著就是看被塞到哪裡，Android Studio正好提供了一個功能，讓我們可以查看任何一個函式的bytecode，於是來看一下範例程式碼的bytecode：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.<span class="function">method <span class="keyword">private</span> <span class="keyword">static</span> synthetic <span class="title">a</span><span class="params">(Landroid/view/View;)</span>V</span></span><br><span class="line"><span class="function">    .registers 3</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    .line 78</span></span><br><span class="line"><span class="function">    :try_start_0</span></span><br><span class="line"><span class="function">    <span class="keyword">const</span>-string p0, &quot;com.exmaple.NoneExistClass&quot;</span></span><br><span class="line"><span class="function">    :try_end_2</span></span><br><span class="line"><span class="function">    .<span class="keyword">catch</span> Ljava/lang/ClassNotFoundException</span>; &#123;:try_start_0 .. :try_end_2&#125; :catch_d</span><br><span class="line"></span><br><span class="line">    :try_start_2</span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;p0&#125;, Ljava/lang/Class;-&gt;forName(Ljava/lang/String;)Ljava/lang/Class;</span><br><span class="line">    :try_end_5</span><br><span class="line">    .<span class="keyword">catch</span> Ljava/lang/ClassNotFoundException; &#123;:try_start_2 .. :try_end_5&#125; :catch_6</span><br><span class="line"></span><br><span class="line">    .line <span class="number">81</span></span><br><span class="line">    goto :goto_11</span><br><span class="line"></span><br><span class="line">    .line <span class="number">78</span></span><br><span class="line">    :catch_6</span><br><span class="line">    move-exception v0</span><br><span class="line"></span><br><span class="line">    :try_start_7</span><br><span class="line">    <span class="keyword">const</span>-string v1, <span class="string">&quot;com.example.SelectImageActivity&quot;</span></span><br><span class="line"></span><br><span class="line">    invoke-<span class="keyword">static</span> &#123;v1, p0&#125;, Lc/a/a;-&gt;a(Ljava/lang/String;Ljava/lang/String;)V</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> v0</span><br><span class="line">    :try_end_d</span><br><span class="line">    .<span class="keyword">catch</span> Ljava/lang/ClassNotFoundException; &#123;:try_start_7 .. :try_end_d&#125; :catch_d</span><br><span class="line"></span><br><span class="line">    .line <span class="number">79</span></span><br><span class="line">    :catch_d</span><br><span class="line">    move-exception p0</span><br><span class="line"></span><br><span class="line">    .line <span class="number">80</span></span><br><span class="line">    invoke-virtual &#123;p0&#125;, Ljava/lang/ClassNotFoundException;-&gt;printStackTrace()V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">86</span></span><br><span class="line">    :goto_11</span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+
+<p>乍看之下會讓人摸不著頭緒，所以再來看一下沒有設定<code>-addconfigurationdebugging</code>時的bytecode：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.<span class="function">method <span class="keyword">private</span> <span class="keyword">static</span> synthetic <span class="title">a</span><span class="params">(Landroid/view/View;)</span>V</span></span><br><span class="line"><span class="function">    .registers 1</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    .line 78</span></span><br><span class="line"><span class="function">    :try_start_0</span></span><br><span class="line"><span class="function">    <span class="keyword">const</span>-string p0, &quot;com.exmaple.bb&quot;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    invoke-<span class="keyword">static</span> </span>&#123;p0&#125;, Ljava/lang/Class;-&gt;forName(Ljava/lang/String;)Ljava/lang/Class;</span><br><span class="line">    :try_end_5</span><br><span class="line">    .<span class="keyword">catch</span> Ljava/lang/ClassNotFoundException; &#123;:try_start_0 .. :try_end_5&#125; :catch_6</span><br><span class="line"></span><br><span class="line">    .line <span class="number">81</span></span><br><span class="line">    goto :goto_a</span><br><span class="line"></span><br><span class="line">    .line <span class="number">79</span></span><br><span class="line">    :catch_6</span><br><span class="line">    move-exception p0</span><br><span class="line"></span><br><span class="line">    .line <span class="number">80</span></span><br><span class="line">    invoke-virtual &#123;p0&#125;, Ljava/lang/ClassNotFoundException;-&gt;printStackTrace()V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">86</span></span><br><span class="line">    :goto_a</span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+
+<p>此時差異就很明顯了，前面幾段都是屬於範例程式碼，多的就是ProGuard塞進來的。<strong>對照後可以看到呼叫<code>printStackTrace()</code>的片段都是擺在最後，這也解釋了為什麼提示訊息印出的位置會在錯誤訊息前</strong>。</p>
+<h3 id="Go-into-deeper" class="article-heading"><a href="#Go-into-deeper" class="headerlink" title="Go into deeper"></a>Go into deeper<a class="article-anchor" href="#Go-into-deeper" aria-hidden="true"></a></h3><p>既然都找到ProGuard注入的片段，就來看看是被放入什麼。首先，讓我們聚焦以下由前面bytecode取出的片段：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">invoke-<span class="keyword">static</span> &#123;v1, p0&#125;, Lc/a/a;-&gt;a(Ljava/lang/String;Ljava/lang/String;)V</span><br></pre></td></tr></table></figure>
+
+<p>這一段意思是：執行一個接受兩個String為參數，並不帶回傳值的靜態函示。此函式位在<code>c/a/a</code>這類別中。於是我們將前面圖片內的名稱轉回ProGuard後的名稱，並找到它的位置：</p>
+<p><img src="addconfigurationdebugging_2.png"></p>
+<p>然後查看裡面的內容，並再轉回ProGuard前的名稱：</p>
+<p><img src="addconfigurationdebugging_3.png"></p>
+<p>這樣我們就順利找到對應的函示：<code>logForName()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationLogger</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logForName</span><span class="params">(String callingClassName, String missingClassName)</span> </span>&#123;</span><br><span class="line">    logMissingClass(callingClassName, <span class="string">&quot;Class&quot;</span>, <span class="string">&quot;forName&quot;</span>, missingClassName);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">logMissingClass</span><span class="params">(String callingClassName, String invokedClassName,</span></span></span><br><span class="line"><span class="function"><span class="params">                                  String invokedMethodName, String missingClassName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!LOG_ONCE || !missingClasses.contains(missingClassName)) &#123;</span><br><span class="line">        missingClasses.add(missingClassName);</span><br><span class="line">        log(<span class="string">&quot;The class &#x27;&quot;</span> + originalClassName(callingClassName) + <span class="string">&quot;&#x27; is calling &quot;</span> + invokedClassName + <span class="string">&quot;.&quot;</span> + invokedMethodName + <span class="string">&quot; to retrieve\n&quot;</span> + </span><br><span class="line">            <span class="string">&quot;the class &#x27;&quot;</span> + missingClassName + <span class="string">&quot;&#x27;, but the latter could not be found.\n&quot;</span> +</span><br><span class="line">            <span class="string">&quot;It may have been obfuscated or shrunk.\n&quot;</span> +</span><br><span class="line">            <span class="string">&quot;You should consider preserving the class with its original name,\n&quot;</span> +</span><br><span class="line">            <span class="string">&quot;with a setting like:\n&quot;</span> +</span><br><span class="line">            EMPTY_LINE +</span><br><span class="line">            keepClassRule(missingClassName) + <span class="string">&quot;\n&quot;</span> +</span><br><span class="line">            EMPTY_LINE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>除了ClassNotFoundException，ProGuard也會在有開啟<code>-addconfigurationdebugging</code>時，針對以下幾種錯誤額外注入程式：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ConfigurationLoggingInstructionSequenceConstants</span></span><br><span class="line">String NAME_CLASS_NOT_FOUND_EXCEPTION = <span class="string">&quot;java/lang/ClassNotFoundException&quot;</span>;</span><br><span class="line">String NAME_NO_SUCH_FIELD_EXCEPTION   = <span class="string">&quot;java/lang/NoSuchFieldException&quot;</span>;</span><br><span class="line">String NAME_NO_SUCH_METHOD_EXCEPTION  = <span class="string">&quot;java/lang/NoSuchMethodException&quot;</span>;</span><br><span class="line">String NAME_RUNTIME_EXCEPTION         = <span class="string">&quot;java/lang/RuntimeException&quot;</span>;</span><br><span class="line">String NAME_UNSATISFIED_LINK_ERROR    = <span class="string">&quot;java/lang/UnsatisfiedLinkError&quot;</span>;</span><br><span class="line">String NAME_IO_EXCEPTION              = <span class="string">&quot;java/io/IOException&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/09/15/how_does_addconfigurationdebugging_in_proguard_work/index.html';
+  var disqus_title = "How does \"-addconfigurationdebugging\" in ProGuard work";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

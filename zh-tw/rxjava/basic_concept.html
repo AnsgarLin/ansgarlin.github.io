@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>基本概念 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/rxjava/basic_concept.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/rxjava/basic_concept.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/rxjava/basic_concept.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="此篇為本系列的第一篇，用於建立一些基本概念，其餘operator會獨立在不同篇章介紹。 一般來說，一個完整的RxJava chain會由以下幾種operator組成：  建立源頭的：create() 決定送出資料的thread：subscribeOn() 決定operator執行時的thread：observeOn() 訂閱Observable：subscribe()  注意以上種類所含的oper">
+<meta property="og:type" content="website">
+<meta property="og:title" content="基本概念">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/rxjava/basic_concept.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="此篇為本系列的第一篇，用於建立一些基本概念，其餘operator會獨立在不同篇章介紹。 一般來說，一個完整的RxJava chain會由以下幾種operator組成：  建立源頭的：create() 決定送出資料的thread：subscribeOn() 決定operator執行時的thread：observeOn() 訂閱Observable：subscribe()  注意以上種類所含的oper">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:14:05.280Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.280Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="rxjava/basic_concept.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">基本概念</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>此篇為本系列的第一篇，用於建立一些基本概念，其餘operator會獨立在不同篇章介紹。</p>
+<p>一般來說，一個完整的RxJava chain會由以下幾種operator組成：</p>
+<ul>
+<li>建立源頭的：<code>create()</code></li>
+<li>決定送出資料的thread：<code>subscribeOn()</code></li>
+<li>決定operator執行時的thread：<code>observeOn()</code></li>
+<li>訂閱Observable：<code>subscribe()</code></li>
+</ul>
+<p>注意以上種類所含的operator可能不只一種，這邊為了簡化問題只列出最主要。</p>
+<p>由上述的operator，我們可以給出一個簡單的例子如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    e.onNext(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">  .subscribeOn(Schedulers.newThread())</span><br><span class="line">  .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">  .subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123; &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>整個流程不難理解，就是用<code>create()</code>建立一個資料源，然後在新的thread上送出一個數字0，然後在Android的main thread接收。</p>
+<p>接著我們先從operator互相串接的過程開始介紹。</p>
+<h3 id="Connect-with-each-other" class="article-heading"><a href="#Connect-with-each-other" class="headerlink" title="Connect with each other"></a>Connect with each other<a class="article-anchor" href="#Connect-with-each-other" aria-hidden="true"></a></h3><h4 id="Create" class="article-heading"><a href="#Create" class="headerlink" title="Create()"></a>Create()<a class="article-anchor" href="#Create" aria-hidden="true"></a></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    e.onNext(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>進去<code>create()</code>後如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">create</span><span class="params">(ObservableOnSubscribe&lt;T&gt; source)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableCreate&lt;T&gt;(source));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接收的ObservableOnSubscribe就是我們建立的，然後將其傳入ObservableCreate。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableCreate</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ObservableCreate</span><span class="params">(ObservableOnSubscribe&lt;T&gt; source)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.source = source;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>傳進去後沒做特別的事情，就是把ObservableOnSubscribe包進去ObservableCreate。</p>
+<h4 id="SubscribeOn" class="article-heading"><a href="#SubscribeOn" class="headerlink" title="SubscribeOn()"></a>SubscribeOn()<a class="article-anchor" href="#SubscribeOn" aria-hidden="true"></a></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.subscribeOn(Schedulers.newThread())</span><br></pre></td></tr></table></figure>
+
+<p>從前面可知<code>create()</code>會回傳一個ObservableCreate，因此這邊也可以表示如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ObservableCreate.subscribeOn(Schedulers.newThread())</span><br></pre></td></tr></table></figure>
+
+<p>接著看進去<code>subscribeOn()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">subscribeOn</span><span class="params">(Scheduler scheduler)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableSubscribeOn&lt;T&gt;(<span class="keyword">this</span>, scheduler));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>包進去ObservableSubscribeOn的除了Scheduler還有this。由前述的程式碼可知道this就是ObservableCreate。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableSubscribeOn</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ObservableSubscribeOn</span><span class="params">(ObservableSource&lt;T&gt; source, Scheduler scheduler)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">super</span>(source);</span><br><span class="line">  <span class="keyword">this</span>.scheduler = scheduler;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>綜合ObservableCreate的constructor，在這可以建立第一個觀念：</p>
+<ul>
+<li><strong>任何Observable的constructor，都是將上游的Observable包起來。</strong></li>
+</ul>
+<h4 id="ObservableOn" class="article-heading"><a href="#ObservableOn" class="headerlink" title="ObservableOn()"></a>ObservableOn()<a class="article-anchor" href="#ObservableOn" aria-hidden="true"></a></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.observeOn(AndroidSchedulers.mainThread())</span><br></pre></td></tr></table></figure>
+
+<p>看進去<code>observeOn()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">observeOn</span><span class="params">(Scheduler scheduler, <span class="keyword">boolean</span> delayError)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> observeOn(scheduler, delayError, bufferSize());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">observeOn</span><span class="params">(Scheduler scheduler, <span class="keyword">boolean</span> delayError, <span class="keyword">int</span> bufferSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableObserveOn&lt;T&gt;(<span class="keyword">this</span>, scheduler, delayError, bufferSize));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由前面介紹可知最後會得到一個ObservableObserveOn，其中包含著代表Android main thread的Scheduler和上游的Observable，也就是ObservableSubscribeOn。</p>
+<p>到此完成operator的串接，由於Observable在串接過程中是一層包一層，所以最後得到的ObservableObserveOn可以用以下的結構表示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ObservableObserveOn &#123;</span><br><span class="line">  source = ObservableSubscribeOn &#123;</span><br><span class="line">    source = ObservableCreate &#123;</span><br><span class="line">      source = ObservableOnSubscribe</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Subscribe-to-Observable" class="article-heading"><a href="#Subscribe-to-Observable" class="headerlink" title="Subscribe to Observable"></a>Subscribe to Observable<a class="article-anchor" href="#Subscribe-to-Observable" aria-hidden="true"></a></h3><h4 id="subscribe" class="article-heading"><a href="#subscribe" class="headerlink" title="subscribe()"></a>subscribe()<a class="article-anchor" href="#subscribe" aria-hidden="true"></a></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">.subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123; &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>看進去<code>subscribe()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Observable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Disposable <span class="title">subscribe</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; onNext)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> subscribe(onNext, Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Disposable <span class="title">subscribe</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; onNext, Consumer&lt;? <span class="keyword">super</span> Throwable&gt; onError, Action onComplete, Consumer&lt;? <span class="keyword">super</span> Disposable&gt; onSubscribe)</span> </span>&#123;</span><br><span class="line">  LambdaObserver&lt;T&gt; ls = <span class="keyword">new</span> LambdaObserver&lt;T&gt;(onNext, onError, onComplete, onSubscribe);</span><br><span class="line">  subscribe(ls);</span><br><span class="line">  <span class="keyword">return</span> ls;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  observer = RxJavaPlugins.onSubscribe(<span class="keyword">this</span>, observer);</span><br><span class="line">  subscribeActual(observer); </span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在外部定義的Consumer，傳入後被包進去LambdaObserver，再傳入<code>subscribeActual()</code>。Observable的<code>subscribeActual()</code>需要被子類實作，推斷這裡的<code>subscribeActual()</code>是ObservableObserveOn的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableObserveOn</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (scheduler <span class="keyword">instanceof</span> TrampolineScheduler) &#123;</span><br><span class="line">    source.subscribe(observer);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Scheduler.Worker w = scheduler.createWorker();</span><br><span class="line">    source.subscribe(<span class="keyword">new</span> ObserveOnObserver&lt;T&gt;(observer, w, delayError, bufferSize));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <em>Worker部分跟thread的操作有關，將在其獨立的篇章介紹。</em></p>
+</blockquote>
+<p>藉由前章最後的結構圖，可以推斷這裡的source是ObservableSubscribeOn。所以我們在這將前面得到的LambdaObserver包進去ObserveOnObserver。</p>
+<p>綜合Observer的constructor，這有第二個觀念：</p>
+<ul>
+<li><strong>任何Observer的constructor，都是將下游的Observer包起來。</strong></li>
+</ul>
+<p>ObservableSubscribeOn並沒有實作<code>subscribe()</code>，所以回到父類Observable的<code>subscribe()</code>，再走回ObservableSubscribeOn的<code>subscribeActual()</code>。</p>
+<p>接著是第三個觀念：</p>
+<ul>
+<li><strong>任何Observable的<code>subscribe()</code>都會走回自己的<code>subscribeActual()</code>。</strong></li>
+</ul>
+<p>接著看到ObservableSubscribeOn的<code>subscribeActual()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableSubscribeOn</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(<span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; s)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> SubscribeOnObserver&lt;T&gt; parent = <span class="keyword">new</span> SubscribeOnObserver&lt;T&gt;(s);</span><br><span class="line">  s.onSubscribe(parent);</span><br><span class="line">  parent.setDisposable(scheduler.scheduleDirect(<span class="keyword">new</span> SubscribeTask(parent)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SubscribeTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> SubscribeOnObserver&lt;T&gt; parent;</span><br><span class="line">  SubscribeTask(SubscribeOnObserver&lt;T&gt; parent) &#123;</span><br><span class="line">    <span class="keyword">this</span>.parent = parent;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    source.subscribe(parent);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><em>Scheduler在這邊進行thread切換的原理可查看<a href="thread_control.html">Thread控制</a>。</em></p>
+</blockquote>
+<p>上游的ObserveOnObserver包進去SubscribeOnObserver，接著放入SubscribeTask並透過Scheduler執行。</p>
+<p>到這邊，應可知道source就是ObservableCreate，而<code>subscribe()</code>會帶到ObservableCreate的<code>subscriberActual()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObservableCreate</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">  CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> CreateEmitter&lt;T&gt;(observer);</span><br><span class="line">  observer.onSubscribe(parent);</span><br><span class="line">  ...</span><br><span class="line">  source.subscribe(parent);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊的source就是ObservableOnSubscribe，也就是我們一開始宣告給<code>create()</code>的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    e.onNext(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和Observable一樣，Observer也是層層包裝。所以拿來呼叫<code>onNext()</code>的ObservableEmitter，也就是CreateEmitter的結構如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">CreateEmitter &#123;</span><br><span class="line">  SubscribeOnObserver &#123;</span><br><span class="line">    actual = ObserveOnObserver &#123;</span><br><span class="line">      actual = LambdaObserver &#123;</span><br><span class="line">        onNext = Consumer</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Send-data" class="article-heading"><a href="#Send-data" class="headerlink" title="Send data"></a>Send data<a class="article-anchor" href="#Send-data" aria-hidden="true"></a></h3><p>接續上個章節最後一段程式碼，我們用ObservableEmitter，也就是CreateEmitter呼叫<code>onNext()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In CreateEmitter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  observer.onNext(t);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>對照上個章節最後的結構，可以知道這個Observer就是SubscribeOnObserver：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SubscribeOnObserver</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  actual.onNext(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>沒做什麼事情，直接將資料傳遞到下游的Observer，也就是ObserveOnObserver：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ObserveOnObserver</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  schedule();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">schedule</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  worker.schedule(<span class="keyword">this</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">drainNormal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; a = actual;</span><br><span class="line">  ...</span><br><span class="line">  a.onNext(v);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後執行到<code>a.onNext()</code>，這邊的a等於actual，也就是LambdaObserver：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In LambdaObserver</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  onNext.accept(t);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊的<code>onNext()</code>就是我們宣告的Consumer：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span> </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後的第四個觀念：</p>
+<ul>
+<li><strong>資料傳遞的方式是從上到下</strong>。</li>
+</ul>
+<h3 id="Conclusion" class="article-heading"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion<a class="article-anchor" href="#Conclusion" aria-hidden="true"></a></h3><p>整合目前所建立的觀念如下：</p>
+<ul>
+<li><strong>任何Observable的constructor，都是將上游的Observable包起來</strong>。</li>
+<li><strong>任何Observer的constructor，都是將下游的Observer包起來。</strong></li>
+<li>**任何Observable的<code>subscribe()</code>都會走回自己的<code>subscribeActual()</code>**。</li>
+<li><strong>資料傳遞的方式是從上到下</strong>。</li>
+</ul>
+<p>這些觀念是之後在分析operator時，可用來避免被source或actual之類會不斷重複的字眼所搗亂，如此可以專注在operator的邏輯的不同之處。</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.280Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="index.html" class="article-footer-prev" title="概覽"><i class="fa fa-chevron-left"></i><span>上一頁</span></a><a href="thread_control.html" class="article-footer-next" title="Thread控制"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/rxjava/basic_concept.html';
+  var disqus_title = "基本概念";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-with-each-other"><span class="toc-text">Connect with each other</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Create"><span class="toc-text">Create()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SubscribeOn"><span class="toc-text">SubscribeOn()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ObservableOn"><span class="toc-text">ObservableOn()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Subscribe-to-Observable"><span class="toc-text">Subscribe to Observable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#subscribe"><span class="toc-text">subscribe()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Send-data"><span class="toc-text">Send data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Conclusion"><span class="toc-text">Conclusion</span></a></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link">概覽</a><strong class="sidebar-title">源碼分析</strong><a href="basic_concept.html" class="sidebar-link current">基本概念</a><a href="thread_control.html" class="sidebar-link">Thread控制</a><a href="compose_and_lift.html" class="sidebar-link">compose() & lift()</a><a href="groupby.html" class="sidebar-link">groupBy()</a><strong class="sidebar-title">決策表</strong><a href="creation_operator_decision_table.html" class="sidebar-link">建立操作</a><a href="instance_operator_decision_table.html" class="sidebar-link">一般操作</a><strong class="sidebar-title">其他</strong><a href="error_handle.html" class="sidebar-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="sidebar-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="sidebar-link">Not RxJava Guide For Lazy Folks</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link">概覽</a><strong class="mobile-nav-title">源碼分析</strong><a href="basic_concept.html" class="mobile-nav-link current">基本概念</a><a href="thread_control.html" class="mobile-nav-link">Thread控制</a><a href="compose_and_lift.html" class="mobile-nav-link">compose() & lift()</a><a href="groupby.html" class="mobile-nav-link">groupBy()</a><strong class="mobile-nav-title">決策表</strong><a href="creation_operator_decision_table.html" class="mobile-nav-link">建立操作</a><a href="instance_operator_decision_table.html" class="mobile-nav-link">一般操作</a><strong class="mobile-nav-title">其他</strong><a href="error_handle.html" class="mobile-nav-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="mobile-nav-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="mobile-nav-link">Not RxJava Guide For Lazy Folks</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="rxjava/basic_concept.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

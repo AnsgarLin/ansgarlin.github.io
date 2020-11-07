@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>About ProGuard - Part 4 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/news/2018/07/30/about_proguard_4/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Part3我們提到如何讀取ProGuard設定，接著讓我們再回頭看到ProGuardTask的進入點： &#x2F;&#x2F; In ProGuardTask@TaskActionpublic void proguard() throws ParseException, IOException &amp;#123;	...    &#x2F;&#x2F; Run ProGuard with the collected configuratio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="About ProGuard - Part 4">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/news/2018/07/30/about_proguard_4/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Part3我們提到如何讀取ProGuard設定，接著讓我們再回頭看到ProGuardTask的進入點： &#x2F;&#x2F; In ProGuardTask@TaskActionpublic void proguard() throws ParseException, IOException &amp;#123;	...    &#x2F;&#x2F; Run ProGuard with the collected configuratio">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-07-30T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.130Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">About ProGuard - Part 4</h1>
+    
+    <a href="/zh-tw/news/2018/07/30/about_proguard_4/" class="article-date"><time datetime="2018-07-30T00:00:00.000Z">2018-07-30</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>Part3我們提到如何讀取ProGuard設定，接著讓我們再回頭看到ProGuardTask的進入點：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuardTask</span></span><br><span class="line"><span class="meta">@TaskAction</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">proguard</span><span class="params">()</span> <span class="keyword">throws</span> ParseException, IOException </span>&#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="comment">// Run ProGuard with the collected configuration.</span></span><br><span class="line">    <span class="keyword">new</span> ProGuard(getConfiguration()).execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>讀取完Configuration後是呼叫<code>execute()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuard</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    readInput();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接看到<code>readInput()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ProGuard</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readInput</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Fill the program class pool and the library class pool.</span></span><br><span class="line">    <span class="keyword">new</span> InputReader(configuration).execute(programClassPool,</span><br><span class="line">                                           libraryClassPool);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據內容確定這就是我們在Part1提到的，讀取完ParGuard設定後，接著讀取要處理的程式碼，並分成<strong>Program class pool</strong>和<strong>Library class pool</strong>。</p>
+<p>接著看到<code>execute()</code>：    </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In InputReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ClassPool programClassPool, ClassPool libraryClassPool)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    WarningPrinter warningPrinter = <span class="keyword">new</span> WarningPrinter(System.err, configuration.warn);</span><br><span class="line">    WarningPrinter notePrinter    = <span class="keyword">new</span> WarningPrinter(System.out, configuration.note);</span><br><span class="line"></span><br><span class="line">    DuplicateClassPrinter duplicateClassPrinter = <span class="keyword">new</span> DuplicateClassPrinter(notePrinter);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Read the library class files, if any and if they should get priority.</span></span><br><span class="line">    <span class="keyword">if</span> (FAVOR_LIBRARY_CLASSES &amp;&amp; configuration.libraryJars != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Prepare a data entry reader to filter all classes,</span></span><br><span class="line">        <span class="comment">// which are then decoded to classes by a class reader,</span></span><br><span class="line">        <span class="comment">// which are then put in the class pool by a class pool filler.</span></span><br><span class="line">        readInput(<span class="string">&quot;Reading library &quot;</span>,</span><br><span class="line">                  configuration.libraryJars,</span><br><span class="line">                  <span class="keyword">new</span> ClassFilter(</span><br><span class="line">                  <span class="keyword">new</span> ClassReader(<span class="keyword">true</span>,</span><br><span class="line">                                  configuration.skipNonPublicLibraryClasses,</span><br><span class="line">                                  configuration.skipNonPublicLibraryClassMembers,</span><br><span class="line">                                  warningPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPresenceFilter(libraryClassPool, duplicateClassPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPoolFiller(libraryClassPool)))));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先看到是透過<code>readInput()</code>來讀取library，此函示詳細介紹請參考<a href="#appendix">Appendix</a>，簡言之此函式負責：</p>
+<ul>
+<li><strong>解壓並讀取壓縮檔內的Class檔來放入class pool</strong>。</li>
+</ul>
+<p>以這邊例子就是會從<code>configuration.libraryJars</code>有列出的Jar檔路徑讀取Class檔，加入<code>libraryClassPool</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Read the program class files.</span></span><br><span class="line"><span class="comment">// Prepare a data entry reader to filter all classes,</span></span><br><span class="line"><span class="comment">// which are then decoded to classes by a class reader,</span></span><br><span class="line"><span class="comment">// which are then put in the class pool by a class pool filler.</span></span><br><span class="line">readInput(<span class="string">&quot;Reading program &quot;</span>,</span><br><span class="line">          configuration.programJars,</span><br><span class="line">          <span class="keyword">new</span> ClassFilter(</span><br><span class="line">          <span class="keyword">new</span> ClassReader(<span class="keyword">false</span>,</span><br><span class="line">                          configuration.skipNonPublicLibraryClasses,</span><br><span class="line">                          configuration.skipNonPublicLibraryClassMembers,</span><br><span class="line">                          warningPrinter,</span><br><span class="line">          <span class="keyword">new</span> ClassPresenceFilter(programClassPool, duplicateClassPrinter,</span><br><span class="line">          <span class="keyword">new</span> ClassPresenceFilter(libraryClassPool, duplicateClassPrinter,</span><br><span class="line">          <span class="keyword">new</span> ClassPoolFiller(programClassPool))))));</span><br></pre></td></tr></table></figure>
+
+<p>前面是讀取library，接著就是要讀取program，與前面不同的是最後一個使用的參數ClassPresenceFilter。</p>
+<p>在深入前，首先先將這個ClassPresenceFilter做拆解，結構如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ClassPresenceFilter &#123;</span><br><span class="line">    programClassPool,</span><br><span class="line">    duplicateClassPrinter,</span><br><span class="line">    ClassPresenceFilter &#123;</span><br><span class="line">        libraryClassPool</span><br><span class="line">        duplicateClassPrinter,</span><br><span class="line">        ClassPoolFilter &#123;</span><br><span class="line">            programClassPool</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>依照<a href="#Appendix">Appendix</a>的介紹，此ClassPresenceFilter的執行步驟如下：</p>
+<ul>
+<li>判斷讀取到的類別是否包含在第一個<code>programClassPool</code>。有則直接直接使用<code>duplicateClassPrinter</code>輸出提示訊息；沒有則進入下一個ClassPresenceFilter。</li>
+<li>第二個ClassPresenceFilter則是判斷類別是否已經含在<code>libraryClassPool</code>。有則一樣輸出提示，沒有就透過ClassPoolFilter加入<code>programClassPool</code>。</li>
+</ul>
+<p>簡言之，**<code>programClassPool</code>和<code>libraryClassPool</code>都沒有，就放進<code>programClassPool</code>**。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    ...</span><br><span class="line">    <span class="comment">// Read the library class files, if any.</span></span><br><span class="line">    <span class="keyword">if</span> (!FAVOR_LIBRARY_CLASSES &amp;&amp; configuration.libraryJars != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Prepare a data entry reader to filter all classes,</span></span><br><span class="line">        <span class="comment">// which are then decoded to classes by a class reader,</span></span><br><span class="line">        <span class="comment">// which are then put in the class pool by a class pool filler.</span></span><br><span class="line">        readInput(<span class="string">&quot;Reading library &quot;</span>,</span><br><span class="line">                  configuration.libraryJars,</span><br><span class="line">                  <span class="keyword">new</span> ClassFilter(</span><br><span class="line">                  <span class="keyword">new</span> ClassReader(<span class="keyword">true</span>,</span><br><span class="line">                                  configuration.skipNonPublicLibraryClasses,</span><br><span class="line">                                  configuration.skipNonPublicLibraryClassMembers,</span><br><span class="line">                                  warningPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPresenceFilter(programClassPool, duplicateClassPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPresenceFilter(libraryClassPool, duplicateClassPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPoolFiller(libraryClassPool))))));</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行到這邊，透過<code>-injars</code>、<code>-outjars</code>和<code>-libraryjars</code>指定的Jar檔內的Class檔，都已經被讀取並分類至Library class pool和Program class pool。</p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>前面介紹可以發現，讀取library的時機可能會因<code>FAVOR_LIBRARY_CLASSES</code>，而有些改變：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In InputReader</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> FAVOR_LIBRARY_CLASSES = System.getProperty(<span class="string">&quot;favor.library.classes&quot;</span>) != <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>透過一個指定的系統變數<code>favor.library.classes</code>，可以決定是否要在處理program前，先處理library。</p>
+<p>處理的順序會變成以下兩種可能：</p>
+<ul>
+<li>有<code>favor.library.classes</code>，則先library，再來program。</li>
+<li>沒<code>favor.library.classes</code>，則先program，再來library。</li>
+</ul>
+<p>這修正主要是由一位專門負責AOSP的Google工程師提出，詳細可直接參考<a target="_blank" rel="noopener external nofollow noreferrer" href="https://sourceforge.net/p/proguard/discussion/182455/thread/76430d9e/">討論串</a>。</p>
+<h3 id="Appendix" class="article-heading"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix<a class="article-anchor" href="#Appendix" aria-hidden="true"></a></h3><h4 id="readInput" class="article-heading"><a href="#readInput" class="headerlink" title="readInput()"></a>readInput()<a class="article-anchor" href="#readInput" aria-hidden="true"></a></h4><p>以下使用<code>InputReader.execute()</code>內的片段為範例：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In InputReader</span></span><br><span class="line">DuplicateClassPrinter duplicateClassPrinter = <span class="keyword">new</span> DuplicateClassPrinter(notePrinter);</span><br><span class="line"></span><br><span class="line">readInput(<span class="string">&quot;Reading library &quot;</span>,</span><br><span class="line">          configuration.libraryJars,</span><br><span class="line">          <span class="keyword">new</span> ClassFilter(</span><br><span class="line">              <span class="keyword">new</span> ClassReader(</span><br><span class="line">                  <span class="keyword">true</span>,</span><br><span class="line">                  configuration.skipNonPublicLibraryClasses,</span><br><span class="line">                  configuration.skipNonPublicLibraryClassMembers,</span><br><span class="line">                  warningPrinter,</span><br><span class="line">                  <span class="keyword">new</span> ClassPresenceFilter(libraryClassPool, duplicateClassPrinter,</span><br><span class="line">                                          <span class="keyword">new</span> ClassPoolFiller(libraryClassPool)))));</span><br></pre></td></tr></table></figure>
+
+<h5 id="Get-file-path" class="article-heading"><a href="#Get-file-path" class="headerlink" title="Get file path"></a>Get file path<a class="article-anchor" href="#Get-file-path" aria-hidden="true"></a></h5><p>這邊用到了<code>configuration.libraryJars</code>，這是ClassPath類別，Configuration用來記錄從設定檔得到的檔案路徑：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Configuration</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A list of input and output entries (jars, wars, ears, jmods, zips, and directories).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> ClassPath programJars;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A list of library entries (jars, wars, ears, jmods, zips, and directories).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> ClassPath libraryJars;</span><br></pre></td></tr></table></figure>
+
+<p>透過<code>-injars</code>和<code>-outjars</code>設定的路徑會放在<code>programJars</code>；<code>-libraryjars</code>在<code>libraryJars</code>。</p>
+<p>前面的<code>readInput()</code>會走到以下這個<code>readInput()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In InputReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readInput</span><span class="params">(String messagePrefix, ClassPath classPath,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">int</span> fromIndex, <span class="keyword">int</span> toIndex,</span></span></span><br><span class="line"><span class="function"><span class="params">                      DataEntryReader reader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = fromIndex; index &lt; toIndex; index++) &#123;</span><br><span class="line">        ClassPathEntry entry = classPath.get(index);</span><br><span class="line">        <span class="keyword">if</span> (!entry.isOutput()) &#123;</span><br><span class="line">            readInput(messagePrefix, entry, reader);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊會依序從ClassPath取出檔案路徑，傳入另一個<code>readInput()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In InputReader</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readInput</span><span class="params">(String          messagePrefix,</span></span></span><br><span class="line"><span class="function"><span class="params">                       ClassPathEntry  classPathEntry,</span></span></span><br><span class="line"><span class="function"><span class="params">                       DataEntryReader dataEntryReader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Create a reader that can unwrap jars, wars, ears, jmods and zips.</span></span><br><span class="line">    DataEntryReader reader =       </span><br><span class="line">        DataEntryReaderFactory.createDataEntryReader(messagePrefix, classPathEntry,</span><br><span class="line">                                                     dataEntryReader);</span><br><span class="line">    <span class="comment">// Create the data entry pump.</span></span><br><span class="line">    DirectoryPump directoryPump = <span class="keyword">new</span> DirectoryPump(classPathEntry.getFile());</span><br><span class="line">    <span class="comment">// Pump the data entries into the reader.</span></span><br><span class="line">    directoryPump.pumpDataEntries(reader);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Constructor-DataEntryReader" class="article-heading"><a href="#Constructor-DataEntryReader" class="headerlink" title="Constructor DataEntryReader"></a>Constructor DataEntryReader<a class="article-anchor" href="#Constructor-DataEntryReader" aria-hidden="true"></a></h5><p>這邊使用了<code>DataEntryReaderFactory.createDataEntryReader()</code>來將傳入的<code>dataEntryReader</code>再進行打包：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DataEntryReader <span class="title">createDataEntryReader</span><span class="params">(String          messagePrefix,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                    ClassPathEntry  classPathEntry,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                    DataEntryReader reader)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Unzip any apks, if necessary.</span></span><br><span class="line">    reader = wrapInJarReader(reader, <span class="keyword">false</span>, <span class="keyword">false</span>, isApk, apkFilter, <span class="string">&quot;.apk&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (!isApk) &#123;</span><br><span class="line">        <span class="comment">// Unzip any jars, if necessary.</span></span><br><span class="line">        reader = wrapInJarReader(reader, <span class="keyword">false</span>, <span class="keyword">false</span>, isJar, jarFilter, <span class="string">&quot;.jar&quot;</span>);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> reader;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊僅留下比較常用到的部分，以Android專案來說，<code>classPathEntry</code>應是Jar檔的路徑。而<code>reader</code>是範例提到的ClassFilter。</p>
+<p>先看到第一次呼叫<code>wrapInJarReader()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DataEntryReaderFactory</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> DataEntryReader <span class="title">wrapInJarReader</span><span class="params">(DataEntryReader reader,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               <span class="keyword">boolean</span>         stripClassesPrefix,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               <span class="keyword">boolean</span>         stripJmodHeader,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               <span class="keyword">boolean</span>         isJar,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               List            jarFilter,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               String          jarExtension)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Unzip any jars, if necessary.</span></span><br><span class="line">    DataEntryReader jarReader = <span class="keyword">new</span> JarReader(reader, stripJmodHeader);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isJar) &#123;</span><br><span class="line">        <span class="comment">// Always unzip.</span></span><br><span class="line">        <span class="keyword">return</span> jarReader;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">// Only unzip the right type of jars.</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FilteredDataEntryReader(</span><br><span class="line">            <span class="keyword">new</span> DataEntryNameFilter(<span class="keyword">new</span> ExtensionMatcher(jarExtension)), </span><br><span class="line">            jarReader, reader);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一樣省略不會用到的部分，所以傳入的<code>reader</code>，就是ClassReader，會先包入JarReader。</p>
+<p><code>isJar</code>是<code>isApk</code>，所以是false進入else，JarReader會與傳入的ClassReader，連同DataEntryNameFilter一起打包進FilteredDataEntryReader並回傳。</p>
+<p>這邊先提一下DataEntryNameFilter：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DataEntryNameFilter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">DataEntryNameFilter</span><span class="params">(StringMatcher stringMatcher)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.stringMatcher = stringMatcher;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>傳入的stringMatcher是ExtensionMatcher：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ExtensionMatcher</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ExtensionMatcher</span><span class="params">(String extension)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.extension = extension;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據前面的內容，<code>extension</code>是呼叫<code>wrapInJarReader</code>時傳入的<code>.apk</code>。</p>
+<p>回到<code>createDataEntryReader()</code>，<code>isApk</code>是false，於是再次呼叫<code>wrapInJarReader()</code>。剛剛取得的FilteredDataEntryReader又會再包進JarReader，不過這次的<code>isJar</code>是true，所以直接回傳當前的JarReader。</p>
+<p>到目前，透過<code>DataEntryReaderFactory.createDataEntryReader()</code>得到的reader結構如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JarReader &#123;</span><br><span class="line">    dataEntryReader = FilteredDataEntryReader &#123;</span><br><span class="line">        dataEntryFilter = DataEntryNameFilter(.apk)</span><br><span class="line">        acceptedDataEntryReader = JarReader &#123;</span><br><span class="line">            dataEntryReader = ClassReader &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        rejectedDataEntryReader = ClassReader &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Unzip-file" class="article-heading"><a href="#Unzip-file" class="headerlink" title="Unzip file"></a>Unzip file<a class="article-anchor" href="#Unzip-file" aria-hidden="true"></a></h5><p>取得所需的DataEntryReader後，接著就是建立DirectoryPump，透過<code>pumpDataEntries()</code>開始讀取檔案</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DirectoryPump</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pumpDataEntries</span><span class="params">(DataEntryReader dataEntryReader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    readFiles(directory, dataEntryReader);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readFiles</span><span class="params">(File file, DataEntryReader dataEntryReader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">// Pass the file data entry to the reader.</span></span><br><span class="line">    dataEntryReader.read(<span class="keyword">new</span> FileDataEntry(directory, file));</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊用到的首先是JarReader的<code>read()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// in JarReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(DataEntry dataEntry)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    ZipInputStream zipInputStream = <span class="keyword">new</span> ZipInputStream(dataEntry.getInputStream());</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Get all entries from the input jar.</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="comment">// Can we get another entry?</span></span><br><span class="line">            ZipEntry zipEntry = zipInputStream.getNextEntry();</span><br><span class="line">            <span class="keyword">if</span> (zipEntry == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Delegate the actual reading to the data entry reader.</span></span><br><span class="line">            dataEntryReader.read(<span class="keyword">new</span> ZipDataEntry(dataEntry, zipEntry, zipInputStream));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我們知道Jar檔是Zip壓縮檔格式，所以合理使用ZipInputStream將來取得Jar檔內容。透過<code>getNextEntry()</code>，可將Class檔依序取出，傳給<code>dataEntryReader.read()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In FilteredDataEntryReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(DataEntry dataEntry)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	DataEntryReader dataEntryReader = dataEntryFilter.accepts(dataEntry) ?</span><br><span class="line">        acceptedDataEntryReader :</span><br><span class="line">        rejectedDataEntryReader;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (dataEntryReader != <span class="keyword">null</span>) &#123;</span><br><span class="line">        dataEntryReader.read(dataEntry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>透過<code>dataEntryFiler</code>，也就是DataEntryNameFilter，來呼叫<code>accepts</code>執行判斷：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DataEntryNameFilter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accepts</span><span class="params">(DataEntry dataEntry)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> dataEntry != <span class="keyword">null</span> &amp;&amp; stringMatcher.matches(dataEntry.getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此函式被呼叫的時候，會使用<code>stringMatcher</code>，也就是ExtensionMatcher，來呼叫<code>matches</code>，並傳入檔案路徑。依照剛剛的過程，可知這邊傳入的路徑，結尾是<code>.class</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ExtensionMatcher</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(String string, <span class="keyword">int</span> beginOffset, <span class="keyword">int</span> endOffset)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> endsWithIgnoreCase(string, beginOffset, endOffset, extension);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">endsWithIgnoreCase</span><span class="params">(String string, <span class="keyword">int</span>    beginOffset, </span></span></span><br><span class="line"><span class="function"><span class="params">                                          <span class="keyword">int</span>    endOffset, String suffix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> suffixLength = suffix.length();</span><br><span class="line">    <span class="keyword">return</span> string.regionMatches(<span class="keyword">true</span>, endOffset - suffixLength, suffix, <span class="number">0</span>, suffixLength);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行內容很單一，就是判斷檔案路徑的結尾，是否和<code>extension</code>相同。<code>extension</code>的值，就是前面第一次呼叫<code>wrapInJarReader</code>時傳入的<code>.apk</code>，所以回傳false。</p>
+<p>回到<code>FilteredDataEntryReader.read()</code>，得到false後，代表要使用<code>rejectedDataEntryReader</code>，也就是ClassReader，來繼續往下執行。</p>
+<h5 id="Read-class" class="article-heading"><a href="#Read-class" class="headerlink" title="Read class"></a>Read class<a class="article-anchor" href="#Read-class" aria-hidden="true"></a></h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(DataEntry dataEntry)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// Get the input stream.</span></span><br><span class="line">        InputStream inputStream = dataEntry.getInputStream();</span><br><span class="line">        <span class="comment">// Wrap it into a data input stream.</span></span><br><span class="line">        DataInputStream dataInputStream = <span class="keyword">new</span> DataInputStream(inputStream);</span><br><span class="line">        <span class="comment">// Create a Clazz representation.</span></span><br><span class="line">        Clazz clazz;</span><br><span class="line">        <span class="keyword">if</span> (isLibrary) &#123;</span><br><span class="line">            clazz = <span class="keyword">new</span> LibraryClass();</span><br><span class="line">            clazz.accept(<span class="keyword">new</span> LibraryClassReader(dataInputStream, ...));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            clazz = <span class="keyword">new</span> ProgramClass();</span><br><span class="line">            clazz.accept(<span class="keyword">new</span> ProgramClassReader(dataInputStream));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Apply the visitor, if we have a real class.</span></span><br><span class="line">        String className = clazz.getName();</span><br><span class="line">        <span class="keyword">if</span> (className != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ...</span><br><span class="line">            clazz.accept(classVisitor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        dataEntry.closeInputStream();</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊的ClassReader是範例一開始呼叫<code>InputReader.readInput()</code>時傳入的，所以<code>isLibrary</code>是true，於是透過<code>LibraryClass.accpet()</code>傳入LibraryClassReader：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In LibraryClass</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">    classVisitor.visitLibraryClass(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這是一種<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Visitor_pattern">Visitor Pattern</a>，所以需要回頭看到LibraryClassReader的<code>visitLibraryClass()</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In LibraryClassReader</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitLibraryClass</span><span class="params">(LibraryClass libraryClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Store their actual names.</span></span><br><span class="line">    libraryClass.thisClassName  = getClassName(u2thisClass);</span><br><span class="line">    libraryClass.superClassName = (u2superClass == <span class="number">0</span>) ? <span class="keyword">null</span> :</span><br><span class="line">                                  getClassName(u2superClass);</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    libraryClass.interfaceNames = <span class="keyword">new</span> String[u2interfacesCount];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> index = <span class="number">0</span>; index &lt; u2interfacesCount; index++) &#123;</span><br><span class="line">        <span class="comment">// Store the actual interface name.</span></span><br><span class="line">        <span class="keyword">int</span> u2interface = dataInput.readUnsignedShort();</span><br><span class="line">        libraryClass.interfaceNames[index] = getClassName(u2interface);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Copy the visible fields (if any) into a fields array of the right size.</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        libraryClass.fields = <span class="keyword">new</span> LibraryField[visibleFieldsCount];</span><br><span class="line">        System.arraycopy(reusableFields, <span class="number">0</span>, libraryClass.fields, <span class="number">0</span>, visibleFieldsCount);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Copy the visible methods (if any) into a methods array of the right size.</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        libraryClass.methods = <span class="keyword">new</span> LibraryMethod[visibleMethodsCount];</span><br><span class="line">        System.arraycopy(reusableMethods, <span class="number">0</span>, libraryClass.methods, <span class="number">0</span>, visibleMethodsCount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>LibraryClassReader透過<code>dataInputStream</code>取得Class檔內容並解析，讀取檔案的過程已經和本文無關，所以不再深入。總之解析後的結果會回存LibraryClass，而對於ProgramClass也是相同操作。</p>
+<p>在這，依照<code>accept()</code>的使用，可以先點出一個觀念：</p>
+<ul>
+<li><strong>執行<code>clazz.accept(visitor)</code>，可直接看成<code>visitor.visitXXXClass()</code>。由<code>clazz</code>屬於ProgramClass或LibraryClass來決定<code>XXX</code>是什麼。</strong></li>
+</ul>
+<h5 id="Put-into-pool" class="article-heading"><a href="#Put-into-pool" class="headerlink" title="Put into pool"></a>Put into pool<a class="article-anchor" href="#Put-into-pool" aria-hidden="true"></a></h5><p>回到<code>ClassReader.read()</code>，如果LibraryClassReader的部分有順利完成，則<code>getName()</code>不會是null，於是會再呼叫一次<code>accept</code>，傳入classVisitor，也就是前面範例提到的ClassPresenceFilter：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassPresenceFilter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ClassPresenceFilter</span><span class="params">(ClassPool    classPool, ClassVisitor presentClassVisitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                           ClassVisitor missingClassVisitor)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.classPool           = classPool;</span><br><span class="line">    <span class="keyword">this</span>.presentClassVisitor = presentClassVisitor;</span><br><span class="line">    <span class="keyword">this</span>.missingClassVisitor = missingClassVisitor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根據前面的內容，可知會走到<code>visitLibraryClass</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassPresenceFilter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitLibraryClass</span><span class="params">(LibraryClass libraryClass)</span> </span>&#123;</span><br><span class="line">    ClassVisitor classFileVisitor = classFileVisitor(libraryClass);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (classFileVisitor != <span class="keyword">null</span>) &#123;</span><br><span class="line">        classFileVisitor.visitLibraryClass(libraryClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先先透過<code>classFileVisitor</code>，來找到適合的ClassVisitor來呼叫<code>visitLibraryClass</code>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ClassPresenceFilter</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> ClassVisitor <span class="title">classFileVisitor</span><span class="params">(Clazz clazz)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> classPool.getClass(clazz.getName()) != <span class="keyword">null</span> ?</span><br><span class="line">        presentClassVisitor :</span><br><span class="line">        missingClassVisitor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊就是先判斷當前取得的類別，是否已經存在於<code>classPool</code>，也就是<code>InputReader.execute()</code>被呼叫時，由ProGuard傳入的ClassPool。</p>
+<p>有的話就呼叫<code>presentClassVisitor</code>，也是DuplicateClassPrinter，僅用來輸出提示訊息：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In DuplicateClassPrinter</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitLibraryClass</span><span class="params">(LibraryClass libraryClass)</span> </span>&#123;</span><br><span class="line">    notePrinter.print(libraryClass.getName(), <span class="string">&quot;Note: duplicate definition of library class [&quot;</span> + ClassUtil.externalClassName(libraryClass.getName()) + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是<code>missingClassVisitor</code>，則是ClassPoolFiller，此類別僅有實作<code>visitAnyClass</code>。不過其父類SimplifiedVisitor有：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In SimplifiedVisitor</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitLibraryClass</span><span class="params">(LibraryClass libraryClass)</span> </span>&#123;</span><br><span class="line">    visitAnyClass(libraryClass);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// In ClassPoolFiller</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitAnyClass</span><span class="params">(Clazz clazz)</span> </span>&#123;</span><br><span class="line">    classPool.addClass(clazz);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就將讀取到的類別加入Library class pool或Program class pool。</p>
+<p>所以，<code>readInput()</code>實作上則分以下幾個步驟：</p>
+<ul>
+<li><strong>依序取出ProGuard設定檔指定的檔案路徑。</strong></li>
+<li><strong>依照檔案類型建立對應的DataEntryReader。</strong></li>
+<li><strong>透過DataEntryReader依序取得檔案內class檔路徑。</strong></li>
+<li><strong>透過LibraryClassReader或ProgramClassReader，讀取class檔轉成clazz類別。</strong></li>
+<li><strong>將clazz分類加入Library class pool或Program class pool。</strong></li>
+</ul>
+<p>其用途主要是：</p>
+<ul>
+<li><strong>解壓並讀取壓縮檔內的Class檔來放入class pool。</strong></li>
+</ul>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/news/2018/07/30/about_proguard_4/index.html';
+  var disqus_title = "About ProGuard - Part 4";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

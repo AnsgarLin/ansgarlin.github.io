@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Menu | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/material_design/menu.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/material_design/menu.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/material_design/menu.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="為一個暫時性的物件，由其他物件觸發產生，並擁有至少兩個選項。 有些情況下可以擁有一個選項，例如選取字串後的選單，則只有複製功能。   選單內的選項應該是一般的操作按鈕，而不是畫面的主要操作或是具有導航功能。 選單內的內容會依照當前畫面而有所不同，因此要將無關的按鈕移除。 有時候雖然有關聯，但因為對象的狀態不同，而可能有些選項會停止使用。運用這種方法也可以提示使用者目前在哪個使用狀態。  &gt; 使用者">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Menu">
+<meta property="og:url" content="https://ansgarlin.github.io/material_design/menu.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="為一個暫時性的物件，由其他物件觸發產生，並擁有至少兩個選項。 有些情況下可以擁有一個選項，例如選取字串後的選單，則只有複製功能。   選單內的選項應該是一般的操作按鈕，而不是畫面的主要操作或是具有導航功能。 選單內的內容會依照當前畫面而有所不同，因此要將無關的按鈕移除。 有時候雖然有關聯，但因為對象的狀態不同，而可能有些選項會停止使用。運用這種方法也可以提示使用者目前在哪個使用狀態。  &gt; 使用者">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B_udO5B8pzrzdmJrQUk3aXd0RTg/components_menus_usage2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bmZ1ajBVaXhsNTQ/components_menus_items2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q05OWk5YLUh0NGc/components_menus_usage6.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VGxlSGNVWmNJX3c/components_menus_behavior2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQscEN4TlItQ1R4d3c/components_dialogs_simplemenus2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsbXpoZkNIcXgxc3M/components_dialogs_simplemenus3.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsRmtOT0hySXRMYjg/components_dialogs_simplemenus4.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsM1JlMU1GQlVCajg/components_dialogs_simplemenus10.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsM3lfVmVsWk9KRUE/components_dialogs_simplemenus12.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3RklUaGVRbl9tMDg/components_buttons_dropdown2.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bEZ2SjJVb195VmM/components_menus_specs1.png">
+<meta property="og:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B-Ef4kCjUzkPSmluWU5MSExRWms/components_dialogs_simplemenus9.png">
+<meta property="article:published_time" content="2020-11-07T10:16:54.481Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.481Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B_udO5B8pzrzdmJrQUk3aXd0RTg/components_menus_usage2.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Menu</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <p>為一個暫時性的物件，由其他物件觸發產生，並擁有至少兩個選項。</p>
+<p>有些情況下可以擁有一個選項，例如選取字串後的選單，則只有複製功能。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B_udO5B8pzrzdmJrQUk3aXd0RTg/components_menus_usage2.png" style="max-width:50%">
+
+<p>選單內的選項應該是一般的操作按鈕，而不是畫面的主要操作或是具有導航功能。</p>
+<p>選單內的內容會依照當前畫面而有所不同，因此要將無關的按鈕移除。</p>
+<p>有時候雖然有關聯，但因為對象的狀態不同，而可能有些選項會停止使用。運用這種方法也可以提示使用者目前在哪個使用狀態。</p>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bmZ1ajBVaXhsNTQ/components_menus_items2.png" style="max-width:50%">
+> <p style="font-size:12px">使用者沒有任何操作，所以“Redo”呈現灰色</p>
+
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3Q05OWk5YLUh0NGc/components_menus_usage6.png"></p>
+<blockquote>
+<p style="font-size: 12px">如果選項過多，則會自動變成一個可滾動的元件</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3VGxlSGNVWmNJX3c/components_menus_behavior2.png"></p>
+<blockquote>
+<p style="font-size: 12px">下拉式選單在開啟時應以目前選到的選項，正好蓋在啟動的物件上</p>
+</blockquote>
+<h2 id="組成" class="article-heading"><a href="#組成" class="headerlink" title="組成"></a>組成<a class="article-anchor" href="#組成" aria-hidden="true"></a></h2><p>選項由文字、圖片或<a href="control.html">控制器</a>搭配組成。</p>
+<h2 id="操作" class="article-heading"><a href="#操作" class="headerlink" title="操作"></a>操作<a class="article-anchor" href="#操作" aria-hidden="true"></a></h2><p>選單可以透過點擊外部，或是重複點擊開啟選單的按鈕。</p>
+<p>通常選單會在選擇一個選項後關閉，除非這選單是可以重複選擇多個選項。</p>
+<h2 id="簡易式選單" class="article-heading"><a href="#簡易式選單" class="headerlink" title="簡易式選單"></a>簡易式選單<a class="article-anchor" href="#簡易式選單" aria-hidden="true"></a></h2><p>以列表方式呈現，開關的方式和一般的選單相同，主要提供針對列表中單一方塊的操作。</p>
+<p>不同於<a href="dialog.html#%E7%B0%A1%E6%98%93%E5%BC%8F%E5%B0%8D%E8%A9%B1%E6%A1%86">簡易式對話框</a>，簡易式選單的選項較不會影響畫面內容。</p>
+<p>簡意式選單有在開啟時對其當前選項和方塊的特性。</p>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQscEN4TlItQ1R4d3c/components_dialogs_simplemenus2.png"></p>
+<blockquote>
+<p style="font-size: 12px">選單向下偏移來對齊</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsbXpoZkNIcXgxc3M/components_dialogs_simplemenus3.png"></p>
+<blockquote>
+<p style="font-size: 12px">選單向上偏移來對齊</p>
+</blockquote>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsRmtOT0hySXRMYjg/components_dialogs_simplemenus4.png"></p>
+<blockquote>
+<p style="font-size: 12px">選單向下會超過邊界，以後續的選項來對齊</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsM1JlMU1GQlVCajg/components_dialogs_simplemenus10.png" style="max-width:50%">
+> <p style="font-size: 12px">選項內容超過單行，使用[簡易式對話框](dialog.html#簡易式選單)代替
+
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsM3lfVmVsWk9KRUE/components_dialogs_simplemenus12.png" style="max-width:50%">
+> </p><p style="font-size: 12px">簡易式選單永遠會小於螢幕寬高，來預留可點擊的範圍來關閉選單</p>
+
+<h2 id="下拉式選單" class="article-heading"><a href="#下拉式選單" class="headerlink" title="下拉式選單"></a>下拉式選單<a class="article-anchor" href="#下拉式選單" aria-hidden="true"></a></h2><p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bzhp5Z4wHba3RklUaGVRbl9tMDg/components_buttons_dropdown2.png"></p>
+<blockquote>
+<p style="font-size: 12px">一般<br>不會呈現狀態的變化項，打開為一般選單</p>
+<p style="font-size: 12px">分段式<br>會依照目前狀態改變高度，打開為一般選單</p>
+<p style="font-size: 12px">分段式編輯<br>會依照目前狀態改變高度，打開為一般選單，同時也可以編輯當前選項內容</p>
+</blockquote>
+<h2 id="規範" class="article-heading"><a href="#規範" class="headerlink" title="規範"></a>規範<a class="article-anchor" href="#規範" aria-hidden="true"></a></h2><p>選單應永遠存在整個應用的上層，且文字部分應簡短。</p>
+<p>不論是靜態或動態的選單，較常使用的功能應該擺在最上面。</p>
+<blockquote>
+<p style="font-size: 12px">選項<br>上間距：8 dp<br>寬：倍數 * 56 dp（預設）或應用欄高，倍數可以是1.5，2，3，6，7
+</p><p style="font-size: 12px">文字<br>字體：16 sp<br>上下間距：16 dp<br></p>
+</blockquote>
+<ul>
+<li>一般  </li>
+</ul>
+<p><img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0Bx4BSt6jniD7bEZ2SjJVb195VmM/components_menus_specs1.png"></p>
+<blockquote>
+<p style="font-size: 12px">選項高：48 dp</p>
+</blockquote>
+<img src="http://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B-Ef4kCjUzkPSmluWU5MSExRWms/components_dialogs_simplemenus9.png" style="max-width:50%">
+> <p style="font-size: 12px">選單左右間距：16 dp</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.481Z" itemprop="dateModified">Last updated: 2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/material_design/menu.html';
+  var disqus_title = "Menu";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">Contents</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%84%E6%88%90"><span class="toc-text">組成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C"><span class="toc-text">操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B0%A1%E6%98%93%E5%BC%8F%E9%81%B8%E5%96%AE"><span class="toc-text">簡易式選單</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E6%8B%89%E5%BC%8F%E9%81%B8%E5%96%AE"><span class="toc-text">下拉式選單</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%8F%E7%AF%84"><span class="toc-text">規範</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

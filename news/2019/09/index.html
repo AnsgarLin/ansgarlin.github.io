@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>News | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/news/2019/09/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="News">
+<meta property="og:url" content="https://ansgarlin.github.io/news/2019/09/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="I&#39;m Ansgar. An Android developer and designer. This is my personal website.">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    
+<div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      
+        
+          <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1>
+        <a href="/en/news/2019/09/07/oom_bitmap_resource_analysis/" class="article-title" itemprop="name">OOM - Bitmap resource analysis</a>
+      </h1>
+    
+    <a href="/en/news/2019/09/07/oom_bitmap_resource_analysis/" class="article-date"><time datetime="2019-09-07T00:00:00.000Z">2019-09-07</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>For every OOM you get in your app, mostly it’s because there are large Bitmaps were created and kept inside memory at Runtime. </p>
+<p>Android Studio provides a handful tool, <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/studio/profile/memory-profiler.html">Profile</a>, which you can use for recording and browsing memory usage. You can easily find all the references that been kept. </p>
+<p><img src="profiler.png" alt="profiler"></p>
+<p>##1 - know your memory</p>
+<p>If you use the tool on devices with different OS versions, you will see the columns of the results have one  different like below:</p>
+<p><img src="os_6.png" alt="os_6"></p>
+<p><img src="os_8.png" alt="os_8"></p>
+<p>It’s clear to see one more column call <code>Native Size</code> will be used on Android 8. This is because Google has changed the way to store the pixel data of a Bitmap, which you can check the <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/topic/performance/graphics/manage-memory">official document</a> for more detail. To be short, the difference is:</p>
+<ul>
+<li><strong>Pre 8: store pixel data in Java Heap.</strong></li>
+<li><strong>Post 8: store pixel data in Native Heap.</strong></li>
+</ul>
+<p>So even the pixel data size of Bitmap are both shown in <code>Retained Size</code>, they are stored in different places based on the OS version.</p>
+<h3 id="2-Identify-target-Bitmap" class="article-heading"><a href="#2-Identify-target-Bitmap" class="headerlink" title="2 - Identify target Bitmap"></a>2 - Identify target Bitmap<a class="article-anchor" href="#2-Identify-target-Bitmap" aria-hidden="true"></a></h3><p>This will also affect whether we can preview a Bitmap or not. If we profile on devices before 8, we can see the reference image like below:</p>
+<p><img src="preview_bitmap.png" alt="preview_bitmap"></p>
+<p>This is pretty useful when you are just starting to find out what image the Bitmap is.</p>
+<h3 id="3-what-should-we-take-more-focus-on" class="article-heading"><a href="#3-what-should-we-take-more-focus-on" class="headerlink" title="3 - what should we take more focus on"></a>3 - what should we take more focus on<a class="article-anchor" href="#3-what-should-we-take-more-focus-on" aria-hidden="true"></a></h3><p>When you start analyzing the Bitmap memory, you may see the situation like this:</p>
+<p><img src="large_bitmap.png" alt="large_bitmap"></p>
+<p>An <strong>incredibly large</strong> Bitmap exists at Runtime, consuming nearly <strong>8.3MB</strong> of memory. It’s quite wasting since the Java heap on low-end devices may only have <strong>16~32MB</strong>. This kind of Bitmap will put a lot of pressure on memory and cause GC constantly.</p>
+<p>AfterAfter looking into it, it turns out it’s a square image that we use to show the placeholder. And if you do some math on the number, you will find out the size of the image is:</p>
+<pre><code>// Since Android will load an image with flag ARGB_8888, we will need 4byte 
+// to represent the color of a pixel.
+8294471 ≈ 1440 x 1440 x 4 </code></pre>
+<h3 id="Potential-way-out" class="article-heading"><a href="#Potential-way-out" class="headerlink" title="Potential way out"></a>Potential way out<a class="article-anchor" href="#Potential-way-out" aria-hidden="true"></a></h3><p>Except using 3rd party library or tools to shrink image size before importing. Android also provides  ways to deal with big image:</p>
+<ul>
+<li><strong>Enable <code>cruncherEnabled</code>, so the <code>AAPT</code> will shrink the images at compile time.</strong></li>
+<li><strong>Use <code>WebP</code> instead of PNG, JPG.</strong></li>
+<li><strong>Use <code>VectorDrawable</code> for graphic icon or symbols.</strong></li>
+</ul>
+<p>For more details, you can check the <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/topic/performance/reduce-apk-size">official document</a>. </p>
+<p>None of these is a silver bullet to solve the memory issue of Bitmap, because:</p>
+<ul>
+<li><strong><code>cruncherEnabled</code> and WebP can only help to shrink the APK size</strong>. The Image will still turn into an enormous Bitmap if the original size is big. If you are curious about why WebP doesn’t help, please check <a href="https://ansgarlin.github.io/en/news/2019/07/04/oom_webp/">OutOfMemoryError - WebP</a>.</li>
+<li><strong>VectorDrawable is only fully supported by the system with OS version is above 21(Lollipop)</strong>.  The support library can help to <a target="_blank" rel="noopener external nofollow noreferrer" href="https://android-developers.googleblog.com/2016/02/android-support-library-232.html">support down to 7(Eclair)</a>, but instead of using VectorDrawable, it will become <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/support/graphics/drawable/VectorDrawableCompat">VectorDrawableCompat</a>.</li>
+</ul>
+<h3 id="How-we-gonna-do" class="article-heading"><a href="#How-we-gonna-do" class="headerlink" title="How we gonna do"></a>How we gonna do<a class="article-anchor" href="#How-we-gonna-do" aria-hidden="true"></a></h3><p> In the end, we choose to use VectorDrawable with the following reason:</p>
+<ul>
+<li><strong>We’ve already turned to use WebP to shrink APK size, there’s no reason to use PNG again.</strong></li>
+<li><strong>Most use cases in the project are easy to replace with VectorDrawable.</strong></li>
+</ul>
+<p>What we have to do is:</p>
+<ul>
+<li><strong>Add the <code>vectorDrawables.useSupportLibrary = true</code> in <code>defaultConfig</code>.</strong></li>
+<li><strong>Replace <code>android:src</code> with <code>app:srcCompat</code> in xml.</strong></li>
+<li><strong><code>setImageResource</code> can be kept.</strong></li>
+</ul>
+<p>After replacing with <strong>VectorDrawable</strong>, the size of the largest Bitmap at Runtime will become only <strong>600K</strong>:</p>
+<p><img src="vd.png" alt="vd"></p>
+<p>And <strong>2KB</strong> in <strong>VectorDrawableComapt</strong> on pre 21:</p>
+<p><img src="vdc.png" alt="vdc"></p>
+<h3 id="What’s-more" class="article-heading"><a href="#What’s-more" class="headerlink" title="What’s more"></a>What’s more<a class="article-anchor" href="#What’s-more" aria-hidden="true"></a></h3><p>####caveat</p>
+<p>Even VectorDrawable seems powerful, you should use it wisely because:</p>
+<ul>
+<li><p><strong>VectorDrawable</strong> works like drawing graph at Runtime, the calculation and drawing command must-have performance impact.</p>
+</li>
+<li><p>On <strong>pre 21</strong>. The system will cache VectorDrawableCompat by size, which means if you apply an individual  VectorDrawableCompat into Views with different sizes, it will need to <strong>recreate</strong> and <strong>redraw</strong> every time. Check <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/support/graphics/drawable/VectorDrawableCompat">official document</a> for more detail.</p>
+</li>
+<li><p>Enable <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/support/v7/app/AppCompatDelegate.html#setCompatVectorFromResourcesEnabled(boolean)"><code>setCompatVectorFromResourcesEnabled(boolean)</code></a> to have support on original settings of ImageView or TextView should be careful about OOM issue.</p>
+<p>As I said, none of the solutions is a silver bullet, choose a suitable solution based on the use case. And always remember: “<strong>Perf matters</strong>“.</p>
+</li>
+</ul>
+<h4 id="Useful-command" class="article-heading"><a href="#Useful-command" class="headerlink" title="Useful command"></a>Useful command<a class="article-anchor" href="#Useful-command" aria-hidden="true"></a></h4><p>With devices <strong>pre 21</strong>, you can’t use Profile to check the memory usage. Instead, you have to dump the heap manually:</p>
+<ul>
+<li>Find PID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adb shell ps | grep <span class="string">&quot;&lt;package name&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Dump the heap</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adb shell am dumpheap &lt;pid&gt; /data/<span class="built_in">local</span>/tmp/android.hprof</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Pull the heap file</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adb pull /data/<span class="built_in">local</span>/tmp/android.hprof</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  
+</article>
+
+        
+      
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

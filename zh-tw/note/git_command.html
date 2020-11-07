@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Git | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/note/git_command.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/note/git_command.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/note/git_command.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="Set upInstallsudo yum install git-allsudo apt-get install git-all  Repository建立server上的bare repositorygit init --bare &lt;name&gt;.git  Configgit config --(global|system|local) &lt;options&gt;  Global">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Git">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/note/git_command.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="Set upInstallsudo yum install git-allsudo apt-get install git-all  Repository建立server上的bare repositorygit init --bare &lt;name&gt;.git  Configgit config --(global|system|local) &lt;options&gt;  Global">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:16:54.500Z">
+<meta property="article:modified_time" content="2020-11-07T10:16:54.500Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Git</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="Set-up" class="article-heading"><a href="#Set-up" class="headerlink" title="Set up"></a>Set up<a class="article-anchor" href="#Set-up" aria-hidden="true"></a></h2><h3 id="Install" class="article-heading"><a href="#Install" class="headerlink" title="Install"></a>Install<a class="article-anchor" href="#Install" aria-hidden="true"></a></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo yum install git-all</span><br><span class="line">sudo apt-get install git-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="Repository" class="article-heading"><a href="#Repository" class="headerlink" title="Repository"></a>Repository<a class="article-anchor" href="#Repository" aria-hidden="true"></a></h3><h4 id="建立server上的bare-repository" class="article-heading"><a href="#建立server上的bare-repository" class="headerlink" title="建立server上的bare repository"></a>建立server上的bare repository<a class="article-anchor" href="#建立server上的bare-repository" aria-hidden="true"></a></h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init --bare &lt;name&gt;.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="Config" class="article-heading"><a href="#Config" class="headerlink" title="Config"></a>Config<a class="article-anchor" href="#Config" aria-hidden="true"></a></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --(global|system|local) &lt;options&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Global" class="article-heading"><a href="#Global" class="headerlink" title="Global"></a>Global<a class="article-anchor" href="#Global" aria-hidden="true"></a></h4><ul>
+<li>Windows</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Users\name\.gitconfig</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Linux</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~&#x2F;.gitconfig</span><br></pre></td></tr></table></figure>
+
+<h4 id="System" class="article-heading"><a href="#System" class="headerlink" title="System"></a>System<a class="article-anchor" href="#System" aria-hidden="true"></a></h4><ul>
+<li>Windows</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Program Files\Git\mingw64\etc</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果有安裝類linux輔助，則會其目錄下的/etc內</p>
+</blockquote>
+<ul>
+<li>Linux</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;etc&#x2F;.gitconfig</span><br></pre></td></tr></table></figure>
+
+<h4 id="Local" class="article-heading"><a href="#Local" class="headerlink" title="Local"></a>Local<a class="article-anchor" href="#Local" aria-hidden="true"></a></h4><p>位在repository當前.git/config</p>
+<h4 id="Options" class="article-heading"><a href="#Options" class="headerlink" title="Options"></a>Options<a class="article-anchor" href="#Options" aria-hidden="true"></a></h4><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>option</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>使用者名稱</td>
+<td>user.name</td>
+</tr>
+<tr>
+<td>信箱</td>
+<td>user.email</td>
+</tr>
+</tbody></table>
+<h4 id="RSA-key" class="article-heading"><a href="#RSA-key" class="headerlink" title="RSA key"></a>RSA key<a class="article-anchor" href="#RSA-key" aria-hidden="true"></a></h4><ol>
+<li>跟著Github官方的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">教學文件</a>。</li>
+</ol>
+<h5 id="Trouble-shoot" class="article-heading"><a href="#Trouble-shoot" class="headerlink" title="Trouble shoot"></a>Trouble shoot<a class="article-anchor" href="#Trouble-shoot" aria-hidden="true"></a></h5><h6 id="host-key-verification-failed" class="article-heading"><a href="#host-key-verification-failed" class="headerlink" title="host key verification failed"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="https://stackoverflow.com/questions/33275382/sublime-git-pushing-host-key-verification-failed">host key verification failed</a><a class="article-anchor" href="#host-key-verification-failed" aria-hidden="true"></a></h6><p>通常是<code>known_hosts</code>的問題，執行以下動作來覆蓋內容修正：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh-keyscan -t rsa github.com &gt; ~/.ssh/known_hosts</span><br></pre></td></tr></table></figure>
+
+<h2 id="Commands" class="article-heading"><a href="#Commands" class="headerlink" title="Commands"></a>Commands<a class="article-anchor" href="#Commands" aria-hidden="true"></a></h2><h3 id="Checkout" class="article-heading"><a href="#Checkout" class="headerlink" title="Checkout"></a>Checkout<a class="article-anchor" href="#Checkout" aria-hidden="true"></a></h3><h4 id="根據tag建立branch" class="article-heading"><a href="#根據tag建立branch" class="headerlink" title="根據tag建立branch"></a>根據tag建立branch<a class="article-anchor" href="#根據tag建立branch" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b &lt;branch&gt; &lt;tag&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Bisect" class="article-heading"><a href="#Bisect" class="headerlink" title="Bisect"></a>Bisect<a class="article-anchor" href="#Bisect" aria-hidden="true"></a></h3><p>主要用於檢查是哪個commit開始造成程式錯誤。</p>
+<ol>
+<li>指定壞掉的點</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git bisect start HEAD &lt;SHA1/Tag&gt;</span><br></pre></td></tr></table></figure>
+
+<p>指定好後，會直接二元方式切換到另一個commit。</p>
+<ol start="2">
+<li>指定當前commit是好或壞</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git bisect bad/good</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>返回bisect前狀態</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git bisect reset</span><br></pre></td></tr></table></figure>
+
+<h3 id="Clone" class="article-heading"><a href="#Clone" class="headerlink" title="Clone"></a>Clone<a class="article-anchor" href="#Clone" aria-hidden="true"></a></h3><h4 id="下載一個repository" class="article-heading"><a href="#下載一個repository" class="headerlink" title="下載一個repository"></a>下載一個repository<a class="article-anchor" href="#下載一個repository" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;repository url&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果是.git結尾的url則必須要給定server端的絕對路徑</p>
+</blockquote>
+<h4 id="下載特定目錄" class="article-heading"><a href="#下載特定目錄" class="headerlink" title="下載特定目錄"></a>下載特定目錄<a class="article-anchor" href="#下載特定目錄" aria-hidden="true"></a></h4><h5 id="新Repository" class="article-heading"><a href="#新Repository" class="headerlink" title="新Repository"></a>新Repository<a class="article-anchor" href="#新Repository" aria-hidden="true"></a></h5><ol>
+<li>建立資料夾</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir &lt;folder name&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li> 進入資料夾</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;folder name&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li> 初始化git</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li> 加入remote</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add –f &lt;remote name&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li> 開啟sparse checkout功能</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config core.sparsecheckout <span class="literal">true</span>&lt;/code&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li> 設定想要抓取的目錄</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> &lt;path of folder&gt; &gt;&gt; .git/info/sparse-checkout&lt;/code&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li> 執行pull抓取</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull &lt;remote name&gt; master&lt;/code&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="現有Repository" class="article-heading"><a href="#現有Repository" class="headerlink" title="現有Repository"></a>現有Repository<a class="article-anchor" href="#現有Repository" aria-hidden="true"></a></h4><ol>
+<li> 開啟sparse checkout功能</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config core.sparsecheckout <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>在<code>info</code>內加入想要抓取的目錄</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> &lt;path of folder&gt; &gt;&gt; .git/info/sparse-checkout</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>執行read-tree更新git並抓取</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git read-tree -mu HEAD</span><br></pre></td></tr></table></figure>
+
+<h5 id="過濾不必要的檔案或目錄" class="article-heading"><a href="#過濾不必要的檔案或目錄" class="headerlink" title="過濾不必要的檔案或目錄"></a>過濾不必要的檔案或目錄<a class="article-anchor" href="#過濾不必要的檔案或目錄" aria-hidden="true"></a></h5><ul>
+<li>目錄</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">!&lt;folder path&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>檔案</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">!*&lt;file name or <span class="built_in">type</span>&gt; </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.kernel.org/pub/software/scm/git/docs/git-read-tree.html">參考</a></p>
+</blockquote>
+<h3 id="Fetch" class="article-heading"><a href="#Fetch" class="headerlink" title="Fetch"></a>Fetch<a class="article-anchor" href="#Fetch" aria-hidden="true"></a></h3><h4 id="單取一個PR" class="article-heading"><a href="#單取一個PR" class="headerlink" title="單取一個PR"></a>單取一個PR<a class="article-anchor" href="#單取一個PR" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch &#123;remote&#125; pull/&#123;ID&#125;/head:&#123;from BRANCHNAME&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Log" class="article-heading"><a href="#Log" class="headerlink" title="Log"></a>Log<a class="article-anchor" href="#Log" aria-hidden="true"></a></h3><h4 id="從訊息找對應字串的commit" class="article-heading"><a href="#從訊息找對應字串的commit" class="headerlink" title="從訊息找對應字串的commit"></a>從訊息找對應字串的commit<a class="article-anchor" href="#從訊息找對應字串的commit" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span> --grep=<span class="string">&quot;&lt;string&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="從內容找有對應字串的commit" class="article-heading"><a href="#從內容找有對應字串的commit" class="headerlink" title="從內容找有對應字串的commit"></a>從內容找有對應字串的commit<a class="article-anchor" href="#從內容找有對應字串的commit" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span> -S <span class="string">&quot;&lt;string&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Merge" class="article-heading"><a href="#Merge" class="headerlink" title="Merge"></a>Merge<a class="article-anchor" href="#Merge" aria-hidden="true"></a></h3><h4 id="不自動產生commit" class="article-heading"><a href="#不自動產生commit" class="headerlink" title="不自動產生commit"></a>不自動產生commit<a class="article-anchor" href="#不自動產生commit" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge &lt;branch name&gt; --no-commit</span><br></pre></td></tr></table></figure>
+
+<h3 id="Push" class="article-heading"><a href="#Push" class="headerlink" title="Push"></a>Push<a class="article-anchor" href="#Push" aria-hidden="true"></a></h3><h4 id="強制更新" class="article-heading"><a href="#強制更新" class="headerlink" title="強制更新"></a>強制更新<a class="article-anchor" href="#強制更新" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -f &lt;remote branch&gt; &lt;<span class="built_in">local</span> branch&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="強制返回remote至某一commit" class="article-heading"><a href="#強制返回remote至某一commit" class="headerlink" title="強制返回remote至某一commit"></a>強制返回remote至某一commit<a class="article-anchor" href="#強制返回remote至某一commit" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset --hard &lt;commit&gt;</span><br><span class="line">git push -f &lt;remote branch&gt; &lt;<span class="built_in">local</span> branch&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Stash" class="article-heading"><a href="#Stash" class="headerlink" title="Stash"></a>Stash<a class="article-anchor" href="#Stash" aria-hidden="true"></a></h3><h4 id="自訂訊息" class="article-heading"><a href="#自訂訊息" class="headerlink" title="自訂訊息"></a>自訂訊息<a class="article-anchor" href="#自訂訊息" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git stash save &lt;message&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看所有stash" class="article-heading"><a href="#查看所有stash" class="headerlink" title="查看所有stash"></a>查看所有stash<a class="article-anchor" href="#查看所有stash" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git stash list</span><br></pre></td></tr></table></figure>
+
+<h4 id="取用特定的stash" class="article-heading"><a href="#取用特定的stash" class="headerlink" title="取用特定的stash"></a>取用特定的stash<a class="article-anchor" href="#取用特定的stash" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git stash apply stash@&#123;&lt;index&gt;&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>需要搭配<code>git stash list</code>。</p>
+</blockquote>
+<h3 id="Worktree" class="article-heading"><a href="#Worktree" class="headerlink" title="Worktree"></a>Worktree<a class="article-anchor" href="#Worktree" aria-hidden="true"></a></h3><p>主要用於多個feature同時進行，但想簡化工作流程而不用互相干擾時。</p>
+<ol>
+<li>開啟新的worktree</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git worktree add -b &lt;branch&gt; ../hotfix &lt;upstream&gt;</span><br></pre></td></tr></table></figure>
+
+<p>執行後會以目前狀態建立新的資料夾<code>../hotfix</code>，建立並切換branch至<code>&lt;branch&gt;</code>，遠端是追蹤<code>&lt;upstream&gt;</code>。</p>
+<ol start="2">
+<li>查看worktree列表</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git worktree list</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>刪除worktree</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">直接rm -rf刪除目錄, 或</span><br><span class="line">git worktree prune 清除記錄</span><br></pre></td></tr></table></figure>
+
+<h3 id="Submodule" class="article-heading"><a href="#Submodule" class="headerlink" title="Submodule"></a>Submodule<a class="article-anchor" href="#Submodule" aria-hidden="true"></a></h3><ol>
+<li>加入submodule</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git submodule add &lt;repository&gt; &lt;path&gt;</span><br></pre></td></tr></table></figure>
+
+<p>目錄底下會出現.gitmodules</p>
+<ol start="2">
+<li>打開.gitmodules 確認 path 及 repository</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// In .gitmodules</span><br><span class="line">[submodule <span class="string">&quot;user_guide&quot;</span>]</span><br><span class="line">path = your/path</span><br><span class="line">url = xxx/xxx/xxx/repository.git</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>設定結束，Push</li>
+</ol>
+<h2 id="Useful" class="article-heading"><a href="#Useful" class="headerlink" title="Useful"></a>Useful<a class="article-anchor" href="#Useful" aria-hidden="true"></a></h2><h3 id="顯示執行過程" class="article-heading"><a href="#顯示執行過程" class="headerlink" title="顯示執行過程"></a>顯示執行過程<a class="article-anchor" href="#顯示執行過程" aria-hidden="true"></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;git <span class="built_in">command</span>&gt; --progress</span><br></pre></td></tr></table></figure>
+
+<h3 id="Clone有submodule的repository" class="article-heading"><a href="#Clone有submodule的repository" class="headerlink" title="Clone有submodule的repository"></a>Clone有submodule的repository<a class="article-anchor" href="#Clone有submodule的repository" aria-hidden="true"></a></h3><ol>
+<li>clone後執行init，讓git知道有submodule</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git submodule init</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>取得submodule</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git submodule update</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看所有被track的檔案" class="article-heading"><a href="#查看所有被track的檔案" class="headerlink" title="查看所有被track的檔案"></a>查看所有被track的檔案<a class="article-anchor" href="#查看所有被track的檔案" aria-hidden="true"></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git ls-tree -r master --name-only</span><br></pre></td></tr></table></figure>
+
+<h4 id="刪除track的檔案" class="article-heading"><a href="#刪除track的檔案" class="headerlink" title="刪除track的檔案"></a>刪除track的檔案<a class="article-anchor" href="#刪除track的檔案" aria-hidden="true"></a></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git rm -r --cached &lt;file&gt;</span><br></pre></td></tr></table></figure>
+
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:16:54.500Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/note/git_command.html';
+  var disqus_title = "Git";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-up"><span class="toc-text">Set up</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-text">Install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Repository"><span class="toc-text">Repository</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8Bserver%E4%B8%8A%E7%9A%84bare-repository"><span class="toc-text">建立server上的bare repository</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Config"><span class="toc-text">Config</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Global"><span class="toc-text">Global</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#System"><span class="toc-text">System</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Local"><span class="toc-text">Local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Options"><span class="toc-text">Options</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA-key"><span class="toc-text">RSA key</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Trouble-shoot"><span class="toc-text">Trouble shoot</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#host-key-verification-failed"><span class="toc-text">host key verification failed</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commands"><span class="toc-text">Commands</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Checkout"><span class="toc-text">Checkout</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B9%E6%93%9Atag%E5%BB%BA%E7%AB%8Bbranch"><span class="toc-text">根據tag建立branch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bisect"><span class="toc-text">Bisect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clone"><span class="toc-text">Clone</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BC%89%E4%B8%80%E5%80%8Brepository"><span class="toc-text">下載一個repository</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E8%BC%89%E7%89%B9%E5%AE%9A%E7%9B%AE%E9%8C%84"><span class="toc-text">下載特定目錄</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B0Repository"><span class="toc-text">新Repository</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8F%BE%E6%9C%89Repository"><span class="toc-text">現有Repository</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%81%8E%E6%BF%BE%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%AA%94%E6%A1%88%E6%88%96%E7%9B%AE%E9%8C%84"><span class="toc-text">過濾不必要的檔案或目錄</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fetch"><span class="toc-text">Fetch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%96%AE%E5%8F%96%E4%B8%80%E5%80%8BPR"><span class="toc-text">單取一個PR</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Log"><span class="toc-text">Log</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%9E%E8%A8%8A%E6%81%AF%E6%89%BE%E5%B0%8D%E6%87%89%E5%AD%97%E4%B8%B2%E7%9A%84commit"><span class="toc-text">從訊息找對應字串的commit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%9E%E5%85%A7%E5%AE%B9%E6%89%BE%E6%9C%89%E5%B0%8D%E6%87%89%E5%AD%97%E4%B8%B2%E7%9A%84commit"><span class="toc-text">從內容找有對應字串的commit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Merge"><span class="toc-text">Merge</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9Fcommit"><span class="toc-text">不自動產生commit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Push"><span class="toc-text">Push</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B7%E5%88%B6%E6%9B%B4%E6%96%B0"><span class="toc-text">強制更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B7%E5%88%B6%E8%BF%94%E5%9B%9Eremote%E8%87%B3%E6%9F%90%E4%B8%80commit"><span class="toc-text">強制返回remote至某一commit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stash"><span class="toc-text">Stash</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E8%A8%82%E8%A8%8A%E6%81%AF"><span class="toc-text">自訂訊息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89stash"><span class="toc-text">查看所有stash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E7%94%A8%E7%89%B9%E5%AE%9A%E7%9A%84stash"><span class="toc-text">取用特定的stash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Worktree"><span class="toc-text">Worktree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Submodule"><span class="toc-text">Submodule</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Useful"><span class="toc-text">Useful</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%AF%E7%A4%BA%E5%9F%B7%E8%A1%8C%E9%81%8E%E7%A8%8B"><span class="toc-text">顯示執行過程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clone%E6%9C%89submodule%E7%9A%84repository"><span class="toc-text">Clone有submodule的repository</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E8%A2%ABtrack%E7%9A%84%E6%AA%94%E6%A1%88"><span class="toc-text">查看所有被track的檔案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%AA%E9%99%A4track%E7%9A%84%E6%AA%94%E6%A1%88"><span class="toc-text">刪除track的檔案</span></a></li></ol></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

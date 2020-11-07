@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Overview | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/zh-tw/rxjava/index.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://ansgarlin.github.io/rxjava/index.html">
+    
+      <link rel="alternative" hreflang="zh-tw" href="https://ansgarlin.github.io/zh-tw/rxjava/index.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="What is RxJava ?引用官方的文件內的一段話來總括：  In ReactiveX, many instructions may execute in parallel and their results are later captured, in arbitrary order, by “Observers”.  透過ReactiveX，每一行指令將被同步執行，而執行的結果將被Obs">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Overview">
+<meta property="og:url" content="https://ansgarlin.github.io/zh-tw/rxjava/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="What is RxJava ?引用官方的文件內的一段話來總括：  In ReactiveX, many instructions may execute in parallel and their results are later captured, in arbitrary order, by “Observers”.  透過ReactiveX，每一行指令將被同步執行，而執行的結果將被Obs">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-11-07T10:14:05.286Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.286Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/zh-tw/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/zh-tw/android/" class="main-nav-link">Android</a><a href="/zh-tw/kotlin/" class="main-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></label>
+      <select id="lang-select" data-canonical="rxjava/index.html">
+        
+          <option value="en">English</option>
+        
+          <option value="zh-tw" selected>正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Overview</h1>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h3 id="What-is-RxJava" class="article-heading"><a href="#What-is-RxJava" class="headerlink" title="What is RxJava ?"></a>What is RxJava ?<a class="article-anchor" href="#What-is-RxJava" aria-hidden="true"></a></h3><p>引用官方的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/observable.html">文件</a>內的一段話來總括：</p>
+<blockquote>
+<p>In ReactiveX, many instructions may execute in parallel and their results are later captured, in arbitrary order, by “Observers”.</p>
+</blockquote>
+<p>透過ReactiveX，每一行指令將被同步執行，而執行的結果將被Observer依序取得。</p>
+<blockquote>
+<p>You define a mechanism for retrieving and transforming the data, in the form of an “Observable”.</p>
+</blockquote>
+<p>而透過Observable，可以建立一套串連各種處理資料的機制。</p>
+<blockquote>
+<p>And subscribe an observer to it, at which point the previously-defined mechanism fires into action.</p>
+</blockquote>
+<p>透過Observer來訂閱Observable，來將兩者串連並啟動之前所設計好的機制。</p>
+<p>簡而言之，ReactiveX是一種反向思維，不同於一般語言的模式：透過呼叫函式取得結果、儲存結果然後對這結果進行處理；任何一個連接點皆是變數。而是由函式出發，中間不透過變數儲存結果，而且接續下一個函式，形成由一連串函式組成的處理機制。</p>
+<p>以下章節將注重在RxJava所需的基礎概念，而非如何使用RxJava，如需要可直接至官方的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/tutorials.html">教學資源</a>中找尋相關文章。</p>
+<h3 id="Functional-Reactive-Programming-FRP" class="article-heading"><a href="#Functional-Reactive-Programming-FRP" class="headerlink" title="Functional Reactive Programming (FRP)"></a>Functional Reactive Programming (FRP)<a class="article-anchor" href="#Functional-Reactive-Programming-FRP" aria-hidden="true"></a></h3><p>在使用之前，必須要先理解兩個設計概念：Reactive Programming和Functional Programming。集合兩者，才是RxJava最後顯現出來的形式。</p>
+<h4 id="Reactive-Programming" class="article-heading"><a href="#Reactive-Programming" class="headerlink" title="Reactive Programming"></a>Reactive Programming<a class="article-anchor" href="#Reactive-Programming" aria-hidden="true"></a></h4><p>根據<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Reactive_programming">Wiki</a>的描述，Reactive Programming代表一段程式碼和結果是彼此連動的。取用wiki內的範例來說：</p>
+<blockquote>
+<p>a = b + c</p>
+</blockquote>
+<p>在Imperative Programming中，a在b + c執行後就被賦予一個值，且這個值在b或c後並不會改變。而在Reactive Programming中，a的值會隨著b或c的值改變。</p>
+<h4 id="Functional-Programming" class="article-heading"><a href="#Functional-Programming" class="headerlink" title="Functional Programming"></a>Functional Programming<a class="article-anchor" href="#Functional-Programming" aria-hidden="true"></a></h4><p>根據<a target="_blank" rel="noopener external nofollow noreferrer" href="https://en.wikipedia.org/wiki/Functional_programming">Wiki</a>的描述，Functional Programming代表的是將程式碼包裝成數學函式，取用前面的範例來說則變成：</p>
+<blockquote>
+<p>a = f ( b )</p>
+</blockquote>
+<p>可以看到b + c被包裝成數學函式，所以a跟b的關係就變成唯一。不論執行幾次，給予相同的b則會得到相同的a。也因此避免了任何與函式內操作無關的狀況，例如：執行狀態改變、修改參數，來影響結果。</p>
+<p>另外一特點是：函式具有first-class的特性，也就是其可以被賦值，也可以當作參數或回傳值。因此，Functional Programming大多是表達式。</p>
+<p>總結一下，可以想像得到，FRP就是整合了兩者的特性，因此前面的範例就會變成：</p>
+<blockquote>
+<p>a = f ( b ) + f ( c )</p>
+</blockquote>
+<p>a依然會跟著b或c的變化而變動，但同時一組b或c所產生的結果也是唯一的。</p>
+<h3 id="How-to-think-in-RxJava" class="article-heading"><a href="#How-to-think-in-RxJava" class="headerlink" title="How to think in RxJava ?"></a>How to think in RxJava ?<a class="article-anchor" href="#How-to-think-in-RxJava" aria-hidden="true"></a></h3><p>接著將來探討在使用RxJava時，需要使用怎樣的思維，才能組裝出合理的操作機制。但在那之前，先帶過以下幾個主要的名詞：</p>
+<blockquote>
+<p>Observable<br>Observer<br>Subscribe</p>
+</blockquote>
+<h4 id="Observable" class="article-heading"><a href="#Observable" class="headerlink" title="Observable"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/observable.html">Observable</a><a class="article-anchor" href="#Observable" aria-hidden="true"></a></h4><p>Observable代表資料源，一個可”被觀察”的對象。透過RxJava提供的各式各樣<a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/operators.html">Operator</a>，可以串連各種不同的資料源，分別或共同進行各式各樣的轉換。</p>
+<p>如果用數字來代表Observable的各種情形，可以區分成以下幾個情形：</p>
+<blockquote>
+<p>0 -&gt; 沒資料<br>1 -&gt; 有一筆資料<br>-1 -&gt; 出現錯誤</p>
+</blockquote>
+<h4 id="Observer" class="article-heading"><a href="#Observer" class="headerlink" title="Observer"></a>Observer<a class="article-anchor" href="#Observer" aria-hidden="true"></a></h4><p>Observer代表接收Observable資料的一方，透過RxJava提供的三大Callback：onNext()、onError()和onComplete()。可以接收Observable處理後的資料，或是在錯誤時做出反應。</p>
+<h4 id="Subscribe" class="article-heading"><a href="#Subscribe" class="headerlink" title="Subscribe"></a>Subscribe<a class="article-anchor" href="#Subscribe" aria-hidden="true"></a></h4><p>在RxJava的世界中，Observable和Observer是獨立分開的。也就是就算Observable已經開始發送資料，也不一定有Observer來接收資料，例如Publisher，Observable的其中一種衍生。</p>
+<p>但一般來說，Observable皆需要有Observer接收資料，才會開始啟動。而這中間的橋樑，就是Subscribe操作，如下：</p>
+<blockquote>
+<p>Observable.subscribe ( Observer )</p>
+</blockquote>
+<h4 id="The-stream-of-data" class="article-heading"><a href="#The-stream-of-data" class="headerlink" title="The stream of data"></a>The stream of data<a class="article-anchor" href="#The-stream-of-data" aria-hidden="true"></a></h4><p>由前面簡單帶過的內容可以得到一個結論，Observable的開始和結束是沒有個定性的；它可以透過Observer訂閱啟動，也可以自行啟動。就像水龍頭一般，管線內不論有沒有水在流淌，在沒轉開開關的那一刻，你不會知道有沒有水。與RxJava的名詞對比則如下：</p>
+<blockquote>
+<p>Data -&gt; 水<br>Observable -&gt; 水管管線<br>Observer -&gt; 你<br>Subscriber -&gt; “轉開”這動作</p>
+</blockquote>
+<p>這邊很明顯表示出會比較複雜的就是水管管線，也就是Observable。</p>
+<p>資料就像水一樣，在水管(Observable)中流動。而複雜的資料處理邏輯，就如同複雜的水管網絡。這也帶出了一個思維，必須要在使用RxJava時謹記在心：</p>
+<blockquote>
+<p>你是水管工</p>
+</blockquote>
+<p>沒錯，一個水管工，運用RxJava提供的各式水管接頭，接出符合需求的水管網絡(Rx chain)。</p>
+<p>有了這概念後，以下提供一個範例來探討如何運用。</p>
+<h4 id="Situation" class="article-heading"><a href="#Situation" class="headerlink" title="Situation"></a>Situation<a class="article-anchor" href="#Situation" aria-hidden="true"></a></h4><p>首先這邊的情境如下：</p>
+<blockquote>
+<p>我們有兩個資料源，資料型態為A和B，且B接在A結束後啟動。A需要和B做整合成C。C經過處理後直接傳遞。每筆C的資料都要轉型成D，但要同時處理。</p>
+</blockquote>
+<p>看起來很冗長，讓我們來將句子做個拆分：</p>
+<blockquote>
+<p>我們有兩個資料源，資料型態為A和B，且B接在A結束後啟動。<br>A需要和B做整合成C。<br>C經過處理後直接傳遞。<br>每筆C的資料都要轉型成D，但要同時處理。</p>
+</blockquote>
+<p>接著去掉一些多餘的字，留下重要的訊息：</p>
+<blockquote>
+<p>資料源A和B，B接在A之後<br>A和B整合成C<br>C直接傳遞<br>每筆C轉成D，同時處理</p>
+</blockquote>
+<p>再抽出動詞：</p>
+<blockquote>
+<p>接<br>整合<br>傳遞<br>轉，同時</p>
+</blockquote>
+<p>是否清楚多了？套用前面說的思維，其實重點不在於ABCDE是什麼，而是在於整個水管網絡，何時要開？何時要合？</p>
+<p>所以再對應到RxJava的Operator的話：</p>
+<blockquote>
+<p>用於串接資料源：concat<br>用於合併資料：zip<br>用於傳遞資料：map<br>用於同時傳遞資料：flatMap</p>
+</blockquote>
+<p>以上就是對於想法上的簡單探討。</p>
+<h3 id="Go-into-deeper" class="article-heading"><a href="#Go-into-deeper" class="headerlink" title="Go into deeper"></a>Go into deeper<a class="article-anchor" href="#Go-into-deeper" aria-hidden="true"></a></h3><p>以下是一些其他與RxJava有關的元件。</p>
+<h4 id="Single" class="article-heading"><a href="#Single" class="headerlink" title="Single"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/single.html">Single</a><a class="article-anchor" href="#Single" aria-hidden="true"></a></h4><p>用法類似於Observable，不同的是Single在使用上是蘊含只會有一筆資料的含義，且一定會出現。否則代表出錯。</p>
+<p>如果對照Observable可能發生的情況，則分成以下幾種情形：</p>
+<blockquote>
+<p>1 -&gt; 有一筆資料<br>-1 -&gt; 出錯或沒有資料</p>
+</blockquote>
+<p>可以看到，Single是將0的狀況引到-1，而其所對應的錯誤訊息則是<code>NoSuchElementException</code>。</p>
+<h4 id="Subject" class="article-heading"><a href="#Subject" class="headerlink" title="Subject"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/subject.html">Subject</a><a class="article-anchor" href="#Subject" aria-hidden="true"></a></h4><p>不同於Observable屬於資料源；Subject則代表的是一種接口，用來串接Observable。</p>
+<p>做法是將Subject當成Observer來subscribe一個Observable，然後將收到的資料，再次送給另一個Observer。可以看到，當Subject將收到的資料再次送出時，意義上就變成了一個資料源，也就是Observable。</p>
+<p>上述資料的傳遞順序如下：</p>
+<blockquote>
+<p>Observable -&gt; (Observer) Subject = Subject (Observable) -&gt; Observer</p>
+</blockquote>
+<p>目前RxJava提供的Subject有分四種，每種都有不一樣的行為，也可以當成是一種Observable operator的封裝，簡單的對應如下：</p>
+<blockquote>
+<p>AsyncSubject -&gt; doOnComplete(), doOnError()<br>BehaviorSubject -&gt; last()<br>PublishSubject -&gt; forEach()<br>ReplaySubject -&gt; replay()</p>
+</blockquote>
+<p>其他更詳細的解釋，可以直接看官方的文件。</p>
+<p>值得一提的是，因為Subject可以送出資料，代表也可以直接將資料給予Subject。就像是在水管上鑿個洞，而你可以直接從洞口將水倒入。</p>
+<p>簡單的表示方法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Subject subject = <span class="keyword">new</span> Subject()  </span><br><span class="line">subject.onNext(data)</span><br></pre></td></tr></table></figure>
+
+<p>如此Subject之後接的Observable就會接到資料，詳細用法可以看官方電子書的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.introtorx.com/Content/v1.0.10621.0/02_KeyTypes.html#Subject">Subject</a>章節。</p>
+<h4 id="Scheduler" class="article-heading"><a href="#Scheduler" class="headerlink" title="Scheduler"></a><a target="_blank" rel="noopener external nofollow noreferrer" href="http://reactivex.io/documentation/scheduler.html">Scheduler</a><a class="article-anchor" href="#Scheduler" aria-hidden="true"></a></h4><p>透過Scheduler，RxJava可以控制你Observable的operator要在哪個thread上進行。而用來切換thread的函式有兩個：<code>observableOn</code>和<code>subscribeOn</code>。</p>
+<h5 id="observableOn" class="article-heading"><a href="#observableOn" class="headerlink" title="observableOn"></a>observableOn<a class="article-anchor" href="#observableOn" aria-hidden="true"></a></h5><p>用來控制接下來的Observable operator是在哪個thread上執行。</p>
+<h5 id="subscribeOn" class="article-heading"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn<a class="article-anchor" href="#subscribeOn" aria-hidden="true"></a></h5><p>用來控制資料源要在哪個thread上被發出。</p>
+<p>相同的，我們引入前面提到的思維來比喻，Observable就像水管，水管被設置在涵管中，所以thread就是涵管。而一個都市內的涵管則不止一條，彼此間互相串接。而連接處就等同於<code>observerOn</code>，將水管從一個涵管走到另一個涵管，也就是將thread切到另一個thread。水從水源走到各家各戶，中間會經過很多涵管，所以<code>observerOn</code>可以被重複使用。</p>
+<p>與之相對的，<code>subscribeOn</code>等同於決定水被送出時，其水管所在的涵管。因為水源只能從一個地方出發，所以<code>subscribeOn</code>無法被重複使用，即使重複使用，也只有最接近源頭的有效。</p>
+<h4 id="Disposable" class="article-heading"><a href="#Disposable" class="headerlink" title="Disposable"></a>Disposable<a class="article-anchor" href="#Disposable" aria-hidden="true"></a></h4><p>這是一個RxJava2才有的應用類，取代RxJava1的Subscription。在RxJava中有各式不同的Disposable，詳細可以看官方電子書的<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.introtorx.com/Content/v1.0.10621.0/20_Disposables.html#Disposables">Disposable</a>章節。</p>
+<p>Disposable主要在不需要接收資訊時，透過<code>dispose()</code>來將中斷接收，就像是一個水龍頭開關。但是將水龍頭關上，不代表水不會流過，所以整個RxJava chain的operator依然會繼續運作，只是Subscriber不會收到資料，也就是<code>OnNext()</code>不會再被呼叫。舉例如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Disposable disposable = Observable.just(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	.map &#123; i -&gt; Log.d(<span class="string">&quot;In map: &quot;</span> + i) &#125;</span><br><span class="line">	.doOnNext &#123; i -&gt; Log.d(<span class="string">&quot;In doOnNext: &quot;</span> + i) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在執行一次<code>doNoNext</code>後呼叫<code>dispose()</code>，預期的結果應該如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">In map: <span class="number">1</span></span><br><span class="line">In doOnNext: <span class="number">1</span></span><br><span class="line"><span class="comment">// Call dispose() from out side, and nothing will be log after.</span></span><br></pre></td></tr></table></figure>
+
+<p>但實際上卻是如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">In map: <span class="number">1</span></span><br><span class="line">In doOnNext: <span class="number">1</span></span><br><span class="line"><span class="comment">// Call dispose() from out side</span></span><br><span class="line">In map: <span class="number">2</span></span><br><span class="line"><span class="comment">// No doOnNext: 2</span></span><br></pre></td></tr></table></figure>
+
+<p>因此在這種情形下，就必須在執行期間自行判斷dispose的狀態。因此我們將<code>map</code>做一些改動如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Disposable disposable = Observable.just(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	.map &#123; i -&gt; isDispose() ? <span class="keyword">return</span> : Log.d(<span class="string">&quot;In map: &quot;</span> + i) &#125;</span><br><span class="line">	.doOnNext &#123; i -&gt; Log.d(<span class="string">&quot;In doOnNext: &quot;</span> + i) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如此就會印出我們所預期的log。</p>
+<h4 id="Memory-Leak" class="article-heading"><a href="#Memory-Leak" class="headerlink" title="Memory Leak"></a>Memory Leak<a class="article-anchor" href="#Memory-Leak" aria-hidden="true"></a></h4><p>不過，由於Disposable只是一個水閥的角色，即使呼叫<code>dispose()</code>也無法解決memory leak的問題。舉例如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Disposable disposable = Observable.just(<span class="number">1</span>).subscribe(<span class="keyword">new</span> Consumer() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// Do something</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，我們建出來的<code>Consumer</code>就是典型的Anoymous inner class。所以這就造成了reference cycle，將使Activity退出後可能無法被回收。</p>
+<p>在RxJava的operator中，有一個<code>onTerminateDetach</code>，擷取Javadoc的註釋：</p>
+<blockquote>
+<p>Nulls out references to the upstream producer and downstream Observer if the sequence is terminated or downstream calls dispose().</p>
+</blockquote>
+<p>意思就是，透過這個operator，Observable會在被<code>dispose()</code>後主動切開資料源和Subscriber的連接，從而達到解開reference cycle的目的。</p>
+<h4 id="Appendix" class="article-heading"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix<a class="article-anchor" href="#Appendix" aria-hidden="true"></a></h4><p>這裡節錄一些跟主要章節沒直接相關的資訊。</p>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2020-11-07T10:14:05.286Z" itemprop="dateModified">上次更新：2020-11-07</time>
+                <a href="basic_concept.html" class="article-footer-next" title="基本概念"><span>下一頁</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+              
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/zh-tw/rxjava/index.html';
+  var disqus_title = "Overview";
+  var disqus_config = function(){
+    this.language = 'zh_TW';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">目錄</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-is-RxJava"><span class="toc-text">What is RxJava ?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Functional-Reactive-Programming-FRP"><span class="toc-text">Functional Reactive Programming (FRP)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Reactive-Programming"><span class="toc-text">Reactive Programming</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Functional-Programming"><span class="toc-text">Functional Programming</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#How-to-think-in-RxJava"><span class="toc-text">How to think in RxJava ?</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Observable"><span class="toc-text">Observable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Observer"><span class="toc-text">Observer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Subscribe"><span class="toc-text">Subscribe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#The-stream-of-data"><span class="toc-text">The stream of data</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Situation"><span class="toc-text">Situation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-into-deeper"><span class="toc-text">Go into deeper</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Single"><span class="toc-text">Single</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Subject"><span class="toc-text">Subject</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Scheduler"><span class="toc-text">Scheduler</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#observableOn"><span class="toc-text">observableOn</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#subscribeOn"><span class="toc-text">subscribeOn</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Disposable"><span class="toc-text">Disposable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Memory-Leak"><span class="toc-text">Memory Leak</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Appendix"><span class="toc-text">Appendix</span></a></li></ol></li></ol>
+              <a href="#" id="article-toc-top">回到頁首</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">簡介</strong><a href="index.html" class="sidebar-link current">概覽</a><strong class="sidebar-title">源碼分析</strong><a href="basic_concept.html" class="sidebar-link">基本概念</a><a href="thread_control.html" class="sidebar-link">Thread控制</a><a href="compose_and_lift.html" class="sidebar-link">compose() & lift()</a><a href="groupby.html" class="sidebar-link">groupBy()</a><strong class="sidebar-title">決策表</strong><a href="creation_operator_decision_table.html" class="sidebar-link">建立操作</a><a href="instance_operator_decision_table.html" class="sidebar-link">一般操作</a><strong class="sidebar-title">其他</strong><a href="error_handle.html" class="sidebar-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="sidebar-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="sidebar-link">Not RxJava Guide For Lazy Folks</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/zh-tw/android/" class="mobile-nav-link">Android</a><a href="/zh-tw/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/zh-tw/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">簡介</strong><a href="index.html" class="mobile-nav-link current">概覽</a><strong class="mobile-nav-title">源碼分析</strong><a href="basic_concept.html" class="mobile-nav-link">基本概念</a><a href="thread_control.html" class="mobile-nav-link">Thread控制</a><a href="compose_and_lift.html" class="mobile-nav-link">compose() & lift()</a><a href="groupby.html" class="mobile-nav-link">groupBy()</a><strong class="mobile-nav-title">決策表</strong><a href="creation_operator_decision_table.html" class="mobile-nav-link">建立操作</a><a href="instance_operator_decision_table.html" class="mobile-nav-link">一般操作</a><strong class="mobile-nav-title">其他</strong><a href="error_handle.html" class="mobile-nav-link">錯誤處理</a><a href="caveat_about_merge_method.html" class="mobile-nav-link">Caveat about merge method</a><a href="not_rxjava_guide_for_lazy_folks.html" class="mobile-nav-link">Not RxJava Guide For Lazy Folks</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>正體中文</span></span>
+    <select id="mobile-lang-select" data-canonical="rxjava/index.html">
+      
+        <option value="en">English</option>
+      
+        <option value="zh-tw" selected>正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>Escape from crash hell - Part 1 | Ansgar</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/index.html">
+  <!-- Alternative links -->
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/icon/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/icon/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/icon/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/icon/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/icon/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/icon/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" href="/icon/favicon-196x196.png" sizes="196x196">
+  <link rel="icon" type="image/png" href="/icon/favicon-160x160.png" sizes="160x160">
+  <link rel="icon" type="image/png" href="/icon/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/icon/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/icon/favicon-32x32.png" sizes="32x32">
+  <meta name="msapplication-TileColor" content="#2f83cd">
+  <meta name="msapplication-TileImage" content="/icon/mstile-144x144.png">
+  <meta name="generator" content="Hexo 5.2.0">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+  <!-- RSS -->
+  <link rel="alternate" href="/atom.xml" title="Ansgar" type="application/atom+xml">
+  <!-- Open Graph -->
+  <meta name="description" content="A crash can not just warn you that you’ve done something wrong with your code, but also makes you suffer if the message is ambiguous. What’s worse is sometimes you won’t get any message and there’s no">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Escape from crash hell - Part 1">
+<meta property="og:url" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/index.html">
+<meta property="og:site_name" content="Ansgar">
+<meta property="og:description" content="A crash can not just warn you that you’ve done something wrong with your code, but also makes you suffer if the message is ambiguous. What’s worse is sometimes you won’t get any message and there’s no">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/ambiguous_solvable.png">
+<meta property="og:image" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/ambiguous_unsolvable.png">
+<meta property="og:image" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/ambiguous_solvable_unpredict.png">
+<meta property="og:image" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/stack.png">
+<meta property="article:published_time" content="2019-07-13T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-11-07T10:14:05.054Z">
+<meta property="article:author" content="Ansgar Lin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/ambiguous_solvable.png">
+  <!-- Google Analytics -->
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-6482217598104186",
+          enable_page_level_ads: true
+     });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+  <div id="header-inner" class="inner">
+    <a href="/" class="main-nav-link"><i class="fa fa-home"></i></a>
+    <nav id="main-nav">
+      <a href="/android/" class="main-nav-link">Android</a><a href="/kotlin/" class="main-nav-link">Kotlin</a><a href="/rxjava/" class="main-nav-link">RxJava</a>
+      <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+    </nav>
+    <div id="lang-select-wrap">
+      <label id="lang-select-label"><i class="fa fa-globe"></i><span>English</span></label>
+      <select id="lang-select" data-canonical="">
+        
+          <option value="en" selected>English</option>
+        
+          <option value="zh-tw">正體中文</option>
+        
+      </select>
+    </div>
+    <a id="mobile-nav-toggle">
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+      <span class="mobile-nav-toggle-bar"></span>
+    </a>
+  </div>
+</header>
+
+    <div id="content-wrap">
+  <div class="wrapper">
+    <div class="inner">
+      <article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    
+      <h1 class="article-title" itemprop="name">Escape from crash hell - Part 1</h1>
+    
+    <a href="/en/news/2019/07/13/escape_from_crash_hell_1/" class="article-date"><time datetime="2019-07-13T00:00:00.000Z">2019-07-13</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <p>A crash can not just warn you that you’ve done something wrong with your code, but also makes you suffer if the message is ambiguous. What’s worse is sometimes you won’t get any message and there’s nothing you can do but to hope that it will disappear eventually.</p>
+<h3 id="Types-of-crash" class="article-heading"><a href="#Types-of-crash" class="headerlink" title="Types of crash"></a>Types of crash<a class="article-anchor" href="#Types-of-crash" aria-hidden="true"></a></h3><p>If you categorize crashes that you will face, here’s what you can get:</p>
+<ul>
+<li><strong>Ambiguous messages and solvable</strong></li>
+<li><strong>Ambiguous messages and solvable, but unpredictable</strong></li>
+<li><strong>No messages, and unsolvable</strong></li>
+</ul>
+<h4 id="Ambiguous-messages-and-solvable" class="article-heading"><a href="#Ambiguous-messages-and-solvable" class="headerlink" title="Ambiguous messages and solvable"></a>Ambiguous messages and solvable<a class="article-anchor" href="#Ambiguous-messages-and-solvable" aria-hidden="true"></a></h4><p><img src="ambiguous_solvable.png" alt="ambiguous_solvable"></p>
+<p>The message only tells you the system is run out of memory, and it’s pretty ambiguous since memory issue is a random issue. You won’t know where and when that your app will drain the memory, but it’s still solvable with the following steps:</p>
+<ul>
+<li><strong>Figure out what’s the size of the Bitmap that the system is trying to create.</strong></li>
+<li><strong>Find which lines of codes will create an image with the size.</strong></li>
+<li><strong>Make the system to load the image with a smaller Bitmap.</strong></li>
+</ul>
+<h4 id="No-messages-and-unsolvable" class="article-heading"><a href="#No-messages-and-unsolvable" class="headerlink" title="No messages, and unsolvable"></a>No messages, and unsolvable<a class="article-anchor" href="#No-messages-and-unsolvable" aria-hidden="true"></a></h4><p>Sometimes there are framework related crashes, which may be caused by Google itself or the OEMs, then you may get a crash like:</p>
+<p><img src="ambiguous_unsolvable.png" alt="ambiguous_unsolvable"></p>
+<p>That’s really nothing you can do about it because you don’t even know where to begin.</p>
+<h4 id="Ambiguous-messages-and-solvable-but-unpredictable" class="article-heading"><a href="#Ambiguous-messages-and-solvable-but-unpredictable" class="headerlink" title="Ambiguous messages and solvable, but unpredictable"></a>Ambiguous messages and solvable, but unpredictable<a class="article-anchor" href="#Ambiguous-messages-and-solvable-but-unpredictable" aria-hidden="true"></a></h4><p><img src="ambiguous_solvable_unpredict.png" alt="ambiguous_solvable_unpredict"></p>
+<p>The intro of the category is put at the end on purpose. The crash will be the example throughout the article. Here’s some context about the crash:</p>
+<ul>
+<li>Starting from Android 9(28+), WebView’s data folder is not allowed to be shared between processes. If you do that, you will get a crash like this.</li>
+</ul>
+<p>We can simply solve it by calling <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/reference/android/webkit/WebView.html#setDataDirectorySuffix(java.lang.String"><code>setDataDirectorySuffix(String suffix)</code></a> to assign a suffix for each WebView’s data folder in the process. The change is for security purpose, you can check the <a target="_blank" rel="noopener external nofollow noreferrer" href="https://developer.android.com/about/versions/pie/android-9.0-changes-28#framework-security-changes">official document</a> for more detail.</p>
+<h3 id="A-real-case" class="article-heading"><a href="#A-real-case" class="headerlink" title="A real case"></a>A real case<a class="article-anchor" href="#A-real-case" aria-hidden="true"></a></h3><p>In our scenario, we don’t use multi processes explicitly. For some reason, we still get this crash occasionally. We don’t want to call <code>setDataDirectorySuffix()</code> at very first place because the product is not a multi processes application.</p>
+<p>Instead, we call only when we need to, which means we will call that only if the exception is thrown. So the solution is very straightforward:</p>
+<ul>
+<li><strong>Catch exception.</strong></li>
+<li><strong>Call setDataDirectorySuffix().</strong></li>
+</ul>
+<h4 id="Catch-exception" class="article-heading"><a href="#Catch-exception" class="headerlink" title="Catch exception"></a>Catch exception<a class="article-anchor" href="#Catch-exception" aria-hidden="true"></a></h4><p>When the app is started, the launch process will call  <a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/android/app/ActivityThread.java#6623"><code>ActivityThread.main()</code></a>, and a few things will happen inside:</p>
+<ul>
+<li><strong>A Looper will be created and run.</strong></li>
+<li><strong>A ActivityThread will be created with a Handler.</strong></li>
+</ul>
+<p>All of these will be run on a thread, so the mechanism behind them is like the  <code>HandlerThread</code>. You may quickly guess that everything happens on the main thread, will be passed through the <code>Handler</code>.</p>
+<p>That’s why when you look at the stacks of main thread exception, the beginning of the stacks will be like:</p>
+<p><img src="stack.png" alt="stack"></p>
+<p>That means if we can just wrap <code>dispatchMessage()</code> with a try-catch, we can catch the exception and prevent our app from crashes. But as you can see, this part is inside the framework, which you can’t modify.</p>
+<h5 id="Custom-callback" class="article-heading"><a href="#Custom-callback" class="headerlink" title="Custom callback"></a>Custom callback<a class="article-anchor" href="#Custom-callback" aria-hidden="true"></a></h5><p>But don’t give up, let’s look at the source code of <a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/android/os/Handler.java#97"><code>dispatchMessage()</code></a>:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Handler.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (msg.callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">    handleCallback(msg);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (mCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (mCallback.handleMessage(msg)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    handleMessage(msg);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>You can see there is a <code>mCallback</code>, which means we can assign a custom callback:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In MainHandlerCallback.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> class <span class="title">MainHandlerCallback</span><span class="params">(<span class="keyword">private</span> val origin: Handler)</span> : Handler.Callback </span>&#123;</span><br><span class="line">  <span class="function">override fun <span class="title">handleMessage</span><span class="params">(msg: Message)</span>: Boolean </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      origin.handleMessage(msg)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (throwable: Throwable) &#123;</span><br><span class="line">      <span class="comment">// ignore exception here or throw anyway</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now you have a callback which can not just help you to catch the exception, but also keep the original behavior since the message is still passed into the original <code>Handler</code>.</p>
+<h5 id="Hook-callback" class="article-heading"><a href="#Hook-callback" class="headerlink" title="Hook callback"></a>Hook callback<a class="article-anchor" href="#Hook-callback" aria-hidden="true"></a></h5><p>The next problem will be:</p>
+<ul>
+<li>how do you fetch the instance of the main thread <code>Handler</code>?</li>
+</ul>
+<p>With Java, it will be no doubt that you can use reflection. So we need to find where to locate the <code>Handler</code>. Let’s look back to the  <a target="_blank" rel="noopener external nofollow noreferrer" href="http://androidxref.com/9.0.0_r3/xref/frameworks/base/core/java/android/app/ActivityThread.java#6623"><code>AndroidThread.main()</code></a> again:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In ActivityThread.java</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">final</span> H mH = <span class="keyword">new</span> H();</span><br><span class="line">...</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> ActivityThread sCurrentActivityThread;</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  Looper.prepareMainLooper();</span><br><span class="line">  ...</span><br><span class="line">  ActivityThread thread = <span class="keyword">new</span> ActivityThread();</span><br><span class="line">  thread.attach(<span class="keyword">false</span>, startSeq);</span><br><span class="line">  ...</span><br><span class="line">  Looper.loop();</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(<span class="keyword">boolean</span> system, <span class="keyword">long</span> startSeq)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  sCurrentActivityThread = <span class="keyword">this</span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The field <code>sCurrentActivityThread</code> will keep an instance of <code>ActivityThread</code> before the Looper is running. It’s defined as <code>static volatile</code> so the value is not just a class variable, but also guaranteed to have only one copy in a multithread application. The implementation will be like as follow:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> clazz = Class.forName(<span class="string">&quot;android.app.ActivityThread&quot;</span>)</span><br><span class="line"><span class="comment">// ActivityThread instance</span></span><br><span class="line"><span class="keyword">val</span> activityThreadField = clazz.getDeclaredField(<span class="string">&quot;sCurrentActivityThread&quot;</span>)</span><br><span class="line">activityThreadField.isAccessible = <span class="literal">true</span></span><br><span class="line"><span class="keyword">val</span> activityThread = requireNotNull(activityThreadField.<span class="keyword">get</span>(<span class="literal">null</span>)) &#123; <span class="string">&quot;ActivityThread.sCurrentActivityThread is null.&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Once you get the instance of <code>ActivityThread</code>, the rest will be easy:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ActivityThread mH</span></span><br><span class="line"><span class="keyword">val</span> handlerField = clazz.getDeclaredField(<span class="string">&quot;mH&quot;</span>)</span><br><span class="line">handlerField.isAccessible = <span class="literal">true</span></span><br><span class="line"><span class="keyword">val</span> handler = requireNotNull(handlerField.<span class="keyword">get</span>(activityThread)) &#123; <span class="string">&quot;ActivityThread.mH is null.&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Handler mCallback </span></span><br><span class="line"><span class="keyword">val</span> callbackField = Handler::<span class="keyword">class</span>.java.getDeclaredField(<span class="string">&quot;mCallback&quot;</span>)</span><br><span class="line">callbackField.isAccessible = <span class="literal">true</span></span><br><span class="line">callbackField.<span class="keyword">set</span>(handler, MainHandlerCallback(handler <span class="keyword">as</span> Handler))</span><br></pre></td></tr></table></figure>
+
+<p>Now you have a custom callback, and also the way to hook the callback onto the main thread <code>Handler</code>. The next thing you need to know is when.</p>
+<h5 id="When-to-hook" class="article-heading"><a href="#When-to-hook" class="headerlink" title="When to hook"></a>When to hook<a class="article-anchor" href="#When-to-hook" aria-hidden="true"></a></h5><p>The timing to hook the callback will differ from case to case. But normally you will want to hook as earlier as possible, so we can hook our callback in <code>Application.onCreate()</code>:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In Application</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">super</span>.onCreate()</span><br><span class="line">  hookMainHandler()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now all the exceptions that throw on main thread will be caught by our custom callback.</p>
+<h4 id="Call-setDataDirectorySuffix-to-assign-a-specific-suffix" class="article-heading"><a href="#Call-setDataDirectorySuffix-to-assign-a-specific-suffix" class="headerlink" title="Call setDataDirectorySuffix to assign a specific suffix."></a><strong>Call setDataDirectorySuffix to assign a specific suffix.</strong><a class="article-anchor" href="#Call-setDataDirectorySuffix-to-assign-a-specific-suffix" aria-hidden="true"></a></h4><p>Back to the case, now we can know when the exception is thrown, call <code>setDataDirectorySuffix()</code> explicitly, and then ignore the exception.</p>
+<h3 id="Summary" class="article-heading"><a href="#Summary" class="headerlink" title="Summary"></a>Summary<a class="article-anchor" href="#Summary" aria-hidden="true"></a></h3><p>Use reflection to hook a callback to monitor exception is not the best solution. Here’s the caveat you need to know:</p>
+<ul>
+<li>The solution is unstable because it relies on the name and type of the field, Google can change it in any future version.</li>
+<li>If we overuse it, we may overlook some big problems.</li>
+</ul>
+<p>We should use the solution wisely and always try to solve the issue before ignoring it.</p>
+
+  </div>
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+</section>
+<script>
+  var disqus_shortname = 'ansgarlin';
+  var disqus_url = 'https://ansgarlin.github.io/en/news/2019/07/13/escape_from_crash_hell_1/index.html';
+  var disqus_title = "Escape from crash hell - Part 1";
+  var disqus_config = function(){
+    this.language = 'en';
+  };
+  (function(){
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+</article>
+
+    </div>
+  </div>
+</div>
+    <footer id="footer" class="wrapper">
+  <div class="inner">
+    <div id="footer-copyright">
+      &copy; 2020 Ansgar Lin. Powered by <a href="https://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a><br>
+      Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+    </div>
+    <div id="footer-links">
+      <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+      <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+    </div>
+  </div>
+</footer>
+
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/android/" class="mobile-nav-link">Android</a><a href="/kotlin/" class="mobile-nav-link">Kotlin</a><a href="/rxjava/" class="mobile-nav-link">RxJava</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="">
+      
+        <option value="en" selected>English</option>
+      
+        <option value="zh-tw">正體中文</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- Cookie -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+ 
+<script src="/js/toc.js"></script>
+ 
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+
+<!-- Algolia -->
+
+<script src="//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('search-input-wrap').classList.add('on');
+    var client = algoliasearch('769KWCTEZG', 'e6a393ae2870a9ce5f88a275f04156a3');
+    var index = client.initIndex('ansgar');
+    autocomplete('#search-input', { 
+        hint: false
+    }, [
+        {
+          source: autocomplete.sources.hits(index, { hitsPerPage: 5 }),
+          templates: {
+            suggestion: function(suggestion) {
+              return '<div class="algolia-docsearch-suggestion algolia-docsearch-suggestion__main algolia-docsearch-suggestion__secondary" style="white-space: normal;"><div class="algolia-docsearch-suggestion--category-header">' + 
+                  suggestion._highlightResult.title.value + //<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--wrapper"><div class="algolia-docsearch-suggestion--subcategory-column"><span class="algolia-docsearch-suggestion--subcategory-column-text">' +
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer</span
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--content"><div class="algolia-docsearch-suggestion--subcategory-inline">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--title">' + 
+                  suggestion._highlightResult.title.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+              '<div class="algolia-docsearch-suggestion--text">' + 
+                  suggestion._highlightResult.text.value +//<span class="algolia-docsearch-suggestion--highlight">R</span>outer
+              '</div>' + 
+//                  The <span class="algolia-docsearch-suggestion--highlight">r</span>outer saves all paths used in the site…</div>
+              '</div></div></div>'
+                
+//              return '<a href="/material_design/">' + suggestion._highlightResult.name.value + '</a>';
+//              return suggestion._highlightResult.name.value;
+            }
+          }
+        }
+      ]).on('autocomplete:selected', function(event, suggestion, dataset) {
+        window.location = '/' + suggestion.path;
+        return dataset.source;
+//    console.log(suggestion, dataset);
+    });
+</script>
+
+</body>
+</html>
