@@ -1,0 +1,14 @@
+---
+// /<section>/<page>.html (en) and /zh-tw/<section>/<page>.html; index.md is served by ./index.astro
+import { getCollection } from 'astro:content';
+import DocPage from '../../../components/DocPage.astro';
+import { pageInfo } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('pages'))
+    .map((page) => ({ page, ...pageInfo(page) }))
+    .filter((p) => p.name !== 'index')
+    .map(({ page, lang, section, name }) => ({ params: { lang: lang === 'en' ? undefined : lang, section, page: name }, props: { page } }));
+}
+---
+<DocPage page={Astro.props.page} />

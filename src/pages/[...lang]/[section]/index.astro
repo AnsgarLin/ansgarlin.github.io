@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import DocPage from '../../../components/DocPage.astro';
+import { pageInfo } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('pages'))
+    .map((page) => ({ page, ...pageInfo(page) }))
+    .filter((p) => p.name === 'index')
+    .map(({ page, lang, section }) => ({ params: { lang: lang === 'en' ? undefined : lang, section }, props: { page } }));
+}
+---
+<DocPage page={Astro.props.page} />

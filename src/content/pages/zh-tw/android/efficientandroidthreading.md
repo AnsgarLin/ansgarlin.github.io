@@ -1,0 +1,23 @@
+---
+title: "Efficient Android Threading"
+updated: "2019-04-04"
+---
+## Ch. 1 Process
+Linux建立process，android在其上附加Dalvik VM執行環境，然後才啟動Application。為了加速整個啟用的流程，系統會在boot up時先啟用Zygote，並預先載入核心元件，任何prices都是從Zygote fork出來的。一個process並不會主動消失，但在系統需要資源時，會依照前景、可見、Service、背景和空殼此五種狀態判定刪除的優先權。
+
+## Ch. 2 Java Thread
+Linux是透過CFS(Complete Fair Scheduler)來進行排程，所以整個Linux裡面的thread都會相互競爭資源，而在同一個process裡面就可能會產生race condition的狀況。解決的方式是用lock機制，也就是使用Synchronized隔絕出需要依序執行的區塊，可以是一個函式或是一個block。使用lock的thread會有blocked、executing和waiting三種狀態，而waiting是如果有呼叫thread.wait的狀況才有，且進入wait的thread，取得lock的優先權會比blocked的還低。
+Note: CPU在切換thread過程中會需要時間，所以一個process執行過多的thread也會造成效能上的降低
+
+## Ch. 3 Android Thread
+Android thread基於Java thread，有分成UI thread、Binder thread和Background thread。UI thread用來執行android的物件和更新畫面、binder thread用來處理執行緒的溝通，每個process都會有個專屬的binder thread pool，必要時會自行產生新的binder thread，background通常由process在執行時期建立，也可稱為worker thread。在執行的先後順序，除了linux thread本身的優先權，android還有擴展了thread的優先權，並加上fg/bg兩個控制群組來排序。
+
+## Ch. 4 Thread Communication
+Android用訊息傳遞機制來處理thread溝通，其主要的組成有Handler、Looper、MessageQueue和Message。Handler持有Looper來取得MessageQueue，沒有Looper就無法傳送消息給thread處理，所以要建立handler必須要使用Looper.prepare來為當前thread設定Looper和MessageQueue，否則會報錯。預設上只有UI thread預設自帶Looper，可透過Looper.getMainLooper取得且不能被終止；其他都要自己指定，Looper可以經由quit(清除MessageQueue所有Message)或是quitSafely(清除MessageQueue尚不應被處理的Message)結束，但不代表thread結束，因為還要繼續執行quit/quitSafely裡的其他程式碼片段，而Looper一經停止則不能再重新使用也無法更換，也就代表要整個連thread都要重啟，才可以使用新的Looper。MessageQueue存放所有還沒被處理，或是該被處理了但因不明原因卡住的消息，Looper會依照每個Message設定的時間點，判斷是否該執行，如果當前沒有該執行的Message，則會產生空擋，就可以再另外設定MessageQueue.IdleHandler在這時間做額外處置。Message有分成任務訊息和一般訊息，任務訊息會直接被執行，而一般訊息會先依照callback.handleMessage(如果有設定)得回傳值決定是否要繼續執行Handler.handleMessage，通常用在不想使用anonymous inner class來實作handleMessage，或是需要不同的處理方式時。
+Note：如果在其他thread想要和ui thread溝通，可以透過Looper.getMainLooper取得ui thread的Looper，然後指定給handler。或是使用unOnUiThread，要注意的是其會判斷是否在ui thread上，如果不是則會用Activity.mHandler.post將任務送到ui thread的MessageQueue中，因此不會立馬執行。
+
+## Ch. 5 Process Communication
+Android使用Binder框架來取代原有的IPC，並用Binder啟用RPC來做Process間的溝通。Binder實作上有分AIDL和Messenger，前者用於處理不同進程兼多執行緒，後者用於不同process但不需多執行緒。參照[AIDL]
+
+## Ch. 6 Garbage Collection
+Dalvik的GC是普通的標示和清理，從起始點GC root無法連結到的會標記成unused，代表可以清除。所以Memory Leak代表著物件已不再使用但卻無法被標記成unused。任何執行中的Thread或Runable所參照的物件都可以當成GC root。一般來說，Memory Leak最常見的就是使用了inner class，因為其會有隱含的外部引用，使得外部物件可以被連結到而無法清除。Handler機制也是容易Leak的一種，當某一Message處理過長時，將會造成其他Message存在佇列中，而其所連結到的Thread和Runable就無法被回收。避免的方式有：少用inner class、用weakReference、停止不需要的thread或是清理MessageQueue。

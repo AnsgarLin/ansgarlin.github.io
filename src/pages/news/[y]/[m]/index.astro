@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Archive from '../../../../components/Archive.astro';
+import { byDateDesc, postInfo } from '../../../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).sort(byDateDesc);
+  const months = [...new Set(posts.map((p) => { const { y, m } = postInfo(p); return `${y}/${m}`; }))];
+  return months.map((ym) => {
+    const [y, m] = ym.split('/');
+    return { params: { y, m }, props: { posts: posts.filter((p) => { const i = postInfo(p); return i.y === y && i.m === m; }) } };
+  });
+}
+---
+<Archive posts={Astro.props.posts} />

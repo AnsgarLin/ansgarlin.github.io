@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Post from './Post.astro';
+import { postInfo, day } from '../lib/site';
+
+interface Props { posts: CollectionEntry<'posts'>[] }
+const [first, ...rest] = Astro.props.posts;
+---
+<Layout lang="en" title="News">
+  <div id="content-wrap">
+    <div class="wrapper">
+      <div class="inner">
+        <Post post={first} linkTitle />
+        {rest.map((post) => (
+          <article class="article post archive-post" itemscope itemtype="http://schema.org/Article">
+            <a class="archive-post-link" href={postInfo(post).url}>
+              <strong class="archive-post-title" itemprop="name">{post.data.title}</strong>
+              <span class="archive-post-date"><time datetime={post.data.date.toISOString()}>{day(post.data.date)}</time></span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

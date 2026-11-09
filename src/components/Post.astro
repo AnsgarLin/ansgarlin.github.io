@@ -1,0 +1,20 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import { postInfo, day } from '../lib/site';
+
+interface Props { post: CollectionEntry<'posts'>; linkTitle?: boolean }
+const { post, linkTitle = false } = Astro.props;
+const { url } = postInfo(post);
+const { Content } = await render(post);
+---
+<article class="article post" itemscope itemtype="http://schema.org/Article">
+  <header class="article-header">
+    {linkTitle
+      ? <h1><a href={url} class="article-title" itemprop="name">{post.data.title}</a></h1>
+      : <h1 class="article-title" itemprop="name">{post.data.title}</h1>}
+    <a href={url} class="article-date"><time datetime={post.data.date.toISOString()}>{day(post.data.date)}</time></a>
+  </header>
+  <div class="article-content" itemprop="articleBody">
+    <Content />
+  </div>
+</article>

@@ -1,0 +1,56 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { pageInfo, tocHtml, day, t } from '../lib/site';
+
+interface Props { page: CollectionEntry<'pages'> }
+const { page } = Astro.props;
+const { lang, name, canonical, sidebar, prev, next } = pageInfo(page);
+const { Content, headings } = await render(page);
+const current = `${name}.html`;
+const s = t[lang];
+---
+<Layout lang={lang} title={page.data.title} canonical={canonical} alternates sidebar={sidebar} current={current}>
+  <div id="content-wrap">
+    <div id="content" class="wrapper">
+      <div id="content-inner">
+        <article class="article-container" itemscope itemtype="http://schema.org/Article">
+          <div class="article-inner">
+            <div class="article">
+              <div class="inner">
+                <header class="article-header">
+                  <h1 class="article-title" itemprop="name">{page.data.title}</h1>
+                </header>
+                <div class="article-content" itemprop="articleBody">
+                  <Content />
+                </div>
+                <footer class="article-footer">
+                  <time class="article-footer-updated" datetime={page.data.updated.toISOString()} itemprop="dateModified">{s.updated}{day(page.data.updated)}</time>
+                  {prev && <a href={prev.href} class="article-footer-prev" title={prev.title}><i class="fa fa-chevron-left"></i><span>{s.prev}</span></a>}
+                  {next && <a href={next.href} class="article-footer-next" title={next.title}><span>{s.next}</span><i class="fa fa-chevron-right"></i></a>}
+                </footer>
+              </div>
+            </div>
+            <aside id="article-toc" role="navigation">
+              <div id="article-toc-inner">
+                <strong class="sidebar-title">{s.contents}</strong>
+                <Fragment set:html={tocHtml(headings)} />
+                <a href="#" id="article-toc-top">{s.top}</a>
+              </div>
+            </aside>
+          </div>
+        </article>
+        <aside id="sidebar" role="navigation">
+          <div class="inner">
+            {sidebar.map((g) => (
+              <Fragment>
+                <strong class="sidebar-title">{g.title}</strong>
+                {g.links.map((l) => <a href={l.href} class={l.href === current ? 'sidebar-link current' : 'sidebar-link'}>{l.text}</a>)}
+              </Fragment>
+            ))}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</Layout>

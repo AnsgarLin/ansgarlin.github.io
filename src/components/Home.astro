@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { Lang } from '../lib/site';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const welcome = {
+  en: 'In here, you can see my profilo, all the project I have worked on, and my personal blog, which records some of my learning and life experience. So, be enjoy, and feel free to contact me if you have any further question.',
+  'zh-tw': '在這可以瀏覽我的個人資料、我參與過或正在進行中的專案，和關於我自己的學習紀錄。如有任何問題，歡迎與我聯絡。',
+};
+---
+<Layout lang={lang} alternates>
+  <header id="banner" class="wrapper">
+    <div class="inner">
+      <h2 id="banner-title">A. l</h2>
+      <div id="banner-sub-title">Android Developer x Graphic Designer</div>
+    </div>
+  </header>
+  <div id="content-wrap">
+    <div class="wrapper">
+      <div class="inner">
+        <ul id="intro-feature-list">
+          <li class="intro-feature-wrap">
+            <div class="intro-feature">
+              <h3 class="intro-feature-title">Welcome</h3>
+              <p class="intro-feature-desc">{welcome[lang]}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,458 @@
+{
+  "en": {
+    "android": [
+      {
+        "title": "Introduction",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "Overview"
+          }
+        ]
+      },
+      {
+        "title": "Architecture Components",
+        "links": [
+          {
+            "href": "workmanager.html",
+            "text": "WorkManager"
+          },
+          {
+            "href": "room.html",
+            "text": "Room"
+          }
+        ]
+      },
+      {
+        "title": "Components",
+        "links": [
+          {
+            "href": "context.html",
+            "text": "Context"
+          },
+          {
+            "href": "contentprovider.html",
+            "text": "ContentProvider"
+          },
+          {
+            "href": "activity.html",
+            "text": "Activity"
+          },
+          {
+            "href": "executor.html",
+            "text": "Executor"
+          },
+          {
+            "href": "fragment.html",
+            "text": "Fragment"
+          },
+          {
+            "href": "intentservice.html",
+            "text": "IntentService"
+          },
+          {
+            "href": "lrucache.html",
+            "text": "LruCache"
+          },
+          {
+            "href": "recyclerview.html",
+            "text": "RecyclerView"
+          },
+          {
+            "href": "service.html",
+            "text": "Service"
+          },
+          {
+            "href": "view.html",
+            "text": "View"
+          },
+          {
+            "href": "viewpager.html",
+            "text": "ViewPager"
+          },
+          {
+            "href": "path.html",
+            "text": "Path"
+          },
+          {
+            "href": "paint.html",
+            "text": "Paint"
+          }
+        ]
+      },
+      {
+        "title": "OS",
+        "links": [
+          {
+            "href": "asynctask.html",
+            "text": "AsyncTask"
+          },
+          {
+            "href": "handler.html",
+            "text": "Handler"
+          }
+        ]
+      },
+      {
+        "title": "Communication",
+        "links": [
+          {
+            "href": "aidl.html",
+            "text": "AIDL"
+          }
+        ]
+      },
+      {
+        "title": "Others",
+        "links": [
+          {
+            "href": "intdef.html",
+            "text": "IntDef"
+          },
+          {
+            "href": "parcelable.html",
+            "text": "Parcelable"
+          },
+          {
+            "href": "contentprovider.html",
+            "text": "ContentProvider"
+          },
+          {
+            "href": "proguard.html",
+            "text": "ProGuard"
+          },
+          {
+            "href": "gradle.html",
+            "text": "Gradle"
+          }
+        ]
+      },
+      {
+        "title": "Reviews",
+        "links": [
+          {
+            "href": "efficientandroidthreading.html",
+            "text": "Efficient Android Threading"
+          }
+        ]
+      }
+    ],
+    "java": [],
+    "kotlin": [
+      {
+        "title": "Introduction",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "Overview"
+          }
+        ]
+      },
+      {
+        "title": "Others",
+        "links": [
+          {
+            "href": "choosing_between_properties_and_methods.html",
+            "text": "Choosing Between Properties and Methods"
+          },
+          {
+            "href": "kotlin_vs_ktx.html",
+            "text": "Kotlin vs KTX"
+          }
+        ]
+      }
+    ],
+    "material_design": [],
+    "note": [],
+    "rxjava": [
+      {
+        "title": "Introduction",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "Overview"
+          }
+        ]
+      },
+      {
+        "title": "Source Analysis",
+        "links": [
+          {
+            "href": "basic_concept.html",
+            "text": "Basic Concept"
+          },
+          {
+            "href": "thread_control.html",
+            "text": "Thread Control"
+          },
+          {
+            "href": "compose_and_lift.html",
+            "text": "compose() & lift()"
+          },
+          {
+            "href": "groupby.html",
+            "text": "groupBy()"
+          }
+        ]
+      },
+      {
+        "title": "Decision Table",
+        "links": [
+          {
+            "href": "creation_operator_decision_table.html",
+            "text": "Creation Operator"
+          },
+          {
+            "href": "instance_operator_decision_table.html",
+            "text": "Instance Operator"
+          }
+        ]
+      },
+      {
+        "title": "Others",
+        "links": [
+          {
+            "href": "error_handle.html",
+            "text": "Error Handle"
+          },
+          {
+            "href": "caveat_about_merge_method.html",
+            "text": "Caveat about merge method"
+          },
+          {
+            "href": "not_rxjava_guide_for_lazy_folks.html",
+            "text": "Not RxJava Guide For Lazy Folks"
+          }
+        ]
+      }
+    ]
+  },
+  "zh-tw": {
+    "android": [
+      {
+        "title": "簡介",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "概覽"
+          }
+        ]
+      },
+      {
+        "title": "架構元件",
+        "links": [
+          {
+            "href": "workmanager.html",
+            "text": "WorkManager"
+          },
+          {
+            "href": "room.html",
+            "text": "Room"
+          }
+        ]
+      },
+      {
+        "title": "元件",
+        "links": [
+          {
+            "href": "context.html",
+            "text": "Context"
+          },
+          {
+            "href": "contentprovider.html",
+            "text": "ContentProvider"
+          },
+          {
+            "href": "activity.html",
+            "text": "Activity"
+          },
+          {
+            "href": "executor.html",
+            "text": "Executor"
+          },
+          {
+            "href": "fragment.html",
+            "text": "Fragment"
+          },
+          {
+            "href": "intentservice.html",
+            "text": "IntentService"
+          },
+          {
+            "href": "lrucache.html",
+            "text": "LruCache"
+          },
+          {
+            "href": "recyclerview.html",
+            "text": "RecyclerView"
+          },
+          {
+            "href": "service.html",
+            "text": "Service"
+          },
+          {
+            "href": "view.html",
+            "text": "View"
+          },
+          {
+            "href": "viewpager.html",
+            "text": "ViewPager"
+          },
+          {
+            "href": "path.html",
+            "text": "Path"
+          },
+          {
+            "href": "paint.html",
+            "text": "Paint"
+          }
+        ]
+      },
+      {
+        "title": "系統",
+        "links": [
+          {
+            "href": "asynctask.html",
+            "text": "AsyncTask"
+          },
+          {
+            "href": "handler.html",
+            "text": "Handler"
+          }
+        ]
+      },
+      {
+        "title": "通信",
+        "links": [
+          {
+            "href": "aidl.html",
+            "text": "AIDL"
+          }
+        ]
+      },
+      {
+        "title": "其他",
+        "links": [
+          {
+            "href": "intdef.html",
+            "text": "IntDef"
+          },
+          {
+            "href": "parcelable.html",
+            "text": "Parcelable"
+          },
+          {
+            "href": "contentprovider.html",
+            "text": "ContentProvider"
+          },
+          {
+            "href": "proguard.html",
+            "text": "ProGuard"
+          },
+          {
+            "href": "gradle.html",
+            "text": "Gradle"
+          }
+        ]
+      },
+      {
+        "title": "心得",
+        "links": [
+          {
+            "href": "efficientandroidthreading.html",
+            "text": "Android高效能多執行緒"
+          }
+        ]
+      }
+    ],
+    "java": [],
+    "kotlin": [
+      {
+        "title": "簡介",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "概覽"
+          }
+        ]
+      },
+      {
+        "title": "其他",
+        "links": [
+          {
+            "href": "choosing_between_properties_and_methods.html",
+            "text": "Choosing Between Properties and Methods"
+          },
+          {
+            "href": "kotlin_vs_ktx.html",
+            "text": "Kotlin vs KTX"
+          }
+        ]
+      }
+    ],
+    "material_design": [],
+    "note": [],
+    "rxjava": [
+      {
+        "title": "簡介",
+        "links": [
+          {
+            "href": "index.html",
+            "text": "概覽"
+          }
+        ]
+      },
+      {
+        "title": "源碼分析",
+        "links": [
+          {
+            "href": "basic_concept.html",
+            "text": "基本概念"
+          },
+          {
+            "href": "thread_control.html",
+            "text": "Thread控制"
+          },
+          {
+            "href": "compose_and_lift.html",
+            "text": "compose() & lift()"
+          },
+          {
+            "href": "groupby.html",
+            "text": "groupBy()"
+          }
+        ]
+      },
+      {
+        "title": "決策表",
+        "links": [
+          {
+            "href": "creation_operator_decision_table.html",
+            "text": "建立操作"
+          },
+          {
+            "href": "instance_operator_decision_table.html",
+            "text": "一般操作"
+          }
+        ]
+      },
+      {
+        "title": "其他",
+        "links": [
+          {
+            "href": "error_handle.html",
+            "text": "錯誤處理"
+          },
+          {
+            "href": "caveat_about_merge_method.html",
+            "text": "Caveat about merge method"
+          },
+          {
+            "href": "not_rxjava_guide_for_lazy_folks.html",
+            "text": "Not RxJava Guide For Lazy Folks"
+          }
+        ]
+      }
+    ]
+  }
+}

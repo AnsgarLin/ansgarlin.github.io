@@ -1,0 +1,7 @@
+---
+import { getCollection } from 'astro:content';
+import Archive from '../../components/Archive.astro';
+import { byDateDesc } from '../../lib/site';
+const posts = (await getCollection('posts')).sort(byDateDesc);
+---
+<Archive posts={posts} />

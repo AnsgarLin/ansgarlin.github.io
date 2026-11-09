@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../../../../../layouts/Layout.astro';
+import Post from '../../../../../../../components/Post.astro';
+import { postInfo } from '../../../../../../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('posts')).map((post) => {
+    const { lang, y, m, d, slug } = postInfo(post);
+    return { params: { lang, y, m, d, slug }, props: { post } };
+  });
+}
+const { post } = Astro.props;
+---
+<Layout lang={postInfo(post).lang} title={post.data.title}>
+  <div id="content-wrap">
+    <div class="wrapper">
+      <div class="inner">
+        <Post post={post} />
+      </div>
+    </div>
+  </div>
+</Layout>

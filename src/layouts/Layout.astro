@@ -1,0 +1,135 @@
+---
+import '@fontsource/lato/300.css';
+import '@fontsource/lato/400.css';
+import '@fontsource/lato/700.css';
+import 'font-awesome/css/font-awesome.css';
+import '../styles/navy.css';
+import { LANGS, menu, type Lang } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  canonical?: string; // section/page.html for doc pages, used by the language switcher
+  alternates?: boolean;
+  sidebar?: { title: string; links: { href: string; text: string }[] }[];
+  current?: string;
+}
+const { lang, title, canonical = '', alternates = false, sidebar, current } = Astro.props;
+const home = lang === 'en' ? '/' : `/${lang}/`;
+const description = "I'm Ansgar. An Android developer and designer. This is my personal website.";
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const altUrl = (l: Lang) => new URL((l === 'en' ? '/' : `/${l}/`) + canonical, Astro.site).href;
+const pageTitle = title ? `${title} | Ansgar` : 'Ansgar';
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <title>{pageTitle}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href={url}>
+  {alternates && (Object.keys(LANGS) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={altUrl(l)}>)}
+  <link rel="icon" href="/favicon.ico">
+  <meta name="description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content={title || 'Ansgar'}>
+  <meta property="og:url" content={url}>
+  <meta property="og:site_name" content="Ansgar">
+  <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'zh_TW'}>
+</head>
+<body>
+  <div id="container">
+    <header id="header" class="wrapper">
+      <div id="header-inner" class="inner">
+        <a href={home} class="main-nav-link"><i class="fa fa-home"></i></a>
+        <nav id="main-nav">
+          {menu(lang).map((m) => <a href={m.href} class="main-nav-link">{m.text}</a>)}
+          <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AnsgarLin" class="main-nav-link"><i class="fa fa-github-alt"></i></a>
+        </nav>
+        <div id="lang-select-wrap">
+          <label id="lang-select-label"><i class="fa fa-globe"></i><span>{LANGS[lang]}</span></label>
+          <select id="lang-select" data-canonical={canonical}>
+            {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} selected={l === lang}>{LANGS[l]}</option>)}
+          </select>
+        </div>
+        <a id="mobile-nav-toggle">
+          <span class="mobile-nav-toggle-bar"></span>
+          <span class="mobile-nav-toggle-bar"></span>
+          <span class="mobile-nav-toggle-bar"></span>
+        </a>
+      </div>
+    </header>
+    <slot />
+    <footer id="footer" class="wrapper">
+      <div class="inner">
+        <div id="footer-copyright">
+          &copy; {new Date().getFullYear()} Ansgar Lin. Powered by <a href="https://astro.build/" rel="external nofollow noreferrer" target="_blank">Astro</a><br>
+          Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>.
+        </div>
+        <div id="footer-links">
+          <a href="mailto:AnsgarLin@gmail.com" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-envelope"></i></a>
+          <a href="https://www.linkedin.com/in/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+          <a href="https://github.com/AnsgarLin" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-github-square"></i></a>
+          <a href="https://AnsgarLin.gitbooks.io/" rel="external nofollow noreferrer" class="footer-link" target="_blank"><i class="fa fa-book"></i></a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+    <div id="mobile-nav-inner">
+      <ul id="mobile-nav-list">
+        {menu(lang).map((m) => <a href={m.href} class="mobile-nav-link">{m.text}</a>)}
+        <li class="mobile-nav-item">
+          <a href="https://github.com/AnsgarLin" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+        </li>
+      </ul>
+      {sidebar?.map((g) => (
+        <Fragment>
+          <strong class="mobile-nav-title">{g.title}</strong>
+          {g.links.map((l) => <a href={l.href} class={l.href === current ? 'mobile-nav-link current' : 'mobile-nav-link'}>{l.text}</a>)}
+        </Fragment>
+      ))}
+    </div>
+    <div id="mobile-lang-select-wrap">
+      <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>{LANGS[lang]}</span></span>
+      <select id="mobile-lang-select" data-canonical={canonical}>
+        {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} selected={l === lang}>{LANGS[l]}</option>)}
+      </select>
+    </div>
+  </nav>
+  <script>
+    // Language switcher, mobile nav and sticky TOC (ported from the navy theme's js/)
+    function switchLang(this: HTMLSelectElement) {
+      location.href = (this.value === 'en' ? '/' : `/${this.value}/`) + (this.dataset.canonical ?? '');
+    }
+    document.getElementById('lang-select')!.addEventListener('change', switchLang);
+    document.getElementById('mobile-lang-select')!.addEventListener('change', switchLang);
+
+    const body = document.body;
+    document.getElementById('mobile-nav-toggle')!.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      body.classList.toggle('mobile-nav-on');
+    });
+    document.getElementById('mobile-nav-dimmer')!.addEventListener('click', (e) => {
+      if (body.classList.contains('mobile-nav-on')) {
+        e.preventDefault();
+        body.classList.remove('mobile-nav-on');
+      }
+    });
+
+    const toc = document.getElementById('article-toc');
+    if (toc) {
+      const headerHeight = document.getElementById('header')!.clientHeight;
+      const update = () => toc.classList.toggle('fixed', document.scrollingElement!.scrollTop > headerHeight);
+      window.addEventListener('scroll', () => requestAnimationFrame(update));
+      update();
+      document.getElementById('article-toc-top')!.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.scrollingElement!.scrollTop = 0;
+      });
+    }
+  </script>
+</body>
+</html>

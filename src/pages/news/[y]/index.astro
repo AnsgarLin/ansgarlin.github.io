@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Archive from '../../../components/Archive.astro';
+import { byDateDesc, postInfo } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).sort(byDateDesc);
+  const years = [...new Set(posts.map((p) => postInfo(p).y))];
+  return years.map((y) => ({ params: { y }, props: { posts: posts.filter((p) => postInfo(p).y === y) } }));
+}
+---
+<Archive posts={Astro.props.posts} />
