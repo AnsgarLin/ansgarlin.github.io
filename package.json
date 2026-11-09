@@ -13,7 +13,7 @@
     "font-awesome": "^4.3.0",
     "hast-util-from-html": "^2.1.0",
     "hast-util-to-string": "^3.0.1",
-    "highlight.js": "10.2.1",
+    "highlight.js": "10.4.1",
     "remark-breaks": "^4.0.0",
     "unist-util-visit": "^5.2.0"
   },
