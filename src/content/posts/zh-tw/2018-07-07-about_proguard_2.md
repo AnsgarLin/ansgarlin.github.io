@@ -1,9 +1,9 @@
 ---
-title: "About Proguard - Part 2"
+title: "About ProGuard - Part 2"
 date: "2018-07-07"
 ---
 
-了解ProGuard運作後，接著就是要實際應用。以下是歷經分析和調整專案ProGuard設定的過程中，得到的ㄧ些使用ProGuard設定的概念、歸納，和一些相關探討。
+了解ProGuard運作後，接著就是要實際應用。以下是歷經分析和調整專案ProGuard設定的過程中，得到的一些使用ProGuard設定的概念、歸納，和一些相關探討。
 
 Keep規則的介紹和使用方式，可以查看Android分類中的ProGuard章節，或是直接看[官方文件](https://www.guardsquare.com/en/products/proguard/manual/usage)。
 
@@ -44,9 +44,9 @@ is invoked by
 is extended by
 ```
 
-#### Method reference is entendable
+#### Method reference is extendable
 
-前面都是從類別的層級出發，至於函示呢？依照通用的邏輯，即使類別最後沒被刪除，函示在沒使用到的狀況下，也依舊會被刪除。
+前面都是從類別的層級出發，至於函式呢？依照通用的邏輯，即使類別最後沒被刪除，函式在沒使用到的狀況下，也依舊會被刪除。
 
 但繼承Library class的類別則不同，假設現在有個繼承View的類別：
 
@@ -73,9 +73,9 @@ com.example.CustomView -> com.example.CustomView:
 
 這是因為library class不會被ProGuard處理，所以繼承的類別如果被留下，其中的函式會遵循和library class相同的規則。
 
-### Keep Stretage
+### Keep Strategy
 
-說了這麼多，依照目前所得的結果，可以歸納出以下簡易的規則，來判斷當前的類別或函示是否會被刪除或改名。如果程式執行階段會直接引用到的，就只要看Ofuscate的部分。
+說了這麼多，依照目前所得的結果，可以歸納出以下簡易的規則，來判斷當前的類別或函式是否會被刪除或改名。如果程式執行階段會直接引用到的，就只要看Obfuscate的部分。
 
 #### Class
 
@@ -86,7 +86,7 @@ com.example.CustomView -> com.example.CustomView:
 
 #### Method
 
-如果類別被留下，符合keep規則的函示，則一樣不能被刪和改名。
+如果類別被留下，符合keep規則的函式，則一樣不能被刪和改名。
 
 如果沒有被keep，則分成program class和library class：
 
@@ -97,7 +97,7 @@ com.example.CustomView -> com.example.CustomView:
 
 ### Refinement Strategy
 
-如果是想要調整現有的規則，卻又擔心是否會搞壞原本的設定，可以先將keep規則換成`-whyareyoukeeping`，再加上`-printconfiduration`來觀察被keep的原因。
+如果是想要調整現有的規則，卻又擔心是否會搞壞原本的設定，可以先將keep規則換成`-whyareyoukeeping`，再加上`-printconfiguration`來觀察被keep的原因。
 
 以下是個範例：
 
@@ -111,7 +111,7 @@ com.example.background.Blur
 這表示Blur被keep的原因是：
 
 * Blur在SelectImageActivity有被引用。
-* SelectImageActivity會因aapt_rule.txt的規則keep住。
+* SelectImageActivity會因aapt_rules.txt的規則keep住。
 * Activity是library class，所以`Activity.onCreate()`不會被處理。依照前面提到的觀念，這代表`SelectImageActivity.onCreate()`也不會被處理。
 
 結果就是，即使Blur被宣告後沒使用，也會因為引用它的SelectImageActivity有被keep，且繼承了library class而被留下。
@@ -136,7 +136,7 @@ com.example.background.Blur
 
 除了`-keep`，ProGuard還有提供功能類似但功能不太一樣的兩種keep。
 
-* `-keepwithmember <class name> { <members name> }`：如果指定的類別有在Shrink階段被留下，則會留下指定的member。
+* `-keepclassmembers <class name> { <members name> }`：如果指定的類別有在Shrink階段被留下，則會留下指定的member。
 * `-keepclasseswithmembers <class name> { <members name> }`：效果等同`-keep`，不同的是其需要類別和member都符合才會有作用。
 
 綜觀三種，以下提供一個簡單的決策樹，可以更快的決定要使用哪種：
@@ -146,7 +146,7 @@ com.example.background.Blur
 首先要判斷是否在程式中有直接引用，這裡指的是reference，而不是Reflection的引用：
 
 * 是：單純再決定需要保留的範圍。
-* 否：理應會在Shrink階段後被刪除，除非用了`-keep`，因為根據前面介紹，`-keep`也算是一種引用。而另一個`-keepclasseswithmembers`需滿足條件時才等同`-keep`；可把其看成`-keep`加上`-keepclassmember`。
+* 否：理應會在Shrink階段後被刪除，除非用了`-keep`，因為根據前面介紹，`-keep`也算是一種引用。而另一個`-keepclasseswithmembers`需滿足條件時才等同`-keep`；可把其看成`-keep`加上`-keepclassmembers`。
 
 依照Keep規則的設計不同，也可能不同類型keep最後結果相同。建議同時參考[官方文件](https://www.guardsquare.com/en/products/proguard/manual/usage)來寫出最簡潔的規則。
 

@@ -100,7 +100,7 @@ ClassPresenceFilter {
     ClassPresenceFilter {
         libraryClassPool
         duplicateClassPrinter,
-        ClassPoolFilter {
+        ClassPoolFiller {
             programClassPool
         }
     }
@@ -110,7 +110,7 @@ ClassPresenceFilter {
 Following the introduction in the [Appendix](#Appendix), this ClassPresenceFilter executes the following steps:
 
 * Check whether the class that was read is already in the first one, `programClassPool`. If it is, `duplicateClassPrinter` is used directly to output a note; if not, it goes into the next ClassPresenceFilter.
-* The second ClassPresenceFilter checks whether the class is already in `libraryClassPool`. If it is, a note is output as well; if not, it's added to `programClassPool` through ClassPoolFilter.
+* The second ClassPresenceFilter checks whether the class is already in `libraryClassPool`. If it is, a note is output as well; if not, it's added to `programClassPool` through ClassPoolFiller.
 
 In short, **if it's in neither `programClassPool` nor `libraryClassPool`, it's put into `programClassPool`**.
 
@@ -136,7 +136,7 @@ In short, **if it's in neither `programClassPool` nor `libraryClassPool`, it's p
 }
 ```
 
-At this point, the Class files inside the Jar files specified through `-injars`, `-outjars` and `-libraryjars` have all been read and sorted into the Library class pool and the Program class pool.
+At this point, the Class files inside the Jar files specified through `-injars` and `-libraryjars` have all been read and sorted into the Library class pool and the Program class pool.
 
 ### What's more
 
@@ -253,7 +253,7 @@ public static DataEntryReader createDataEntryReader(String          messagePrefi
 }
 ```
 
-Only the more commonly used parts are kept here. For an Android project, `classPathEntry` should be the path of a Jar file, and `reader` is the ClassFilter mentioned in the example.
+Only the more commonly used parts are kept here. For an Android project, `classPathEntry` should be the path of a Jar file, and `reader` is the ClassFilter mentioned in the example, which wraps the ClassReader; for simplicity it's referred to as the ClassReader below.
 
 First, look at the first call to `wrapInJarReader()`:
 
@@ -381,7 +381,7 @@ public void read(DataEntry dataEntry) throws IOException {
 }
 ```
 
-Through `dataEntryFiler`, which is the DataEntryNameFilter, `accepts` is called to make the decision:
+Through `dataEntryFilter`, which is the DataEntryNameFilter, `accepts` is called to make the decision:
 
 ```java
 // In DataEntryNameFilter
@@ -443,7 +443,7 @@ public void read(DataEntry dataEntry) throws IOException {
 }
 ```
 
-The ClassReader here is the one passed in when `InputReader.readInput()` was called at the beginning of the example, so `isLibrary` is true, and a LibraryClassReader is passed in through `LibraryClass.accpet()`:
+The ClassReader here is the one passed in when `InputReader.readInput()` was called at the beginning of the example, so `isLibrary` is true, and a LibraryClassReader is passed in through `LibraryClass.accept()`:
 
 ```Java
 // In LibraryClass

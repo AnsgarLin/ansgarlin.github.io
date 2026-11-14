@@ -104,14 +104,14 @@ private void readNextWord(boolean isFileName, boolean expectSingleFile) throws I
 }
 ```
 
-So right after ConfigurationParser is created, it reads the file through the passed-in Reader. FileReader here doesn't implement `nextWord()`, so the parent WordReader's `nextWord()` is used.
+So right after ConfigurationParser is created, it reads the file through the passed-in Reader. FileWordReader here doesn't implement `nextWord()`, so the parent WordReader's `nextWord()` is used.
 
 To avoid interrupting the analysis, this method is explained in the [Appendix](#Appendix). In short, its purpose is: **read the configuration content line by line and return it, split by whitespace, brackets, commas or colons.** So the current `nextWord` is `-keep`.
 
 At this point, ConfigurationParser has been created successfully. Then `parse()` is called, with `configuration` passed in to hold the result. To have something concrete for the explanation, here we use a common keep rule as the example:
 
 ```Java
--keep class * extend com.example.classname { *; }
+-keep class * extends com.example.classname { *; }
 ```
 
 Here are the parts of `parse()` that the example uses; the other parts are much the same:
@@ -231,7 +231,7 @@ After getting the List, `commaSeparatedString` is called to reassemble the List 
         null : ClassUtil.internalClassName(externalClassName);
 ```
 
-With the example, `parseCommaSeparatedList()` only gets the asterisk, so `className` is set to null, and `nextWord` is the word after the asterisk, `extend`.
+With the example, `parseCommaSeparatedList()` only gets the asterisk, so `className` is set to null, and `nextWord` is the word after the asterisk, `extends`.
 
 ```Java
     // Clear the annotation type and the class name of the extends part.
@@ -257,7 +257,7 @@ With the example, `parseCommaSeparatedList()` only gets the asterisk, so `classN
     }
 ```
 
-`nextWord` is `extend`, so `configurationEnd()` is false. `readNextWord()` is called again to get the next string in the example: `com.example.classname`.
+`nextWord` is `extends`, so `configurationEnd()` is false. `readNextWord()` is called again to get the next string in the example: `com.example.classname`.
 
 Then, as before, `parseCommaSeparatedList` is used to take out the comma-separated strings, but it only gets the same result. So at this point `externalExtendsClassName` is `com.example.classname`, and `nextWord` is `{`.
 
@@ -322,7 +322,7 @@ Last of all, `configurationEnd()` is still false, and `nextWord` is `{`, which e
 
 `readNextWord()` inside the loop gets the asterisk, which is further analyzed by `parseMemberSpecificationArguments()`, and the result is put back into `classSpecification`.
 
-When `}`, i.e. `CLOSE_KEYWORD`, is read, `readNextWord()` runs one last time. At this point `nextWord` becomes null because it reaches the end of the line, the loop exits, and the parsing of one keep rule is complete.
+When `}`, i.e. `CLOSE_KEYWORD`, is read, `readNextWord()` runs one last time. At this point `nextWord` becomes null because it reaches the end of the file, the loop exits, and the parsing of one keep rule is complete.
 
 The `classSpecification` produced here is returned to `parseKeepClassSpecificationArguments()` and added to the List `keepClassSpecifications`, which is the `configuration.keep` passed in from outside.
 
@@ -430,7 +430,7 @@ Since the Reader exists throughout the whole analysis, the previously set `curre
 
 ##### End of file
 
-If `currentIndex` has been incremented to equal `currentLineLength` in the first section, the line has been fully processed. It then goes into the second section and first reads the next line into `currentLine`. This is a reset, so later calls don't loop in the terminated state. Then it returns null directly to let the caller know the end of the line has been reached.
+If `currentIndex` has been incremented to equal `currentLineLength` in the first section, the line has been fully processed. It then goes into the second section and first reads the next line into `currentLine`. This is a reset, so later calls don't loop in the terminated state. If there's no next line to read (`nextLine()` returns null), it returns null directly to let the caller know the end of the file has been reached.
 
 In summary, this method:
 
@@ -498,7 +498,7 @@ This method first calls `readNextWord()`. In this post's example, when the analy
         }
 ```
 
-Whatever it gets is then added to the List, and `readNextWord()` is used again to read the next string, which in the example is `extend`.
+Whatever it gets is then added to the List, and `readNextWord()` is used again to read the next string, which in the example is `extends`.
 
 ```Java
         if (!ConfigurationConstants.ARGUMENT_SEPARATOR_KEYWORD.equals(nextWord)) {
@@ -511,7 +511,7 @@ Whatever it gets is then added to the List, and `readNextWord()` is used again t
 }
 ```
 
-Since `nextWord` is `extend`, not a comma, the List containing the asterisk is returned directly. If it were a comma, the next string would be taken out and the next iteration would start.
+Since `nextWord` is `extends`, not a comma, the List containing the asterisk is returned directly. If it were a comma, the next string would be taken out and the next iteration would start.
 
 In short, this method:
 

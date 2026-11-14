@@ -1,5 +1,5 @@
 ---
-title: "About Proguard - Part 3"
+title: "About ProGuard - Part 3"
 date: "2018-07-28"
 ---
 了解ProGuard的基本運作後，不免讓人想要理解，其背後是怎樣設計，才可以處理並分析各種不同風格的程式碼，甚至不用擔心整個流程會因為目標程式過於巨大而無法順利執行。
@@ -18,7 +18,7 @@ date: "2018-07-28"
 
 由於我們想要看的是跟Android相關的流程，所以直接看到`gradle`目錄底下的ProGuardTask。
 
-要設計Gradle的Task，除了要繼承DefaultTask，還要在要當成進入點的函示加上`@TaskAction`；類似Java的`main()`，要開始執行Task則是呼叫`execute()`。細節可以看Gradle官網的[介紹](https://docs.gradle.org/current/userguide/custom_tasks.html)。
+要設計Gradle的Task，除了要繼承DefaultTask，還要在要當成進入點的函式加上`@TaskAction`；類似Java的`main()`，要開始執行Task則是呼叫`execute()`。細節可以看Gradle官網的[介紹](https://docs.gradle.org/current/userguide/custom_tasks.html)。
 
 所以，ProGuardTask的進入點是`proguard()`：
 
@@ -63,7 +63,7 @@ private Configuration getConfiguration() throws IOException, ParseException
 }
 ```
 
-前半段省略的是將Program和Library class部分的jar檔加入`configuration`，不過在這部分不重要，直接跳過。留下來的是所有設定檔會依序透過`ConfigurationParse.parse()`來將檔案內的設定存入`configuration`中。
+前半段省略的是將Program和Library class部分的jar檔加入`configuration`，不過在這部分不重要，直接跳過。留下來的是所有設定檔會依序透過`ConfigurationParser.parse()`來將檔案內的設定存入`configuration`中。
 
 於是重點就是ConfigurationParser：
 
@@ -104,14 +104,14 @@ private void readNextWord(boolean isFileName, boolean expectSingleFile) throws I
 }
 ```
 
-所以在ConfigurationParser建立後就會馬上透過傳入的Reader來讀取檔案，這裡的FileReader沒有實作`nextWord()`，所以是使用父類WorkReader的`nextWord()`。
+所以在ConfigurationParser建立後就會馬上透過傳入的Reader來讀取檔案，這裡的FileWordReader沒有實作`nextWord()`，所以是使用父類WordReader的`nextWord()`。
 
-為了不中斷分析的過程，此函式詳述在[Appendix](#Appdendix)。簡言之，此函式目的為：**逐行讀取設定內容回傳，並以空白、括號、逗號或冒號做分隔。**於是，目前的`nextWord`是`-keep`。
+為了不中斷分析的過程，此函式詳述在[Appendix](#Appendix)。簡言之，此函式目的為：**逐行讀取設定內容回傳，並以空白、括號、逗號或冒號做分隔。**於是，目前的`nextWord`是`-keep`。
 
 到此，ConfigurationParser已經順利產生出來，接著呼叫`parse()`，並將`configuration`傳入來承接結果。為了接下來解說有個依據，這邊用常見的keep規則作為範例：
 
 ```Java
--keep class * extend com.example.classname { *; }
+-keep class * extends com.example.classname { *; }
 ```
 
 這邊列出`parse()`內範例會用到的部分，不過其他部分是大同小異：
@@ -132,7 +132,7 @@ public void parse(Configuration configuration) throws ParseException, IOExceptio
 }
 ```
 
-由於此時`nextWord`是`-keep`，所以進入迴圈後會走到`KEEP_OPTION`所在的片段，這裡會用到`configuration.keep`，負責存放需要被keep的類別、函示和變數：
+由於此時`nextWord`是`-keep`，所以進入迴圈後會走到`KEEP_OPTION`所在的片段，這裡會用到`configuration.keep`，負責存放需要被keep的類別、函式和變數：
 
 ```Java
 // In Configuration
@@ -198,7 +198,7 @@ private KeepClassSpecification parseKeepClassSpecificationArguments(
 }
 ```
 
-此函示一開始會先判斷是否有修飾keep的設定，如`allowshrinking`此類，有就會更改函示開頭的變數值。
+此函式一開始會先判斷是否有修飾keep的設定，如`allowshrinking`此類，有就會更改函式開頭的變數值。
 
 不過根據範例，這邊的`readNextWord()`得到字串會是`class`，因此下一個判斷時會直接break跳出迴圈，進到讀取類別的部分：`parseClassSpecificationArguments()`，此函式在此次範例會執行到的地方比較多，以下將分段說明：
 
@@ -218,7 +218,7 @@ public ClassSpecification parseClassSpecificationArguments() throws ParseExcepti
 
 現在的`nextWord`值是`class`，就直接跳過while迴圈走到`parseCommaSeparatedList`。
 
-此函示一樣較為複雜，詳細可參考[Appendix](#Appdendix)。簡言之，此函示目的是：
+此函式一樣較為複雜，詳細可參考[Appendix](#Appendix)。簡言之，此函式目的是：
 
 * **將一串以逗號為分隔的字串重組成一個List，直到沒有看到逗號為止，並在回傳前讀取下一個字**。
 
@@ -231,7 +231,7 @@ public ClassSpecification parseClassSpecificationArguments() throws ParseExcepti
         null : ClassUtil.internalClassName(externalClassName);
 ```
 
-搭配範例，`parseCommaSeparatedList()`能取到的只有星號，因此`className`設為null，而`nextWord`是星號的下一個字`extend`。
+搭配範例，`parseCommaSeparatedList()`能取到的只有星號，因此`className`設為null，而`nextWord`是星號的下一個字`extends`。
 
 ```Java
     // Clear the annotation type and the class name of the extends part.
@@ -257,7 +257,7 @@ public ClassSpecification parseClassSpecificationArguments() throws ParseExcepti
     }
 ```
 
-`nextWord`是`extend`，所以`configurationEnd()`是false。再次呼叫`readNextWord()`來得到範例下一段字串：`com.example.classname`。
+`nextWord`是`extends`，所以`configurationEnd()`是false。再次呼叫`readNextWord()`來得到範例下一段字串：`com.example.classname`。
 
 接著如前面一樣使用`parseCommaSeparatedList`取出逗號分隔的字串，不過只會得到相同的結果。所以此時的`externalExtendsClassName`是`com.example.classname`、`nextWord`是`{`。
 
@@ -271,7 +271,7 @@ public static String internalClassName(String externalClassName) {
 }
 ```
 
-到這就算是取得完整的類別名稱，接著就是建立一個ClassSpecification。ClassSpecification是一個存放Class資訊的model，記錄包含類別名稱以外，還有函示、變數等類別相關的資訊：
+到這就算是取得完整的類別名稱，接著就是建立一個ClassSpecification。ClassSpecification是一個存放Class資訊的model，記錄包含類別名稱以外，還有函式、變數等類別相關的資訊：
 
 ```Java
 // Create the basic class specification.
@@ -322,7 +322,7 @@ ClassSpecification classSpecification = new ClassSpecification(lastComments,
 
 迴圈內的`readNextWord()`會取到星號，並透過`parseMemberSpecificationArguments()`繼續分析，再將結果塞回去`classSpecification`。
 
-在讀到`}`，也就是`CLOSE_KEYWORD`，則執行最後一次`readNextWord()`，此時`nextWord`會因為讀到行底而為null，退出迴圈，完成一條keep規則的解析。
+在讀到`}`，也就是`CLOSE_KEYWORD`，則執行最後一次`readNextWord()`，此時`nextWord`會因為讀到檔案結尾而為null，退出迴圈，完成一條keep規則的解析。
 
 這邊產生的`classSpecification`，會回傳到`parseKeepClassSpecificationArguments()`。並加入List，`keepClassSpecifications`，也就是外部傳入的`configuration.keep`。
 
@@ -330,7 +330,7 @@ ClassSpecification classSpecification = new ClassSpecification(lastComments,
 
 ### Appendix
 
-此部分用於介紹內容較多的函示，避免前面的分析內容過於零散。為了與前面分析做連結，會使用到前面的範例。
+此部分用於介紹內容較多的函式，避免前面的分析內容過於零散。為了與前面分析做連結，會使用到前面的範例。
 
 #### readNextWord() 
 
@@ -410,7 +410,7 @@ public String nextWord(boolean isFileName, boolean expectSingleFile) throws IOEx
 }
 ```
 
-此函示的運作方式，有分成**初次呼叫**、**再次呼叫**、**檔案終止**三種階段。
+此函式的運作方式，有分成**初次呼叫**、**再次呼叫**、**檔案終止**三種階段。
 
 ##### 初次呼叫
 
@@ -430,15 +430,15 @@ public String nextWord(boolean isFileName, boolean expectSingleFile) throws IOEx
 
 ##### 檔案終止
 
-`currentIndex`如果在第一部分已經被遞增到與`currentLineLength`相同，就代表此行已經處理完畢。就進入第二部分，先讀取下一行至`currentLine`，這是一個重置動作，以免之後的呼叫都在終止狀態循環。然後直接回傳null，給外部呼叫知道目前已到行末。
+`currentIndex`如果在第一部分已經被遞增到與`currentLineLength`相同，就代表此行已經處理完畢。就進入第二部分，先讀取下一行至`currentLine`，這是一個重置動作，以免之後的呼叫都在終止狀態循環。如果已經沒有下一行可讀（`nextLine()`回傳null），則直接回傳null，給外部呼叫知道目前已到檔案結尾。
 
-總結來說，此函示作用是：
+總結來說，此函式作用是：
 
 * **逐行讀取設定內容回傳，並以空白、括號、逗號或冒號做分隔。**
 
 #### parseCommaSeparatedList()
 
-和`readNexrWord()`一樣，這邊僅留下前面分析會使用到的部分：
+和`readNextWord()`一樣，這邊僅留下前面分析會使用到的部分：
 
 ```Java
 // In ConfigurationParser
@@ -482,7 +482,7 @@ private List parseCommaSeparatedList(String  expectedDescription,
     }
 ```
 
-此函式一開始先用`readNextWord()`，以本文的範例來看，前面分析走到這函示時，取到的`nextWord`是星號。
+此函式一開始先用`readNextWord()`，以本文的範例來看，前面分析走到這函式時，取到的`nextWord`是星號。
 
 ```Java
     while (true) {
@@ -498,7 +498,7 @@ private List parseCommaSeparatedList(String  expectedDescription,
         }
 ```
 
-不論取到的是什麼，接著會被加入List，然後再次使用`readNextWord()`讀入下一個字串，以範例來說就是`extend`。
+不論取到的是什麼，接著會被加入List，然後再次使用`readNextWord()`讀入下一個字串，以範例來說就是`extends`。
 
 ```Java
         if (!ConfigurationConstants.ARGUMENT_SEPARATOR_KEYWORD.equals(nextWord)) {
@@ -511,7 +511,7 @@ private List parseCommaSeparatedList(String  expectedDescription,
 }
 ```
 
-由於`nextWord`是`extend`，並不是逗號，所以直接回傳帶有星號的List。如果是逗號，則會再取出下一個字串，進入下一個迴圈。
+由於`nextWord`是`extends`，並不是逗號，所以直接回傳帶有星號的List。如果是逗號，則會再取出下一個字串，進入下一個迴圈。
 
 簡言之，此函式作用是：
 

@@ -28,7 +28,7 @@ public void execute(ClassPool programClassPool,
 }
 ```
 
-ProGuard可以額外指定Ofuscate階段要用來替換名稱的字詞。不過為了簡化分析這邊都假設沒有設定，所以一開始的`classNameFactory`和`packageNameFactory`這邊都是null。
+ProGuard可以額外指定Obfuscate階段要用來替換名稱的字詞。不過為了簡化分析這邊都假設沒有設定，所以一開始的`classNameFactory`和`packageNameFactory`這邊都是null。
 
 接著就是呼叫`classesAccept`：
 
@@ -70,10 +70,10 @@ public void visitProgramClass(ProgramClass programClass) {
 }
 ```
 
-第一次進來，`newClassName`會是null，接著先看到`internalPackagePrefix()`，這函示用途很簡單：從輸入的字串，取到最後一個`/`，以範例來說會得到：
+第一次進來，`newClassName`會是null，接著先看到`internalPackagePrefix()`，這函式用途很簡單：從輸入的字串，取到最後一個`/`，以範例來說會得到：
 
 ```Java
-com/exmaple/
+com/example/
 ```
 
 接著再傳入`newPackagePrefix()`：
@@ -130,21 +130,21 @@ private String generateUniquePackagePrefix(String      newSuperPackagePrefix,
 }
 ```
 
-這函示就很簡單，首先用到SimpleNameFactory的`nextName()`取得新的名稱。這裡不再贅述其內容，總之就是英文字母的組合，如同我們平常使用ProGuard會得到的結果一樣。
+這函式就很簡單，首先用到SimpleNameFactory的`nextName()`取得新的名稱。這裡不再贅述其內容，總之就是英文字母的組合，如同我們平常使用ProGuard會得到的結果一樣。
 
-假設我們得到的是`a`，則最後回傳的`newPackagePrefix`就是`""`加上`a`。於是回傳`newPackagePrefix`後就會與`com`放在`packagePrefixMap`裡，就得到第一組名稱對照：
+假設我們得到的是`a`，則最後回傳的`newPackagePrefix`就是`""`加上`a`再加上`/`。於是回傳`newPackagePrefix`後就會與`com/`放在`packagePrefixMap`裡，就得到第一組名稱對照：
 
 ```Java
-com/ -> a
+com/ -> a/
 ```
 
 `com/example`的部分就會依樣畫葫蘆，可以得到以下對照：
 
 ```Java
-com/example -> a/b
+com/example/ -> a/b/
 ```
 
-回到`visitProgramClass`，所以`newPackagePrefix`會得到`a/b`。而`newClassName`則是由`generateUniqueClassName()`產生：
+回到`visitProgramClass`，所以`newPackagePrefix`會得到`a/b/`。而`newClassName`則是由`generateUniqueClassName()`產生：
 
 ```Java
 // In ClassObfuscator
@@ -237,7 +237,7 @@ public void visitClassConstant(Clazz clazz, ClassConstant classConstant) {
 }
 ```
 
-這裡用到ClassObfuscator的靜態函示：
+這裡用到ClassObfuscator的靜態函式：
 
 ```Java
 // In ClassObfuscator
@@ -255,7 +255,7 @@ static String newClassName(Clazz clazz) {
 
 ### What's more
 
-看完前面部分，應該會好奇如果類別名稱已經被替換，那有引用到此類別的函示是如何調整的。
+看完前面部分，應該會好奇如果類別名稱已經被替換，那有引用到此類別的函式是如何調整的。
 
 繼續從`execute()`往下看會走到：
 
@@ -281,7 +281,7 @@ public void visitProgramClass(ProgramClass programClass) {
 }
 ```
 
-`methodAccept()`會直接走到`visitProgramMethod()`：
+`methodsAccept()`會直接走到`visitProgramMethod()`：
 
 ```Java
 // In ClassReferenceFixer
@@ -303,15 +303,15 @@ public void visitProgramMethod(ProgramClass programClass, ProgramMethod programM
 }
 ```
 
-這裡看到是取出descriptor來修改，descriptor是Java來表示函示輸入和回傳的參數類別，這裡不會贅述，詳情可以看[官方文件](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3.3)。可以理解成只要更改descriptor，就可以將函示有引用的類別替換成新的名稱。
+這裡看到是取出descriptor來修改，descriptor是Java來表示函式輸入和回傳的參數類別，這裡不會贅述，詳情可以看[官方文件](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.3.3)。可以理解成只要更改descriptor，就可以將函式有引用的類別替換成新的名稱。
 
-以下假設我們有一個函式，其接受`com.example.classname`為輸入，然後沒有回傳值。這函示的descriptor會如下：
+以下假設我們有一個函式，其接受`com.example.classname`為輸入，然後沒有回傳值。這函式的descriptor會如下：
 
 ```
 (Lcom/example/classname;)V
 ```
 
-所以ClassReferenceFixer的`visitProgramClass`一開始先取得舊的descriptor，並與`referencedClasses`，也就是代表`com/exameple/classname`的ProgramClass，一起傳入`newDescriptor()`：
+所以ClassReferenceFixer的`visitProgramMethod`一開始先取得舊的descriptor，並與`referencedClasses`，也就是代表`com/example/classname`的ProgramClass，一起傳入`newDescriptor()`：
 
 ```Java
 // In ClassReferenceFixer
@@ -347,8 +347,8 @@ private static String newDescriptor(String  descriptor, Clazz[] referencedClasse
 接著透過一個迴圈，裡面依照順序呼叫`nextClassName()`和`nextFluff()`，各自得到的結果如下：
 
 ```Java
-className = com.example.classname
-fluff 	  = ""
+className = com/example/classname
+fluff 	  = ";)V"
 ```
 
 接著再走到`newClassName()`：

@@ -31,9 +31,9 @@ ProGuard說他找不到該有的類別，所以直接中斷編譯。
 找不到類別的問題，直覺就是將要用到的類別keep住：
 
 ```groovy
--keep com.google.android.instantapps.InstantApps
--keep com.android.vending.billing.IInAppBillingService
--keep com.android.vending.billing.IInAppBillingService$Stub
+-keep class com.google.android.instantapps.InstantApps
+-keep class com.android.vending.billing.IInAppBillingService
+-keep class com.android.vending.billing.IInAppBillingService$Stub
 ```
 
 編譯後，問題仍然存在。原因是這兩個類別是包含在獨立的library內，我們專案用不到，自然是不會有
@@ -45,7 +45,7 @@ implementation com.android.billingclient:billing:1.1
 implementation com.google.android.instantapps:instantapps:1.1.0
 ```
 
-結果編譯成功。如此可以確定原因就是ProGuard因某種原因，想要找這兩個類別，而從library的ProGuard規則來看，這兩個是不會被keep的。所以就算沒有被刪除，名稱也已經被更改過，自然是找不到。
+結果編譯成功。如此可以確定原因就是ProGuard因某種原因，想要找這兩個類別，而這兩個類別並不在專案的classpath中，自然是找不到。
 
 #### Use "-dontwarn"
 

@@ -75,10 +75,10 @@ public void classesAccept(ClassVisitor classVisitor) {
 
 * **執行`clazz.accept(visitor)`，可直接看成`visitor.visitXXXClass()`。由`clazz`屬於ProgramClass或LibraryClass來決定`XXX`是什麼。**
 
-依此觀念，`classesAccept()`會帶到UsedClassFileter的`visitProgramClass()`：
+依此觀念，`classesAccept()`會帶到UsedClassFilter的`visitProgramClass()`：
 
 ```Java
-// In UsedClassFileter
+// In UsedClassFilter
 public void visitProgramClass(ProgramClass programClass) {
     if (usageMarker.isUsed(programClass)) {
         classVisitor.visitProgramClass(programClass);
@@ -86,10 +86,10 @@ public void visitProgramClass(ProgramClass programClass) {
 }
 ```
 
-這裡先用到UsageMaker來判斷傳入的ProgramClass是否被標記成使用，是代表在程式碼內有被引用到：
+這裡先用到UsageMarker來判斷傳入的ProgramClass是否被標記成使用，是代表在程式碼內有被引用到：
 
 ```Java
-// In UsageMaker
+// In UsageMarker
 protected boolean isUsed(VisitorAccepter visitorAccepter) {
     return visitorAccepter.getVisitorInfo() == USED;
 }
@@ -110,7 +110,7 @@ public void visitProgramClass(ProgramClass programClass) {
 
 #### ClassShrinker
 
-ClassShrink的`visitProgramClass()`內做的事情大致相同，以`shrinkArray()`為範例來看：
+ClassShrinker的`visitProgramClass()`內做的事情大致相同，以`shrinkArray()`為範例來看：
 
 ```java
 // In ClassShrinker
@@ -140,15 +140,15 @@ private int shrinkArray(VisitorAccepter[] array, int length) {
 }
 ```
 
-第一個迴圈是依序將陣列內的ProgramField取出，並透過`usageMaker`判斷是否有被使用，有的話就從頭依序覆蓋回原本的陣列。接著如果新的陣列應該比較短，則將餘下的部分歸零。
+第一個迴圈是依序將陣列內的ProgramField取出，並透過`usageMarker`判斷是否有被使用，有的話就從頭依序覆蓋回原本的陣列。接著如果新的陣列應該比較短，則將餘下的部分歸零。
 
-總的來說，ClassShrinker的`visitProgramClass()`內有很多`shrinkXXX()`的函示，用來去除`usageMaker`判斷為未使用的類別、函示或變數，以達到刪除的目的。
+總的來說，ClassShrinker的`visitProgramClass()`內有很多`shrinkXXX()`的函式，用來去除`usageMarker`判斷為未使用的類別、函式或變數，以達到刪除的目的。
 
 ### 標記
 
 #### Create ClassVisitor
 
-從刪除的部分看得出來，一個類別、函示或變數能不能留下，端看其呼叫`getVisitorInfo()`時，回傳的是不是USED。
+從刪除的部分看得出來，一個類別、函式或變數能不能留下，端看其呼叫`getVisitorInfo()`時，回傳的是不是USED。
 
 接著回到`execute()`的前半段，也就是建立標記的部分：
 
@@ -163,7 +163,7 @@ public ClassPool execute(ClassPool programClassPool,
         new ShortestUsageMarker();
 ```
 
-在函示的一開始，就來建立`usageMaker`，這裡假設沒設定`-whyAreYouKeeping`，所以選用UsageMaker。
+在函式的一開始，就來建立`usageMarker`，這裡假設沒設定`-whyareyoukeeping`，所以選用UsageMarker。
 
 ```Java
     // Automatically mark the parameterless constructors of seed classes,
@@ -192,7 +192,7 @@ ClassVisitor {
 }
 ```
 
-而`usageMaker`和`classUsageMaker`會一起被傳入KeepClassSpecificationVisitorFactory的`createClassPoolVisitor()`，連同ProGuard的keep設定：
+而`usageMarker`和`classUsageMarker`會一起被傳入KeepClassSpecificationVisitorFactory的`createClassPoolVisitor()`，連同ProGuard的keep設定：
 
 ```Java
     ClassPoolVisitor classPoolvisitor =
@@ -232,7 +232,7 @@ public ClassPoolVisitor createClassPoolVisitor(List             keepClassSpecifi
 }
 ```
 
-這裡跑了一個迴圈依序取出每條keep的設定，並再透過`createClassPoolVisitor()`逐一得到個別的ClassVisitor，來加入MultiClassPoolVisitor回傳。根據前面內容，這邊參數除了`classVisitor`是`classUsageMaker`，其餘都是`usagMaker`：
+這裡跑了一個迴圈依序取出每條keep的設定，並再透過`createClassPoolVisitor()`逐一得到個別的ClassVisitor，來加入MultiClassPoolVisitor回傳。根據前面內容，這邊參數除了`classVisitor`是`classUsageMarker`，其餘都是`usageMarker`：
 
 ```Java
 // In KeepClassSpecificationVisitorFactory
@@ -260,7 +260,7 @@ public ClassPoolVisitor createClassPoolVisitor(
 接著，我們引入Part3的範例，但將後面的描述拿掉，著重在類別上：
 
 ```Java
--keep class * extend com.example.classname
+-keep class * extends com.example.classname
 ```
 
 根據範例所會得到的`keepClassSpecification`，會使`createClassPoolVisitor()`直接跳過中間所有操作，直接走到父類ClassSpecificationVisitorFactory：
@@ -305,7 +305,7 @@ protected ClassPoolVisitor createClassPoolVisitor(ClassSpecification classSpecif
                                    variableStringMatchers);
 ```
 
-接著再呼叫`createCombinedClassVisitor()`，在這不繼續深入。依照本篇範例，此函示會直接回傳傳入的`classVisitor`。
+接著再呼叫`createCombinedClassVisitor()`，在這不繼續深入。依照本篇範例，此函式會直接回傳傳入的`classVisitor`。
 
 接著繼續往下看：
 
@@ -321,7 +321,7 @@ protected ClassPoolVisitor createClassPoolVisitor(ClassSpecification classSpecif
     ...
 ```
 
-以上得到的都會在包進去ClassNameFilter，`className`此時又復原回null。
+以上得到的都會再包進去ClassNameFilter，`className`此時又復原回null。
 
 ```Java
     // If it's specified, start visiting from the extended class.
@@ -454,7 +454,7 @@ public void hierarchyAccept(boolean      visitThisClass, boolean      visitSuper
 
 由前面內容知道只有`visitSubclasses`會是true，所以省略不會執行的部份。
 
-這邊依照順序取出`com.example.classname`的子類，由於取得的也是Clazz，可以再呼叫`hierarchyAccept()`來產生遞迴，就可以逐一分析到所有的子類。這樣的執行方式，也印證範例中`* extend com.example.classname`的規則。
+這邊依照順序取出`com.example.classname`的子類，由於取得的也是Clazz，可以再呼叫`hierarchyAccept()`來產生遞迴，就可以逐一分析到所有的子類。這樣的執行方式，也印證範例中`* extends com.example.classname`的規則。
 
 接著看到子類執行`hierarchyAccept()`的部分，此時`visitThisClass`也是true：
 
@@ -488,7 +488,7 @@ private boolean accepted(String name) {
 
 這邊會透過`regularExpressionMatcher`判斷傳入的是否是符合特定規則，也就是前面提過，由字串`**`產生的VariableStringMatcher，所以任何傳給他的字串都會符合規則，這也印證了範例中`*`的規則。
 
-確認符合規則後，再使用其所帶有的`classVisitor`呼叫`visitProgramClass`。依照前面的結構，這邊的`calssVisitor`就是在`Shrinker.execute()`產生的MultiClassVisitor。
+確認符合規則後，再使用其所帶有的`classVisitor`呼叫`visitProgramClass`。依照前面的結構，這邊的`classVisitor`就是在`Shrinker.execute()`產生的MultiClassVisitor。
 
 MultiClassVisitor前面有介紹過，所以直接看到內含的UsageMarker：
 
@@ -526,10 +526,10 @@ public void methodAccept(String name, String descriptor, MemberVisitor memberVis
 }
 ```
 
-依照前面的結構，`name`和`descriptor`組起來是`<init>()V`，就是泛指Java的default constructor。這邊傳入的`memverVisitor`就是`usageMaker`，所以直接看到`visitProgramMethod`：
+依照前面的結構，`name`和`descriptor`組起來是`<init>()V`，就是泛指Java的default constructor。這邊傳入的`memberVisitor`就是`usageMarker`，所以直接看到`visitProgramMethod`：
 
 ```Java
-// In UsageMaker
+// In UsageMarker
 public void visitProgramMethod(ProgramClass programClass, ProgramMethod programMethod) {
     if (shouldBeMarkedAsUsed(programMethod)) {
         // Is the method's class used?

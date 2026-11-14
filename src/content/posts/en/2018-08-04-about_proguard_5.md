@@ -75,10 +75,10 @@ Here we need to restate the concept mentioned in Part4, to make the following an
 
 * **Executing `clazz.accept(visitor)` can be read directly as `visitor.visitXXXClass()`. Whether `clazz` is a ProgramClass or a LibraryClass decides what `XXX` is.**
 
-Following this concept, `classesAccept()` leads to UsedClassFileter's `visitProgramClass()`:
+Following this concept, `classesAccept()` leads to UsedClassFilter's `visitProgramClass()`:
 
 ```Java
-// In UsedClassFileter
+// In UsedClassFilter
 public void visitProgramClass(ProgramClass programClass) {
     if (usageMarker.isUsed(programClass)) {
         classVisitor.visitProgramClass(programClass);
@@ -86,10 +86,10 @@ public void visitProgramClass(ProgramClass programClass) {
 }
 ```
 
-Here UsageMaker is used first to check whether the passed-in ProgramClass is marked as used, which means it's referenced in the code:
+Here UsageMarker is used first to check whether the passed-in ProgramClass is marked as used, which means it's referenced in the code:
 
 ```Java
-// In UsageMaker
+// In UsageMarker
 protected boolean isUsed(VisitorAccepter visitorAccepter) {
     return visitorAccepter.getVisitorInfo() == USED;
 }
@@ -110,7 +110,7 @@ Here it calls `visitProgramClass` through the ClassVisitors it holds, in order: 
 
 #### ClassShrinker
 
-What ClassShrink's `visitProgramClass()` does is mostly the same throughout, so let's take `shrinkArray()` as the example:
+What ClassShrinker's `visitProgramClass()` does is mostly the same throughout, so let's take `shrinkArray()` as the example:
 
 ```java
 // In ClassShrinker
@@ -140,9 +140,9 @@ private int shrinkArray(VisitorAccepter[] array, int length) {
 }
 ```
 
-The first loop takes out the ProgramFields in the array one by one and checks through `usageMaker` whether each is used; if it is, it's written back over the original array from the start. Then, if the new array should be shorter, the remaining part is cleared.
+The first loop takes out the ProgramFields in the array one by one and checks through `usageMarker` whether each is used; if it is, it's written back over the original array from the start. Then, if the new array should be shorter, the remaining part is cleared.
 
-Overall, ClassShrinker's `visitProgramClass()` has many `shrinkXXX()` methods, used to strip the classes, methods or variables that `usageMaker` decides are unused, which achieves the removal.
+Overall, ClassShrinker's `visitProgramClass()` has many `shrinkXXX()` methods, used to strip the classes, methods or variables that `usageMarker` decides are unused, which achieves the removal.
 
 ### Marking
 
@@ -163,7 +163,7 @@ public ClassPool execute(ClassPool programClassPool,
         new ShortestUsageMarker();
 ```
 
-At the very beginning of the method, `usageMaker` is created. Here we assume `-whyAreYouKeeping` isn't set, so UsageMaker is chosen.
+At the very beginning of the method, `usageMarker` is created. Here we assume `-whyareyoukeeping` isn't set, so UsageMarker is chosen.
 
 ```Java
     // Automatically mark the parameterless constructors of seed classes,
@@ -192,7 +192,7 @@ ClassVisitor {
 }
 ```
 
-`usageMaker` and `classUsageMaker` are then passed together into KeepClassSpecificationVisitorFactory's `createClassPoolVisitor()`, along with ProGuard's keep configuration:
+`usageMarker` and `classUsageMarker` are then passed together into KeepClassSpecificationVisitorFactory's `createClassPoolVisitor()`, along with ProGuard's keep configuration:
 
 ```Java
     ClassPoolVisitor classPoolvisitor =
@@ -232,7 +232,7 @@ public ClassPoolVisitor createClassPoolVisitor(List             keepClassSpecifi
 }
 ```
 
-Here a loop takes out each keep configuration in order, gets an individual ClassVisitor for each through `createClassPoolVisitor()`, and adds it to the MultiClassPoolVisitor that's returned. From the content above, apart from `classVisitor` being `classUsageMaker`, all the arguments here are `usagMaker`:
+Here a loop takes out each keep configuration in order, gets an individual ClassVisitor for each through `createClassPoolVisitor()`, and adds it to the MultiClassPoolVisitor that's returned. From the content above, apart from `classVisitor` being `classUsageMarker`, all the arguments here are `usageMarker`:
 
 ```Java
 // In KeepClassSpecificationVisitorFactory
@@ -260,7 +260,7 @@ public ClassPoolVisitor createClassPoolVisitor(
 Next, we bring in the example from Part3, but drop the description at the end to focus on the class:
 
 ```Java
--keep class * extend com.example.classname
+-keep class * extends com.example.classname
 ```
 
 The `keepClassSpecification` obtained from the example makes `createClassPoolVisitor()` skip all the operations in between and go straight to the parent class ClassSpecificationVisitorFactory:
@@ -454,7 +454,7 @@ public void hierarchyAccept(boolean      visitThisClass, boolean      visitSuper
 
 From the content above, we know only `visitSubclasses` is true, so the parts that won't run are omitted.
 
-Here the subclasses of `com.example.classname` are taken out in order. Since what's obtained is also a Clazz, `hierarchyAccept()` can be called again to recurse, so all the subclasses can be analyzed one by one. This way of execution also matches the rule `* extend com.example.classname` in the example.
+Here the subclasses of `com.example.classname` are taken out in order. Since what's obtained is also a Clazz, `hierarchyAccept()` can be called again to recurse, so all the subclasses can be analyzed one by one. This way of execution also matches the rule `* extends com.example.classname` in the example.
 
 Next, look at the part where a subclass runs `hierarchyAccept()`; at this point `visitThisClass` is also true:
 
@@ -488,7 +488,7 @@ private boolean accepted(String name) {
 
 Here `regularExpressionMatcher` is used to check whether what's passed in matches a specific rule. It's the VariableStringMatcher generated from the string `**` mentioned earlier, so any string passed to it matches, which also matches the `*` rule in the example.
 
-After confirming the rule matches, it calls `visitProgramClass` with the `classVisitor` it holds. Following the structure above, the `calssVisitor` here is the MultiClassVisitor created in `Shrinker.execute()`.
+After confirming the rule matches, it calls `visitProgramClass` with the `classVisitor` it holds. Following the structure above, the `classVisitor` here is the MultiClassVisitor created in `Shrinker.execute()`.
 
 MultiClassVisitor was introduced earlier, so let's go straight to the UsageMarker inside it:
 
@@ -526,10 +526,10 @@ public void methodAccept(String name, String descriptor, MemberVisitor memberVis
 }
 ```
 
-Following the structure above, `name` and `descriptor` combined are `<init>()V`, which refers to Java's default constructor. The `memverVisitor` passed in here is `usageMaker`, so let's go straight to `visitProgramMethod`:
+Following the structure above, `name` and `descriptor` combined are `<init>()V`, which refers to Java's default constructor. The `memberVisitor` passed in here is `usageMarker`, so let's go straight to `visitProgramMethod`:
 
 ```Java
-// In UsageMaker
+// In UsageMarker
 public void visitProgramMethod(ProgramClass programClass, ProgramMethod programMethod) {
     if (shouldBeMarkedAsUsed(programMethod)) {
         // Is the method's class used?

@@ -29,12 +29,12 @@ Google透過Gradle，讓開發者可以在編譯中開啟ProGuard。不過由[�
 
 - **lib/proguard-rules.pro**，library內的ProGuard設定檔。
 
-- **aapt_rule.txt**，由AAPT(Android Asset Packaging Tool)主動在專案內的xml檔尋找引用，然後輸出而成。
+- **aapt_rules.txt**，由AAPT(Android Asset Packaging Tool)主動在專案內的xml檔尋找引用，然後輸出而成。
 
   Android Studio編譯後會出現在以下路徑：
 
   ```
-  <project_dir>/build/intermediate/proguard-rules/<flavor>/<buildType>/
+  <project_dir>/build/intermediates/proguard-rules/<flavor>/<buildType>/
   ```
 
   內容形式如下：
@@ -56,23 +56,23 @@ Google透過Gradle，讓開發者可以在編譯中開啟ProGuard。不過由[�
 - **proguard-default.txt**，這是Android自帶的設定檔，透過Gradle指定，Android Studio編譯後可在以下路徑看到：
 
   ```
-  <project_dir>/build/intermediate/proguard-files/
+  <project_dir>/build/intermediates/proguard-files/
   ```
 
   路徑下還會有另外兩種設定檔，分別是：
 
-  * **proguard-android.txt**，proguard-default差異不大。
-  * **proguard-android-optimize.txt**，有打開ProGuard優化Java的功能。由此可知Android預設是將優化關閉，
+  * **proguard-android.txt**，與proguard-default差異不大。
+  * **proguard-android-optimize.txt**，有打開ProGuard優化Java的功能。由此可知Android預設是將優化關閉。
 
 #### class檔
 
 ![](/zh-tw/news/2018/06/26/about_proguard_1/proguard_read_input.png)
 
-class檔就是java檔被編譯後的文件，在ProGaurd內有分成兩大部分：
+class檔就是java檔被編譯後的文件，在ProGuard內有分成兩大部分：
 
 * **Program class pool**，主要是程式內容和引用的library內容。
 
-* **Library class poo**l，編譯時會需要的底層library，我們撰寫的應用會架構在其之上。以Android來說就是Framwork層的部分，android.jar。要注意的是，**ProGuard並不會處理Library class pool內的任何類別**。
+* **Library class pool**，編譯時會需要的底層library，我們撰寫的應用會架構在其之上。以Android來說就是Framework層的部分，android.jar。要注意的是，**ProGuard並不會處理Library class pool內的任何類別**。
 
 
 ### ProGuard主流程
@@ -81,7 +81,7 @@ class檔就是java檔被編譯後的文件，在ProGaurd內有分成兩大部分
 
 #### Print Seed
 
-在載入class檔和ProGuard設定後，可以透過`-printSeed`要求ProGuard輸出seed.txt，內容是符合keep設定所帶的規則的類別、函式或變數。
+在載入class檔和ProGuard設定後，可以透過`-printseeds`要求ProGuard輸出seed.txt，內容是符合keep設定所帶的規則的類別、函式或變數。
 
 舉例來說，如果我們現在有以下的ProGuard設定：
 
@@ -107,7 +107,7 @@ Android Studio在編譯之後會擺在以下路徑：
 * **Shrink**，刪除不會被執行到的程式碼。
 * ~~Optimize~~，針對JVM的優化，不過如前面所述，Android預設是關閉，所以接下去不會再深入。
 * **Obfuscate**，將類別、函式和變數等的名稱，由更短且不具有字面意義的字母代替。
-* ~~Preverify~~，針對Java的效驗功能，根據ProGuard[官方文件](https://www.guardsquare.com/en/products/proguard/manual/usage#dontpreverify)的說明，如果是目標平台是Android則不用打開，可以減少編譯時間，於是接下去也不會再深入。
+* ~~Preverify~~，針對Java的校驗功能，根據ProGuard[官方文件](https://www.guardsquare.com/en/products/proguard/manual/usage#dontpreverify)的說明，如果目標平台是Android則不用打開，可以減少編譯時間，於是接下去也不會再深入。
 
 #### Shrink
 
@@ -144,7 +144,7 @@ com.example.MainEntry: main()
 
 以下我們與Google說法一樣，稱需要被留下的類別、函式或變數為life，所以整段分析如下：
 
-* 依照seed.txt，MainEntry這類別和`main()`為life，但不包含變數classA和函示`doWork()`。接著逐行判斷`main()`裡面的內容。
+* 依照seed.txt，MainEntry這類別和`main()`為life，但不包含變數classA和函式`doWork()`。接著逐行判斷`main()`裡面的內容。
 * ClassA被宣告出來，所以ClassA和變數classA為life，但不包含`workA()`。
 * 執行`doWork()`，所以`doWork()`變成life。
 * `doWork()`使用classA呼叫`workA()`，所以ClassA內的`workA()`變成life。
@@ -230,7 +230,7 @@ Android Studio在編譯後會放置於以下目錄：
 
 * 將改動後的程式碼重新打包成output.jar檔。
 * 將class的結構內容輸出成dump.txt。
-* 最後會再透過DX將jar檔轉成轉成dex檔，同時也進行優化，因此不需要打開ProGuard的Optimize功能。
+* 最後會再透過DX將jar檔轉成dex檔，同時也進行優化，因此不需要打開ProGuard的Optimize功能。
 
 總和前面所有流程，可以減縮成一張圖如下：
 

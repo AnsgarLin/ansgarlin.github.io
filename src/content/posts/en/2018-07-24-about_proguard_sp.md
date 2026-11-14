@@ -31,9 +31,9 @@ The library we use is actually one module of the whole library, so the module's 
 For a class-not-found problem, the intuitive fix is to keep the classes that are needed:
 
 ```groovy
--keep com.google.android.instantapps.InstantApps
--keep com.android.vending.billing.IInAppBillingService
--keep com.android.vending.billing.IInAppBillingService$Stub
+-keep class com.google.android.instantapps.InstantApps
+-keep class com.android.vending.billing.IInAppBillingService
+-keep class com.android.vending.billing.IInAppBillingService$Stub
 ```
 
 After building, the problem was still there. The reason is that these two classes live in separate libraries that our project doesn't use, so naturally they aren't there.
@@ -45,7 +45,7 @@ implementation com.android.billingclient:billing:1.1
 implementation com.google.android.instantapps:instantapps:1.1.0
 ```
 
-The build succeeded. This confirms that, for some reason, ProGuard wants to find these two classes, and judging from the library's ProGuard rules, these two aren't kept. So even if they aren't removed, their names have already been changed, and naturally they can't be found.
+The build succeeded. This confirms that, for some reason, ProGuard wants to find these two classes, and these two classes are missing from the project's classpath, so naturally they can't be found.
 
 #### Use "-dontwarn"
 

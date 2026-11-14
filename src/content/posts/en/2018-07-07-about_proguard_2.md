@@ -97,7 +97,7 @@ If they aren't kept, it depends on whether it's a program class or a library cla
 
 ### Refinement Strategy
 
-If you want to adjust existing rules but worry about breaking the original configuration, you can first replace the keep rule with `-whyareyoukeeping`, then add `-printconfiduration` to observe why things are kept.
+If you want to adjust existing rules but worry about breaking the original configuration, you can first replace the keep rule with `-whyareyoukeeping`, then add `-printconfiguration` to observe why things are kept.
 
 Here's an example:
 
@@ -111,7 +111,7 @@ com.example.background.Blur
 This means Blur is kept because:
 
 * Blur is referenced in SelectImageActivity.
-* SelectImageActivity is kept by a rule in aapt_rule.txt.
+* SelectImageActivity is kept by a rule in aapt_rules.txt.
 * Activity is a library class, so `Activity.onCreate()` isn't processed. Following the concept mentioned earlier, this means `SelectImageActivity.onCreate()` isn't processed either.
 
 As a result, even if Blur isn't used after it's declared, it's still kept, because SelectImageActivity, which references it, is kept and extends a library class.
@@ -136,7 +136,7 @@ If there's no message at all, the rule itself is redundant: either it's not used
 
 Besides `-keep`, ProGuard provides two other keeps that are similar but work a bit differently.
 
-* `-keepwithmember <class name> { <members name> }`: if the specified class is kept in the Shrink stage, the specified members are kept.
+* `-keepclassmembers <class name> { <members name> }`: if the specified class is kept in the Shrink stage, the specified members are kept.
 * `-keepclasseswithmembers <class name> { <members name> }`: same effect as `-keep`, except that it only takes effect when both the class and the members match.
 
 Looking at all three, here's a simple decision tree to help you decide faster which one to use:
@@ -146,7 +146,7 @@ Looking at all three, here's a simple decision tree to help you decide faster wh
 First, decide whether it's referenced directly in the program. This means a reference, not a reference through Reflection:
 
 * Yes: simply decide the scope that needs to be kept.
-* No: it should be removed after the Shrink stage, unless `-keep` is used, because as introduced earlier, `-keep` also counts as a reference. The other one, `-keepclasseswithmembers`, is equal to `-keep` only when the conditions are met; you can see it as `-keep` plus `-keepclassmember`.
+* No: it should be removed after the Shrink stage, unless `-keep` is used, because as introduced earlier, `-keep` also counts as a reference. The other one, `-keepclasseswithmembers`, is equal to `-keep` only when the conditions are met; you can see it as `-keep` plus `-keepclassmembers`.
 
 Depending on how the keep rules are written, different types of keep may also end up with the same result. I suggest also referring to the [official document](https://www.guardsquare.com/en/products/proguard/manual/usage) to write the most concise rules.
 

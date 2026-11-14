@@ -37,7 +37,7 @@ private void readInput() throws IOException {
 }
 ```
 
-根據內容確定這就是我們在Part1提到的，讀取完ParGuard設定後，接著讀取要處理的程式碼，並分成**Program class pool**和**Library class pool**。
+根據內容確定這就是我們在Part1提到的，讀取完ProGuard設定後，接著讀取要處理的程式碼，並分成**Program class pool**和**Library class pool**。
 
 接著看到`execute()`：	
 
@@ -66,7 +66,7 @@ public void execute(ClassPool programClassPool, ClassPool libraryClassPool) thro
     }
 ```
 
-首先看到是透過`readInput()`來讀取library，此函示詳細介紹請參考[Appendix](#appendix)，簡言之此函式負責：
+首先看到是透過`readInput()`來讀取library，此函式詳細介紹請參考[Appendix](#Appendix)，簡言之此函式負責：
 
 * **解壓並讀取壓縮檔內的Class檔來放入class pool**。
 
@@ -100,7 +100,7 @@ ClassPresenceFilter {
     ClassPresenceFilter {
         libraryClassPool
         duplicateClassPrinter,
-        ClassPoolFilter {
+        ClassPoolFiller {
             programClassPool
         }
     }
@@ -110,7 +110,7 @@ ClassPresenceFilter {
 依照[Appendix](#Appendix)的介紹，此ClassPresenceFilter的執行步驟如下：
 
 * 判斷讀取到的類別是否包含在第一個`programClassPool`。有則直接直接使用`duplicateClassPrinter`輸出提示訊息；沒有則進入下一個ClassPresenceFilter。
-* 第二個ClassPresenceFilter則是判斷類別是否已經含在`libraryClassPool`。有則一樣輸出提示，沒有就透過ClassPoolFilter加入`programClassPool`。
+* 第二個ClassPresenceFilter則是判斷類別是否已經含在`libraryClassPool`。有則一樣輸出提示，沒有就透過ClassPoolFiller加入`programClassPool`。
 
 簡言之，**`programClassPool`和`libraryClassPool`都沒有，就放進`programClassPool`**。
 
@@ -136,7 +136,7 @@ ClassPresenceFilter {
 }
 ```
 
-執行到這邊，透過`-injars`、`-outjars`和`-libraryjars`指定的Jar檔內的Class檔，都已經被讀取並分類至Library class pool和Program class pool。
+執行到這邊，透過`-injars`和`-libraryjars`指定的Jar檔內的Class檔，都已經被讀取並分類至Library class pool和Program class pool。
 
 ### What's more
 
@@ -253,7 +253,7 @@ public static DataEntryReader createDataEntryReader(String          messagePrefi
 }
 ```
 
-這邊僅留下比較常用到的部分，以Android專案來說，`classPathEntry`應是Jar檔的路徑。而`reader`是範例提到的ClassFilter。
+這邊僅留下比較常用到的部分，以Android專案來說，`classPathEntry`應是Jar檔的路徑。而`reader`是範例提到的ClassFilter，其內包著ClassReader，以下簡化直接以ClassReader稱之。
 
 先看到第一次呼叫`wrapInJarReader()`：
 
@@ -381,7 +381,7 @@ public void read(DataEntry dataEntry) throws IOException {
 }
 ```
 
-透過`dataEntryFiler`，也就是DataEntryNameFilter，來呼叫`accepts`執行判斷：
+透過`dataEntryFilter`，也就是DataEntryNameFilter，來呼叫`accepts`執行判斷：
 
 ```java
 // In DataEntryNameFilter
@@ -443,7 +443,7 @@ public void read(DataEntry dataEntry) throws IOException {
 }
 ```
 
-這邊的ClassReader是範例一開始呼叫`InputReader.readInput()`時傳入的，所以`isLibrary`是true，於是透過`LibraryClass.accpet()`傳入LibraryClassReader：
+這邊的ClassReader是範例一開始呼叫`InputReader.readInput()`時傳入的，所以`isLibrary`是true，於是透過`LibraryClass.accept()`傳入LibraryClassReader：
 
 ```Java
 // In LibraryClass
