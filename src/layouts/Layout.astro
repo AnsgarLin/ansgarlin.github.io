@@ -11,10 +11,11 @@ interface Props {
   title?: string;
   canonical?: string; // section/page.html for doc pages, used by the language switcher
   alternates?: boolean;
+  langUrls?: Partial<Record<Lang, string>>; // per-language targets (posts that exist in both languages)
   sidebar?: { title: string; links: { href: string; text: string }[] }[];
   current?: string;
 }
-const { lang, title, canonical = '', alternates = false, sidebar, current } = Astro.props;
+const { lang, title, canonical = '', alternates = false, langUrls, sidebar, current } = Astro.props;
 const home = lang === 'en' ? '/' : `/${lang}/`;
 const description = "I'm Ansgar. An Android developer and designer. This is my personal website.";
 const url = new URL(Astro.url.pathname, Astro.site).href;
@@ -29,6 +30,7 @@ const pageTitle = title ? `${title} | Ansgar` : 'Ansgar';
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="canonical" href={url}>
   {alternates && (Object.keys(LANGS) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={altUrl(l)}>)}
+  {langUrls && (Object.keys(langUrls) as Lang[]).map((l) => <link rel="alternate" hreflang={l} href={new URL(langUrls[l]!, Astro.site).href}>)}
   <link rel="icon" href="/favicon.ico">
   <meta name="description" content={description}>
   <meta property="og:type" content="website">
@@ -49,7 +51,7 @@ const pageTitle = title ? `${title} | Ansgar` : 'Ansgar';
         <div id="lang-select-wrap">
           <label id="lang-select-label"><i class="fa fa-globe"></i><span>{LANGS[lang]}</span></label>
           <select id="lang-select" data-canonical={canonical}>
-            {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} selected={l === lang}>{LANGS[l]}</option>)}
+            {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} data-url={langUrls?.[l]} selected={l === lang}>{LANGS[l]}</option>)}
           </select>
         </div>
         <a id="mobile-nav-toggle">
@@ -94,14 +96,14 @@ const pageTitle = title ? `${title} | Ansgar` : 'Ansgar';
     <div id="mobile-lang-select-wrap">
       <span id="mobile-lang-select-label"><i class="fa fa-globe"></i><span>{LANGS[lang]}</span></span>
       <select id="mobile-lang-select" data-canonical={canonical}>
-        {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} selected={l === lang}>{LANGS[l]}</option>)}
+        {(Object.keys(LANGS) as Lang[]).map((l) => <option value={l} data-url={langUrls?.[l]} selected={l === lang}>{LANGS[l]}</option>)}
       </select>
     </div>
   </nav>
   <script>
     // Language switcher, mobile nav and sticky TOC (ported from the navy theme's js/)
     function switchLang(this: HTMLSelectElement) {
-      location.href = (this.value === 'en' ? '/' : `/${this.value}/`) + (this.dataset.canonical ?? '');
+      location.href = this.selectedOptions[0].dataset.url ?? (this.value === 'en' ? '/' : `/${this.value}/`) + (this.dataset.canonical ?? '');
     }
     document.getElementById('lang-select')!.addEventListener('change', switchLang);
     document.getElementById('mobile-lang-select')!.addEventListener('change', switchLang);
